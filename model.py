@@ -265,103 +265,6 @@ class Value_Function_NN(BaseNN):
         self.nn_params.device = device
 
 
-class Nu_NN(BaseNN):
-
-    def __init__(self, nn_params, save_path, load_path, state_action=True):
-        super(Nu_NN, self).__init__(save_path=save_path, load_path=load_path)
-        self.layers = nn.ModuleList([])
-        self.nn_params = nn_params
-        self.non_lin = self.nn_params.non_linearity
-        self.state_action = state_action
-        # Hidden layers
-        if state_action:
-            layer_input_dim = self.nn_params.state_dim + self.nn_params.action_dim
-        else:
-            layer_input_dim = self.nn_params.state_dim
-        hidden_layer_dim = self.nn_params.hidden_layer_dim
-        for i, dim in enumerate(hidden_layer_dim):
-            l = nn.Linear(layer_input_dim, dim)
-            self.weight_init(l, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
-            self.layers.append(l)
-            layer_input_dim = dim
-
-        # Final Layer
-        self.nu = nn.Linear(layer_input_dim, 1)
-        self.weight_init(self.nu, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
-
-        self.to(self.nn_params.device)
-
-    def forward(self, state, action):
-
-        state = torch.Tensor(state).to(self.nn_params.device)
-
-        if self.state_action:
-
-            action = torch.Tensor(action).to(self.nn_params.device)
-            inp = torch.cat((state, action), dim=1)
-        else:
-            inp = state
-
-        for i, layer in enumerate(self.layers):
-            if self.non_lin != None:
-                inp = self.non_lin(layer(inp))
-            else:
-                inp = layer(inp)
-        NU = self.nu(inp)
-
-        return NU
-        #NU = torch.clamp(self.nu(inp), 70, -70)
-
-class Zeta_NN(BaseNN):
-    """
-        state_action : weather to estimate for state action or just state.
-    """
-
-    def __init__(self, nn_params, save_path, load_path, state_action=True):
-        super(Zeta_NN, self).__init__(save_path=save_path, load_path=load_path)
-        self.layers = nn.ModuleList([])
-        self.nn_params = nn_params
-        self.non_lin = self.nn_params.non_linearity
-        self.state_action = state_action
-
-        if state_action:
-            layer_input_dim = self.nn_params.state_dim + self.nn_params.action_dim
-        else:
-            layer_input_dim = self.nn_params.state_dim
-
-        hidden_layer_dim = self.nn_params.hidden_layer_dim
-
-        # Hidden layers
-        for i, dim in enumerate(hidden_layer_dim):
-            l = nn.Linear(layer_input_dim, dim)
-            self.weight_init(l, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
-            self.layers.append(l)
-            layer_input_dim = dim
-
-        # Final Layer
-        self.zeta = nn.Linear(layer_input_dim, 1)
-        self.weight_init(self.zeta, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
-
-        self.to(self.nn_params.device)
-
-    def forward(self, state, action):
-        """ Here the input can either be the state or a concatanation of state and action"""
-        state = torch.Tensor(state).to(self.nn_params.device)
-        if self.state_action:
-            action = torch.Tensor(action).to(self.nn_params.device)
-            inp = torch.cat((state, action), dim=1)
-        else:
-            inp =state
-
-        for i, layer in enumerate(self.layers):
-            if self.non_lin != None:
-                inp = self.non_lin(layer(inp))
-            else:
-                inp = layer(inp)
-        Zeta = self.zeta(inp)
-
-        return Zeta
-
 
 class Discrete_Q_Function_NN(BaseNN):
 
@@ -407,3 +310,78 @@ class Discrete_Q_Function_NN(BaseNN):
             return self.forward(state)
         elif format == "numpy":
             return self.forward(state).cpu().detach().numpy()
+
+
+class ICM_Next_State_NN(BaseNN):
+
+    def __init__(self, nn_params, save_path, load_path, state_action=True):
+        super(ICM_Next_State_NN, self).__init__(save_path=save_path, load_path=load_path)
+        self.layers = nn.ModuleList([])
+        self.nn_params = nn_params
+        self.non_lin = self.nn_params.non_linearity
+
+        layer_input_dim = self.nn_params.state_dim + self.nn_params.action_dim
+        hidden_layer_dim = self.nn_params.hidden_layer_dim
+        for i, dim in enumerate(hidden_layer_dim):
+            l = nn.Linear(layer_input_dim, dim)
+            self.weight_init(l, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
+            self.layers.append(l)
+            layer_input_dim = dim
+
+        # Final Layer
+        self.next_state = nn.Linear(layer_input_dim, self.nn_params.state_dim)
+        self.weight_init(self.next_state, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
+
+        self.to(self.nn_params.device)
+
+    def forward(self, state, action):
+
+        state = torch.Tensor(state).to(self.nn_params.device)
+        action = torch.Tensor(action).to(self.nn_params.device)
+        inp = torch.cat((state, action), dim=1)
+
+        for i, layer in enumerate(self.layers):
+            if self.non_lin != None:
+                inp = self.non_lin(layer(inp))
+            else:
+                inp = layer(inp)
+        next_state_pred = self.next_state(inp)
+
+        return next_state_pred
+
+class ICM_Action_NN(BaseNN):
+
+    def __init__(self, nn_params, save_path, load_path, state_action=True):
+        super(ICM_Action_NN, self).__init__(save_path=save_path, load_path=load_path)
+        self.layers = nn.ModuleList([])
+        self.nn_params = nn_params
+        self.non_lin = self.nn_params.non_linearity
+
+        layer_input_dim = self.nn_params.state_dim + self.nn_params.state_dim
+        hidden_layer_dim = self.nn_params.hidden_layer_dim
+        for i, dim in enumerate(hidden_layer_dim):
+            l = nn.Linear(layer_input_dim, dim)
+            self.weight_init(l, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
+            self.layers.append(l)
+            layer_input_dim = dim
+
+        # Final Layer
+        self.action = nn.Linear(layer_input_dim, self.nn_params.action_dim)
+        self.weight_init(self.action, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
+
+        self.to(self.nn_params.device)
+
+    def forward(self, state, next_state):
+
+        state = torch.Tensor(state).to(self.nn_params.device)
+        next_state = torch.Tensor(next_state).to(self.nn_params.device)
+        inp = torch.cat((state, next_state), dim=1)
+
+        for i, layer in enumerate(self.layers):
+            if self.non_lin != None:
+                inp = self.non_lin(layer(inp))
+            else:
+                inp = layer(inp)
+        action_pred = self.action(inp)
+
+        return action_pred
