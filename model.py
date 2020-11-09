@@ -13,6 +13,11 @@ Value functions and action value functions
 Nu and Zeta values
 '''
 
+#for soft actor critic
+LOG_SIG_MAX = 2
+LOG_SIG_MIN = -20
+epsilon = 1e-6
+
 class NN_Paramters():
     def __init__(self, state_dim, action_dim, non_linearity = F.tanh, weight_initializer = 'xavier', bias_initializer = 'zero',
                  hidden_layer_dim = [128, 128], device= torch.device('cuda'), l_r=0.0001):
@@ -58,6 +63,85 @@ class BaseNN(nn.Module):
         if path is None:
             path = self.load_path
         self.load_state_dict(torch.load(path))
+
+class Continuous_Gaussian_Policy(BaseNN):
+    # adapted from https://github.com/pranz24/pytorch-soft-actor-critic/blob/master/model.py
+    def __init__(self, nn_params, save_path, load_path, action_space=None):
+
+        super(Continuous_Gaussian_Policy, self).__init__(save_path=save_path, load_path=load_path)
+
+        self.layers = nn.ModuleList([])
+        self.nn_params = nn_params
+        self.non_lin = self.nn_params.non_linearity
+
+        self.batch_size = None
+        # Hidden layers
+        layer_input_dim = self.nn_params.state_dim
+        hidden_layer_dim = self.nn_params.hidden_layer_dim
+        for i, dim in enumerate(hidden_layer_dim):
+            l = nn.Linear(layer_input_dim, dim)
+            self.weight_init(l, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
+            self.layers.append(l)
+            layer_input_dim = dim
+
+        # Final Layer
+        self.mean = nn.Linear(layer_input_dim, self.nn_params.action_dim)
+        self.weight_init(self.mean, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
+
+        self.log_std = nn.Linear(layer_input_dim, self.nn_params.action_dim)
+        self.weight_init(self.log_std, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
+
+        self.to(self.nn_params.device)
+
+        # action rescaling
+        if action_space is None:
+            self.action_scale = torch.tensor(1.).to(self.nn_params.device)
+            self.action_bias = torch.tensor(0.).to(self.nn_params.device)
+        else:
+            self.action_scale = torch.FloatTensor(
+                (action_space.high - action_space.low) / 2.).to(self.nn_params.device)
+            self.action_bias = torch.FloatTensor(
+                (action_space.high + action_space.low) / 2.).to(self.nn_params.device)
+
+
+    def forward(self, state):
+        state = torch.Tensor(state).to(self.nn_params.device)
+        self.batch_size = state.size()[0]
+        inp = state
+        for i, layer in enumerate(self.layers):
+            if self.non_lin != None:
+                inp = self.non_lin(layer(inp))
+            else:
+                inp = layer(inp)
+
+        mean = self.mean(inp)
+        log_std = self.log_std(inp)
+        log_std = torch.clamp(log_std, min=LOG_SIG_MIN, max=LOG_SIG_MAX)
+
+        return mean, log_std
+
+    def sample(self, state):
+
+        mean , log_std = self.forward(state=state)
+        std = log_std.exp()
+
+        gaussian = torch.distributions.Normal(loc=mean, scale=std)
+
+        #sample for reparametrization trick
+        x_t = gaussian.rsample()
+        y_t = torch.tanh(x_t)
+        action = y_t * self.action_scale + self.action_bias
+        log_prob = gaussian.log_prob(x_t)
+        # Enforcing Action Bound
+        log_prob -= torch.log(self.action_scale * (1 - y_t.pow(2)) + epsilon)
+        log_prob = log_prob.sum(1, keepdim=True)
+        mean = torch.tanh(mean) * self.action_scale + self.action_bias
+        return action, log_prob, mean
+
+    def to(self, device):
+        super().to(device)
+        self.nn_params.device= device
+
 
 
 class DiscretePolicyNN(BaseNN):
@@ -164,35 +248,6 @@ class DiscretePolicyNN(BaseNN):
         super().to(device)
         self.nn_params.device = device
 
-
-class Continuous_Gaussian_Policy(BaseNN):
-
-    def __init__(self, nn_params, save_path, load_path):
-
-        super(Continuous_Gaussian_Policy, self).__init__(save_path=save_path, load_path=load_path)
-
-        self.layers = nn.ModuleList([])
-        self.nn_params = nn_params
-        self.non_lin = self.nn_params.non_linearity
-
-        self.batch_size = None
-        # Hidden layers
-        layer_input_dim = self.nn_params.state_dim
-        hidden_layer_dim = self.nn_params.hidden_layer_dim
-        for i, dim in enumerate(hidden_layer_dim):
-            l = nn.Linear(layer_input_dim, dim)
-            self.weight_init(l, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
-            self.layers.append(l)
-            layer_input_dim = dim
-
-        # Final Layer
-        self.mean = nn.Linear(layer_input_dim, self.nn_params.action_dim)
-        self.weight_init(self.mean, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
-
-        self.variance = nn.Linear(layer_input_dim, self.nn_params.action_dim)
-        self.weight_init(self.variance, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
-
-        self.to(self.nn_params.device)
 
 class Q_Function_NN(BaseNN):
 
@@ -379,6 +434,10 @@ class ICM_Next_State_NN(BaseNN):
 
         return next_state_pred
 
+    def to(self, device):
+        super().to(device)
+        self.nn_params.device = device
+
 class ICM_Action_NN(BaseNN):
 
     def __init__(self, nn_params, save_path, load_path, state_action=True):
@@ -415,3 +474,7 @@ class ICM_Action_NN(BaseNN):
         action_pred = self.action(inp)
 
         return action_pred
+
+    def to(self, device):
+        super().to(device)
+        self.nn_params.device = device

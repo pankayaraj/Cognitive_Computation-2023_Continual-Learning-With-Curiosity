@@ -18,9 +18,12 @@ class NN_Paramters():
 
 
 class Algo_Param():
-    def __init__(self, gamma=0.995):
+    def __init__(self, gamma=0.995, alpha=0.2, tau=0.005):
         self.gamma = gamma
-        self.alpha = 0.1
+        self.alpha = alpha
+        self.tau   = tau
+
+
 
 
 class Save_Paths():
