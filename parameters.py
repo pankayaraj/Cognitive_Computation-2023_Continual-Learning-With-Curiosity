@@ -18,11 +18,14 @@ class NN_Paramters():
 
 
 class Algo_Param():
-    def __init__(self, gamma=0.995, alpha=0.2, tau=0.005):
+    def __init__(self, gamma=0.995, alpha=0.2, tau=0.005, target_update_interval=1,
+                automatic_alpha_tuning=False
+                ):
         self.gamma = gamma
         self.alpha = alpha
         self.tau   = tau
-
+        self.target_update_interval = target_update_interval
+        self.automatic_alpha_tuning = automatic_alpha_tuning
 
 
 
