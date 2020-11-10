@@ -120,7 +120,7 @@ class Continuous_Gaussian_Policy(BaseNN):
 
         return mean, log_std
 
-    def sample(self, state):
+    def sample(self, state, format="torch"):
 
         mean , log_std = self.forward(state=state)
         std = log_std.exp()
@@ -136,7 +136,12 @@ class Continuous_Gaussian_Policy(BaseNN):
         log_prob -= torch.log(self.action_scale * (1 - y_t.pow(2)) + epsilon)
         log_prob = log_prob.sum(1, keepdim=True)
         mean = torch.tanh(mean) * self.action_scale + self.action_bias
-        return action, log_prob, mean
+
+        if format == "torch":
+            return action, log_prob, mean
+        else:
+            return action.cpu().detach().numpy(), log_prob.cpu().detach().numpy(), mean.cpu().detach().numpy()
+
 
     def to(self, device):
         super().to(device)
