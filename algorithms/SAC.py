@@ -67,15 +67,14 @@ class SAC():
         action_batch = torch.tensor(batch.action)
         next_state_batch = torch.tensor(batch.next_state)
         reward_batch = torch.FloatTensor(batch.reward).unsqueeze(1)
-        done_batch = torch.FloatTensor(batch.done).unsqueeze(1)
+        done_mask_batch = torch.FloatTensor(batch.done_mask).unsqueeze(1)
 
         with torch.no_grad():
             next_action_batch, next_log_prob_batch, _ = self.policy.sample(next_state_batch, format="torch")
             q1_next_target = self.critic_target_1.get_value(next_state_batch, next_action_batch, format="torch")
             q2_next_target = self.critic_target_2.get_value(next_state_batch, next_action_batch, format="torch")
-
             min_q_target = torch.min(q1_next_target, q2_next_target) - self.alpha*next_log_prob_batch
-            next_q_value = reward_batch - done_batch*self.gamma*min_q_target
+            next_q_value = reward_batch - done_mask_batch*self.gamma*min_q_target
 
         q1 = self.critic_1.get_value(state_batch, action_batch)
         q2 = self.critic_2.get_value(state_batch, action_batch)
@@ -118,7 +117,21 @@ class SAC():
         action = action[0]
 
         next_state, reward, done, _ = self.env.step(action)
-        
+
+        if done:
+            mask = 0.0
+            self.replay_buffer.push(state, action, reward, next_state, mask)
+            next_state = self.env.reset()
+            return next_state
+
+        if self.time_step == self.max_episodes:
+            mask = 1.0
+            self.replay_buffer.push(state, action, reward, next_state, mask)
+            next_state = self.env.reset()
+            return next_state
+        mask = 1.0
+        self.replay_buffer.push(state, action, reward, next_state, mask)
+        return next_state
 
     def hard_update(self):
         self.critic_target_1.load_state_dict(self.critic_1.state_dict())
