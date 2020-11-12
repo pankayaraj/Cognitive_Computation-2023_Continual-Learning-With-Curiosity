@@ -11,10 +11,11 @@ from util.replay_buffer import Replay_Memory
 class SAC():
 
     def __init__(self, env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes =100, memory_capacity =10000,
-                 batch_size=400, save_path = Save_Paths(), load_path= Load_Paths(), action_space = None
+                 batch_size=400, save_path = Save_Paths(), load_path= Load_Paths(), action_space = None, alpha_lr=0.0003,
                  ):
 
         self.env = env
+        self.device = q_nn_param.device
 
         self.q_nn_param = q_nn_param
         self.policy_nn_param = policy_nn_param
@@ -24,6 +25,11 @@ class SAC():
         self.gamma = self.algo_nn_param.gamma
         self.alpha = self.algo_nn_param.alpha
         self.tau   = self.algo_nn_param.tau
+
+        self.max_episodes = max_episodes
+        self.steps_done = 0
+        self.update_no = 0
+        self.batch_size = batch_size
 
         self.target_update_interval = self.algo_nn_param.target_update_interval
         self.automatic_alpha_tuning = self.algo_nn_param.automatic_alpha_tuning
@@ -40,10 +46,14 @@ class SAC():
         self.policy = Continuous_Gaussian_Policy(policy_nn_param, save_path=save_path.policy_path,
                                                  load_path=load_path.policy_path, action_space=action_space)
 
-        self.critic_1_optim = torch.optim.Adam(self.Q.parameters(), self.q_nn_param.l_r)
-        self.critic_2_optim = torch.optim.Adam(self.Q.parameters(), self.q_nn_param.l_r)
-        self.policy_optim = torch.optim.Adam(self.Q.parameters(), self.q_nn_param.l_r)
+        self.critic_1_optim = torch.optim.Adam(self.critic_1.parameters(), self.q_nn_param.l_r)
+        self.critic_2_optim = torch.optim.Adam(self.critic_2.parameters(), self.q_nn_param.l_r)
+        self.policy_optim = torch.optim.Adam(self.policy.parameters(), self.q_nn_param.l_r)
 
+        if self.automatic_alpha_tuning is True:
+            self.target_entropy = -torch.prod(torch.Tensor(self.env.action_space.shape).to(self.device)).item()
+            self.log_alpha = torch.zeros(1, requires_grad=True, device=self.device)
+            self.alpha_optim = torch.optim.Adam([self.log_alpha], lr=alpha_lr)
 
         self.replay_buffer = Replay_Memory(capacity=memory_capacity)
 
@@ -57,15 +67,29 @@ class SAC():
         else:
             return action_mean.detach().numpy()
 
+    def initalize(self):
 
+        # inital_phase train after this by continuing with step and train at single iteration and hard update at update interval
+        self.steps_done = 0
+        state = self.env.reset()
+        for i in range(self.batch_size):
+            state = self.step(state)
+        return state
 
-    def update(self, batch_size, update_no):
+    def update(self, batch_size=None):
+
+        if batch_size == None:
+            batch_size = self.batch_size
+        if batch_size > len(self.replay_buffer):
+            return
+        self.update_no += 1
+
 
         batch = self.replay_buffer.sample(batch_size=batch_size)
 
-        state_batch = torch.tensor(batch.state)
-        action_batch = torch.tensor(batch.action)
-        next_state_batch = torch.tensor(batch.next_state)
+        state_batch = batch.state
+        action_batch = batch.action
+        next_state_batch = batch.next_state
         reward_batch = torch.FloatTensor(batch.reward).unsqueeze(1)
         done_mask_batch = torch.FloatTensor(batch.done_mask).unsqueeze(1)
 
@@ -102,34 +126,39 @@ class SAC():
         policy_loss.backward()
         self.policy_optim.step()
 
-        if update_no%self.target_update_interval == 0:
+        if self.automatic_alpha_tuning:
+            alpha_loss = -(self.log_alpha * (log_pi + self.target_entropy).detach()).mean()
+            self.alpha_optim.zero_grad()
+            alpha_loss.backward()
+            self.alpha_optim.step()
+
+            self.alpha = self.log_alpha.exp()
+
+        if self.update_no%self.target_update_interval == 0:
             self.soft_update(self.critic_target_1, self.critic_1, self.tau)
             self.soft_update(self.critic_target_2, self.critic_2, self.tau)
 
-        update_no += 1
-
-        return update_no
 
     def step(self, state):
-
         batch_size = 1  #since step is for a single sample
         action, _, _ = self.policy.sample(state, format="numpy")
-        action = action[0]
+        action = action
 
         next_state, reward, done, _ = self.env.step(action)
-
+        self.steps_done += 1
         if done:
             mask = 0.0
             self.replay_buffer.push(state, action, reward, next_state, mask)
             next_state = self.env.reset()
             return next_state
 
-        if self.time_step == self.max_episodes:
+        if self.steps_done == self.max_episodes:
             mask = 1.0
             self.replay_buffer.push(state, action, reward, next_state, mask)
             next_state = self.env.reset()
             return next_state
         mask = 1.0
+
         self.replay_buffer.push(state, action, reward, next_state, mask)
         return next_state
 
@@ -140,3 +169,23 @@ class SAC():
     def soft_update(self, target, source, tau):
         for target_param, param in zip(target.parameters(), source.parameters()):
             target_param.data.copy_(target_param.data * (1.0 - tau) + param.data * tau)
+
+    def save(self, critic_1_path="critic_1", critic_2_path="critic_2",
+             critic_1_target_path = "critic_1_target", critic_2_target_path = "critic_2_target",
+             policy_path= "policy_target"):
+
+        self.critic_1.save(critic_1_path)
+        self.critic_2.save(critic_2_path)
+        self.critic_target_1.save(critic_1_path)
+        self.critic_target_2.save(critic_2_path)
+        self.policy.save(policy_path)
+
+    def load(self, critic_1_path="critic_1", critic_2_path="critic_2",
+             critic_1_target_path = "critic_1_target", critic_2_target_path = "critic_2_target",
+             policy_path= "policy_target"):
+
+        self.critic_1.load(critic_1_path)
+        self.critic_2.load(critic_2_path)
+        self.critic_target_1.load(critic_1_target_path)
+        self.critic_target_2.load(critic_2_target_path)
+        self.policy.load(policy_path)

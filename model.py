@@ -105,6 +105,7 @@ class Continuous_Gaussian_Policy(BaseNN):
 
 
     def forward(self, state):
+
         state = torch.Tensor(state).to(self.nn_params.device)
         self.batch_size = state.size()[0]
         inp = state
@@ -134,8 +135,10 @@ class Continuous_Gaussian_Policy(BaseNN):
         log_prob = gaussian.log_prob(x_t)
         # Enforcing Action Bound
         log_prob -= torch.log(self.action_scale * (1 - y_t.pow(2)) + epsilon)
-        log_prob = log_prob.sum(1, keepdim=True)
+        if log_prob.shape[0] != 1:
+            log_prob = log_prob.sum(1, keepdim=True)
         mean = torch.tanh(mean) * self.action_scale + self.action_bias
+
 
         if format == "torch":
             return action, log_prob, mean
