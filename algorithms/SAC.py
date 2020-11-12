@@ -139,10 +139,13 @@ class SAC():
             self.soft_update(self.critic_target_2, self.critic_2, self.tau)
 
 
-    def step(self, state):
+    def step(self, state, random=False):
         batch_size = 1  #since step is for a single sample
-        action, _, _ = self.policy.sample(state, format="numpy")
-        action = action
+
+        if random:
+            action = self.env.action_space.sample()
+        else:
+            action, _, _ = self.policy.sample(state, format="numpy")
 
         next_state, reward, done, _ = self.env.step(action)
         self.steps_done += 1

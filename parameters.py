@@ -27,6 +27,17 @@ class Algo_Param():
         self.target_update_interval = target_update_interval
         self.automatic_alpha_tuning = automatic_alpha_tuning
 
+class Algo_Param_DDPG():
+    def __init__(self, gamma=0.995, tau=0.005, target_update_interval=1,
+                noise = "gaussian", depsilon = 50000, std = 1.0
+                ):
+        self.gamma = gamma
+        self.noise = "gaussian"
+        self.tau   = tau
+        self.target_update_interval = target_update_interval
+        self.depsilon = depsilon
+        self.std = std
+
 
 
 class Save_Paths():

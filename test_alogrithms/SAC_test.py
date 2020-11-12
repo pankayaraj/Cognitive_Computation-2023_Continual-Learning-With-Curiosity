@@ -15,16 +15,16 @@ env_eval = gym.make("Pendulum-v0")
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.shape[0]
 
-q_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[10, 10],
-                          non_linearity=torch.tanh, device=torch.device("cpu"), l_r=0.05)
-policy_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[10, 10],
-                          non_linearity=torch.tanh, device=torch.device("cpu"), l_r=0.05)
+q_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256],
+                          non_linearity=torch.tanh, device=torch.device("cpu"), l_r=0.00003)
+policy_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256],
+                          non_linearity=torch.tanh, device=torch.device("cpu"), l_r=0.003)
 
 algo_nn_param = Algo_Param(gamma=0.995, alpha=0.3, tau=0.005, target_update_interval=1, automatic_alpha_tuning=True)
 
 
-A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=1000, memory_capacity=10000
-        ,batch_size=1000, alpha_lr=0.00003)
+A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=1000, memory_capacity=100000
+        ,batch_size=256, alpha_lr=0.00003)
 
 
 save_interval = 1000
@@ -36,7 +36,10 @@ for i in range(100000):
 
     A.update()
 
-    state = A.step(state)
+    if i < A.batch_size:
+        state = A.step(state, random=True)
+    else:
+        state = A.step(state, random=False)
     if i%save_interval==0:
         A.save("q1", "q2", "q1_target", "q2_target", "policy_target")
     if i%eval_interval==0:

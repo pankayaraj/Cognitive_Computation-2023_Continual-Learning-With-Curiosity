@@ -150,6 +150,60 @@ class Continuous_Gaussian_Policy(BaseNN):
         super().to(device)
         self.nn_params.device= device
 
+class DDPG_Policy(BaseNN):
+    def __init__(self, nn_params, save_path, load_path):
+        super(DDPG_Policy, self).__init__(save_path=save_path, load_path=load_path,
+                                          noise="gaussian")
+
+        self.layers = nn.ModuleList([])
+        self.nn_params = nn_params
+        self.non_lin = self.nn_params.non_linearity
+
+        self.noise = "gaussian"
+
+
+        self.batch_size = None
+        # Hidden layers
+        layer_input_dim = self.nn_params.state_dim
+        hidden_layer_dim = self.nn_params.hidden_layer_dim
+        for i, dim in enumerate(hidden_layer_dim):
+            l = nn.Linear(layer_input_dim, dim)
+            self.weight_init(l, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
+            self.layers.append(l)
+            layer_input_dim = dim
+
+        # Final Layer
+        self.action = nn.Linear(layer_input_dim, self.nn_params.action_dim)
+        self.weight_init(self.action, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
+
+        self.to(self.nn_params.device)
+
+    def forward(self, state):
+
+        state = torch.Tensor(state).to(self.nn_params.device)
+        self.batch_size = state.size()[0]
+        inp = state
+        for i, layer in enumerate(self.layers):
+            if self.non_lin != None:
+                inp = self.non_lin(layer(inp))
+            else:
+                inp = layer(inp)
+
+        action = self.action(inp)
+        action = F.tanh(action)
+        return action
+
+    def sample(self, state, format="torch"):
+        action = self.forward(state)
+
+        if format == "torch":
+            return action
+        elif format=="numpy":
+            return action.cpu().detach().numpy()
+
+    def to(self, device):
+        super().to(device)
+        self.nn_params.device= device
 
 
 class DiscretePolicyNN(BaseNN):
