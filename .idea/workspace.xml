@@ -2,22 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/main/models/policy_target" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main/models/q1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main/models/q2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main/models/replay_mem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main/results__s_i_1000" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main/test_dual_env_change.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_alogrithms/DDPG test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithms/DDPG.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/DDPG.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithms/SAC.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/SAC.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_alogrithms/SAC_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/SAC_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_alogrithms/mem" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_alogrithms/policy_target" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_alogrithms/q1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_alogrithms/q2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/policy_target" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/q1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/q2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/replay_mem" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results__s_i_1000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/test_dual_env_change.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/test_dual_env_change.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +99,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_dual_env_change" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="test_dual_env_change" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -129,6 +120,12 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.custom_pendulum" />
+      <item itemvalue="Python.DDPG test" />
+      <item itemvalue="Python.SAC_test" />
+      <item itemvalue="Python.test_dual_env_change" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.test_dual_env_change" />

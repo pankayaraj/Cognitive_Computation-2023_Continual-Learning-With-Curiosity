@@ -25,9 +25,10 @@ parser.add_argument("--batch_size", type=int, default=256)
 parser.add_argument("--memory_size", type=int, default=100000)
 parser.add_argument("--no_steps", type=int, default=30000)
 parser.add_argument("--max_episodes", type=int, default=200)
-parser.add_argument("--save_directory", type=str, default="models")
-parser.add_argument("--g", type=list, default=[10, 8, 6, 2], help="list of gravities to try on the env to emulate CL")
-
+parser.add_argument("--save_directory", type=str, default="models/diff_mass")
+parser.add_argument("--g", type=list, default=[10., 8., 6., 2.], help="list of gravities to try on the env to emulate CL")
+parser.add_argument("--l", type=list, default=[1., 2., 10., 20.], help="list of length to try on the env to emulate CL")
+parser.add_argument("--m", type=list, default=[1., 2., 10., 20.], help="list of masses to try on the env to emulate CL")
 args = parser.parse_args()
 
 env, env_eval = None, None
@@ -57,7 +58,10 @@ algo_nn_param = Algo_Param(gamma=args.gamma, alpha=args.alpha, tau=args.tau,
 A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param,
         max_episodes=args.max_episodes, memory_capacity=args.memory_size,
         batch_size=args.batch_size, alpha_lr=args.lr)
+
 gravities = args.g
+lengths = args.l
+masses = args.m
 
 save_interval = args.save_interval
 eval_interval = args.eval_interval
@@ -83,23 +87,39 @@ for i in range(args.no_steps):
                save_dir+"/q1_target", save_dir+"/q2_target",
                save_dir+"/policy_target")
     if i%eval_interval==0:
-        for g_i, g in enumerate(gravities):
-            e = env_eval
-            e.set_gravity(g)
-            s = e.reset()
-            rew = 0
-            for j in range(A.max_episodes):
-                print(e.g)
-                a = A.get_action(s, evaluate=True)
-                s, r, d, _ = e.step(a)
-                rew += r
-                e.render()
-                if d == True:
-                    break
-            results[g_i].append(rew)
-            print("reward at itr " + str(i) + " = " + str(rew) +
-                  " at alpha: " + str(A.alpha.cpu().detach().numpy()[0])
-                  +" for gravity: " + str(g))
+
+        #for g_i, g in enumerate(gravities):
+        for m_i, m in enumerate(masses):
+        #for l_i, l in enumerate(lengths):
+            rew_total = 0
+            for k in range(10):
+                e = env_eval
+
+                #e.set_gravity(g)
+                e.set_mass(m)
+                #e.set_length(l)
+
+                s = e.reset()
+                rew = 0
+                for j in range(A.max_episodes):
+
+                    a = A.get_action(s, evaluate=True)
+                    s, r, d, _ = e.step(a)
+                    rew += r
+                    #e.render()
+                    if d == True:
+                        break
+                rew_total += rew
+
+            rew_total = rew_total/10
+
+            #results[g_i].append(rew_total)
+            results[m_i].append(rew_total)
+            #results[l_i].append(rew_total)
+
+            #print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for gravity: " + str(g))
+            print("reward at itr " + str(i) + " = " + str(rew_total) +" at alpha: " + str(A.alpha.cpu().detach().numpy()[0])+" for mass: " + str(m))
+            #print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
 
 torch.save(A.replay_buffer, save_dir + "/replay_mem")
-torch.save(results, "results__s_i_" + str(args.save_interval))
+torch.save(results, "results/results_mass__s_i_" + str(args.save_interval) )
