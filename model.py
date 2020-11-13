@@ -139,7 +139,6 @@ class Continuous_Gaussian_Policy(BaseNN):
             log_prob = log_prob.sum(1, keepdim=True)
         mean = torch.tanh(mean) * self.action_scale + self.action_bias
 
-
         if format == "torch":
             return action, log_prob, mean
         else:
@@ -153,7 +152,7 @@ class Continuous_Gaussian_Policy(BaseNN):
 class DDPG_Policy(BaseNN):
     def __init__(self, nn_params, save_path, load_path):
         super(DDPG_Policy, self).__init__(save_path=save_path, load_path=load_path,
-                                          noise="gaussian")
+                                          )
 
         self.layers = nn.ModuleList([])
         self.nn_params = nn_params
@@ -190,7 +189,7 @@ class DDPG_Policy(BaseNN):
                 inp = layer(inp)
 
         action = self.action(inp)
-        action = F.tanh(action)
+        action = torch.tanh(action)
         return action
 
     def sample(self, state, format="torch"):

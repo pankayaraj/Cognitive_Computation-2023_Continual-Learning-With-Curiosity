@@ -82,6 +82,7 @@ class SAC():
             batch_size = self.batch_size
         if batch_size > len(self.replay_buffer):
             return
+
         self.update_no += 1
 
 
@@ -98,7 +99,7 @@ class SAC():
             q1_next_target = self.critic_target_1.get_value(next_state_batch, next_action_batch, format="torch")
             q2_next_target = self.critic_target_2.get_value(next_state_batch, next_action_batch, format="torch")
             min_q_target = torch.min(q1_next_target, q2_next_target) - self.alpha*next_log_prob_batch
-            next_q_value = reward_batch - done_mask_batch*self.gamma*min_q_target
+            next_q_value = reward_batch + done_mask_batch*self.gamma*min_q_target
 
         q1 = self.critic_1.get_value(state_batch, action_batch)
         q2 = self.critic_2.get_value(state_batch, action_batch)
@@ -135,6 +136,7 @@ class SAC():
             self.alpha = self.log_alpha.exp()
 
         if self.update_no%self.target_update_interval == 0:
+
             self.soft_update(self.critic_target_1, self.critic_1, self.tau)
             self.soft_update(self.critic_target_2, self.critic_2, self.tau)
 
@@ -145,7 +147,7 @@ class SAC():
         if random:
             action = self.env.action_space.sample()
         else:
-            action, _, _ = self.policy.sample(state, format="numpy")
+            action = self.get_action(state, evaluate=False)
 
         next_state, reward, done, _ = self.env.step(action)
         self.steps_done += 1

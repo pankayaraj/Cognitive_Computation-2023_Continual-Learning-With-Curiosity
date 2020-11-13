@@ -2,15 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/algorithms/DDPG.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/models/policy_target" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/models/q1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/models/q2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/models/replay_mem" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/results__s_i_1000" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/test_dual_env_change.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_alogrithms/DDPG test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithms/DDPG.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/DDPG.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithms/SAC.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/SAC.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/parameters.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_alogrithms/SAC_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/SAC_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_alogrithms/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/policy_target" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_alogrithms/q1" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/q1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_alogrithms/q2" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/q2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_alogrithms/mem" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_alogrithms/policy_target" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_alogrithms/q1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_alogrithms/q2" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +44,28 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Python.SAC_test">
+  <component name="RunManager" selected="Python.test_dual_env_change">
+    <configuration name="DDPG test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Continual-Learning-With-Curiosity" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_alogrithms" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_alogrithms/DDPG test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="SAC_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -80,9 +108,32 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_dual_env_change" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Continual-Learning-With-Curiosity" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/test_dual_env_change.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_dual_env_change" />
         <item itemvalue="Python.SAC_test" />
+        <item itemvalue="Python.DDPG test" />
         <item itemvalue="Python.custom_pendulum" />
       </list>
     </recent_temporary>

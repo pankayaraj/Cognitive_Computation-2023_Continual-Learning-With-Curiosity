@@ -9,7 +9,7 @@ from util.replay_buffer import Replay_Memory
 
 class DDPG():
 
-    def __init__(self, env, q_nn_param=NN_Paramters(), policy_nn_param=NN_Paramters(), algo_nn_param=Algo_Param_DDPG()
+    def __init__(self, env, q_nn_param, policy_nn_param, algo_nn_param
                  , max_episodes=100, memory_capacity=10000,
                  batch_size=400, save_path=Save_Paths(), load_path=Load_Paths(), noise ="gaussian"
                  ):
@@ -24,14 +24,15 @@ class DDPG():
 
         self.gamma = algo_nn_param.gamma
         self.epsilon = 1.0
-        self.depsilon = 1/self.depsilon
+        self.depsilon = 1/self.algo_nn_param.depsilon
+        self.tau = algo_nn_param.tau
 
         self.max_episodes = max_episodes
         self.steps_done = 0
         self.update_no = 0
         self.batch_size = batch_size
         self.target_update_interval = self.algo_nn_param.target_update_interval
-        self.noise =
+
 
         self.critic = Q_Function_NN(q_nn_param, save_path, load_path)
         self.critic_target = Q_Function_NN(q_nn_param, save_path, load_path)
@@ -42,16 +43,15 @@ class DDPG():
         self.policy_target.load_state_dict(self.policy.state_dict())
 
         self.crtic_optim = torch.optim.Adam(self.critic.parameters(), self.q_nn_param.l_r)
-        self.policy_optim = torch.optim.Adam(self.policy.parameters(), self.policy_nn_param)
+        self.policy_optim = torch.optim.Adam(self.policy.parameters(), self.policy_nn_param.l_r)
 
         self.replay_buffer = Replay_Memory(capacity=memory_capacity)
 
         self.device = q_nn_param.device
 
-        if self.noise == "gaussian":
-            mean = torch.zeros(size = self.action_dim).to(self.policy_nn_param.device)
-            sigma = torch.ones(size=self.action_dim).to(self.policy_nn_param.device) * float(self.algo_nn_param.std)
-
+        if noise == "gaussian":
+            mean = torch.zeros(size = (self.action_dim,)).to(self.policy_nn_param.device)
+            sigma = torch.ones(size=(self.action_dim,)).to(self.policy_nn_param.device) * float(self.algo_nn_param.std)
             self.noise = torch.distributions.Normal(loc=mean, scale=sigma)
 
     def get_action(self, state, evaluate=False ):
@@ -59,8 +59,8 @@ class DDPG():
         if evaluate == True:
             return self.policy.sample(state, format="numpy")
         else:
-            noise = self.noise.sample()
-            action_mean = self.policy.sample()
+            noise = self.noise.sample().cpu().detach().numpy()
+            action_mean = self.policy.sample(state, format="numpy")
             action = action_mean + self.epsilon*noise
             action = np.clip(action, -1, 1)
             self.epsilon += self.depsilon
@@ -76,7 +76,7 @@ class DDPG():
 
     def step(self, state, random=False):
         batch_ize = 1
-
+        self.steps_done += 1
         if random == True:
             action = self.env.action_space.sample()
         else:
@@ -102,17 +102,54 @@ class DDPG():
 
     def update(self, batch_size=None):
 
-        if self.batch_size == None:
+        if batch_size == None:
             batch_size = self.batch_size
+        if batch_size > len(self.replay_buffer):
+            return
+
+        self.update_no += 1
+
 
         batch = self.replay_buffer.sample(batch_size)
 
         state_batch = batch.state
         action_batch = batch.action
         next_state_batch = batch.next_state
-        eward_batch = torch.FloatTensor(batch.reward).unsqueeze(1)
+        reward_batch = torch.FloatTensor(batch.reward).unsqueeze(1)
         done_mask_batch = torch.FloatTensor(batch.done_mask).unsqueeze(1)
 
+        with torch.no_grad():
+            next_action_batch = self.policy_target.sample(next_state_batch, format="torch")
+            next_q_value = self.critic_target.get_value(next_state_batch, next_action_batch, format="torch")
+
+            q_target = reward_batch + self.gamma*done_mask_batch*next_q_value
+
+        q = self.critic.get_value(state_batch, action_batch)
+
+        q_loss = torch.nn.functional.mse_loss(q, q_target)
+
+
+        policy_loss = -self.critic.get_value(state_batch,
+                                             self.policy.sample(state_batch, format="torch"),
+                                             format = "torch"
+                                             ).mean()
+
+        self.policy_optim.zero_grad()
+        policy_loss.backward()
+        self.policy_optim.step()
+
+        self.crtic_optim.zero_grad()
+        q_loss.backward()
+        self.crtic_optim.step()
+
+        if self.update_no%self.target_update_interval:
+            self.soft_update(target=self.critic_target, source=self.critic)
+            self.soft_update(target=self.policy_target, source=self.policy)
+
+
+    def soft_update(self, target, source, tau):
+        for target_param, param in zip(target.parameters(), source.parameters()):
+            target_param.data.copy_(target_param.data * (1.0 - tau) + param.data * tau)
 
 
     def save(self, critic_path="critic",
