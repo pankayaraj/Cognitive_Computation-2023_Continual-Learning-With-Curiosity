@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/main/graphs/SAC_native_in_changing_env/plot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/models/policy_target" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/models/q1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/models/q2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/models/replay_mem" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/results__s_i_1000" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/test_dual_env_change.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/test_dual_env_change.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +30,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Python.test_dual_env_change">
+  <component name="RunManager" selected="Python.plot (1)">
     <configuration name="DDPG test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -78,7 +73,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="custom_pendulum" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="plot (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -86,11 +81,32 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/custom_envs" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main/graphs/SAC_native_in_changing_env" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/custom_envs/custom_pendulum.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/graphs/SAC_native_in_changing_env/plot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Continual-Learning-With-Curiosity" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/graphs/SAC_native_in_changing_env" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/graphs/SAC_native_in_changing_env/plot.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -121,17 +137,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.custom_pendulum" />
       <item itemvalue="Python.DDPG test" />
       <item itemvalue="Python.SAC_test" />
       <item itemvalue="Python.test_dual_env_change" />
+      <item itemvalue="Python.plot" />
+      <item itemvalue="Python.plot (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.plot (1)" />
+        <item itemvalue="Python.plot" />
         <item itemvalue="Python.test_dual_env_change" />
         <item itemvalue="Python.SAC_test" />
         <item itemvalue="Python.DDPG test" />
-        <item itemvalue="Python.custom_pendulum" />
       </list>
     </recent_temporary>
   </component>
