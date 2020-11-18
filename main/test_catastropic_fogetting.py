@@ -114,7 +114,7 @@ for i in range(args.no_steps):
 
         for l_i, l in enumerate(test_lengths):
             rew_total = 0
-            for k in range(10):
+            for k in range(20):
                 e = env_eval
                 e.set_length(l)
 
