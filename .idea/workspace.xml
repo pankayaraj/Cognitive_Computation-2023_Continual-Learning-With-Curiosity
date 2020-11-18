@@ -2,8 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/main/graphs/SAC_native_in_changing_env/plot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/test_catastropic_fogetting.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/test_env_change.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/diff_gravity/policy_target" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/diff_gravity/q1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/diff_gravity/q2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/diff_gravity/replay_mem" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/diff_length/policy_target" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/diff_length/q1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/diff_length/q2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/diff_length/replay_mem" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/diff_mass/policy_target" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/diff_mass/q1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/diff_mass/q2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/diff_mass/replay_mem" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/test_dual_env_change.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,30 +42,9 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../INTERNSHIP_SLTC/CDC/Journal_Version/New_Malicious_Agents" />
   </component>
-  <component name="RunManager" selected="Python.plot (1)">
-    <configuration name="DDPG test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Continual-Learning-With-Curiosity" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_alogrithms" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_alogrithms/DDPG test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.test_catastropic_fogetting">
     <configuration name="SAC_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -115,6 +108,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_catastropic_fogetting" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Continual-Learning-With-Curiosity" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/test_catastropic_fogetting.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test_dual_env_change" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -137,19 +151,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.DDPG test" />
       <item itemvalue="Python.SAC_test" />
-      <item itemvalue="Python.test_dual_env_change" />
-      <item itemvalue="Python.plot" />
       <item itemvalue="Python.plot (1)" />
+      <item itemvalue="Python.plot" />
+      <item itemvalue="Python.test_dual_env_change" />
+      <item itemvalue="Python.test_catastropic_fogetting" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_catastropic_fogetting" />
         <item itemvalue="Python.plot (1)" />
         <item itemvalue="Python.plot" />
         <item itemvalue="Python.test_dual_env_change" />
         <item itemvalue="Python.SAC_test" />
-        <item itemvalue="Python.DDPG test" />
       </list>
     </recent_temporary>
   </component>
