@@ -2,7 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-length_interval = 10000
+length_interval = 20000
 l_interval_rate = 5
 l_linear_rate = 0.0005
 update_on_interval = True

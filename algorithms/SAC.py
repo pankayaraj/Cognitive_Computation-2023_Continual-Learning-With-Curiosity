@@ -27,7 +27,8 @@ class SAC():
         self.tau   = self.algo_nn_param.tau
 
         self.max_episodes = max_episodes
-        self.steps_done = 0
+        self.steps_done = 0   #total no of steps done
+        self.steps_per_eps = 0 #this is to manually enforce max eps length
         self.update_no = 0
         self.batch_size = batch_size
 
@@ -71,6 +72,7 @@ class SAC():
 
         # inital_phase train after this by continuing with step and train at single iteration and hard update at update interval
         self.steps_done = 0
+        self.steps_per_eps = 0
         state = self.env.reset()
         for i in range(self.batch_size):
             state = self.step(state)
@@ -104,8 +106,8 @@ class SAC():
         q1 = self.critic_1.get_value(state_batch, action_batch)
         q2 = self.critic_2.get_value(state_batch, action_batch)
 
-        q1_loss = torch.nn.functional.mse_loss(q1, next_q_value)
-        q2_loss = torch.nn.functional.mse_loss(q2, next_q_value)
+        q1_loss = 0.5*torch.nn.functional.mse_loss(q1, next_q_value)
+        q2_loss = 0.5*torch.nn.functional.mse_loss(q2, next_q_value)
 
         self.critic_1_optim.zero_grad()
         q1_loss.backward()
@@ -150,17 +152,22 @@ class SAC():
             action = self.get_action(state, evaluate=False)
 
         next_state, reward, done, _ = self.env.step(action)
+
         self.steps_done += 1
+        self.steps_per_eps += 1
+
         if done:
             mask = 0.0
             self.replay_buffer.push(state, action, reward, next_state, mask)
             next_state = self.env.reset()
+            self.steps_per_eps = 0
             return next_state
 
-        if self.steps_done == self.max_episodes:
+        if self.steps_per_eps == self.max_episodes:
             mask = 1.0
             self.replay_buffer.push(state, action, reward, next_state, mask)
             next_state = self.env.reset()
+            self.steps_per_eps = 0
             return next_state
         mask = 1.0
 

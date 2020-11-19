@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC/diff_length/policy_target" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC/diff_length/q1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC/diff_length/q2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC/diff_mass/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC/diff_mass/policy_target" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC/diff_mass/q1" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC/diff_mass/q1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC/diff_mass/q2" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC/diff_mass/q2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC/diff_mass/replay_mem" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC/diff_mass/replay_mem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC/results_mass__s_i_1000" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC/results_mass__s_i_1000" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/test_env_change.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/test_env_change.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +43,7 @@
       <recent name="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.plot (2)">
+  <component name="RunManager" selected="Python.test_env_change">
     <configuration name="plot (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -119,7 +128,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_dual_env_change" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
+    <configuration name="test_env_change" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -131,7 +140,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/test_dual_env_change.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/test_env_change.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -143,17 +152,17 @@
     <list>
       <item itemvalue="Python.plot (1)" />
       <item itemvalue="Python.plot" />
-      <item itemvalue="Python.test_dual_env_change" />
       <item itemvalue="Python.test_catastropic_fogetting" />
       <item itemvalue="Python.plot (2)" />
+      <item itemvalue="Python.test_env_change" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_env_change" />
         <item itemvalue="Python.plot (2)" />
         <item itemvalue="Python.test_catastropic_fogetting" />
         <item itemvalue="Python.plot (1)" />
         <item itemvalue="Python.plot" />
-        <item itemvalue="Python.test_dual_env_change" />
       </list>
     </recent_temporary>
   </component>

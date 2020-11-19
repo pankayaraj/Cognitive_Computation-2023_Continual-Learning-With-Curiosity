@@ -16,9 +16,9 @@ state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.shape[0]
 
 q_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256, 256],
-                          non_linearity=torch.relu, device=torch.device("cpu"), l_r=0.0003)
+                          non_linearity=torch.relu, device=torch.device("cpu"), l_r=0.003)
 policy_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256, 256],
-                          non_linearity=torch.relu, device=torch.device("cpu"), l_r=0.0003)
+                          non_linearity=torch.relu, device=torch.device("cpu"), l_r=0.003)
 
 algo_nn_param = Algo_Param(gamma=0.99, alpha=0.2, tau=0.005, target_update_interval=1, automatic_alpha_tuning=True)
 
@@ -45,15 +45,23 @@ for i in range(100000):
     if i%eval_interval==0:
 
         e = env_eval
-        s = e.reset()
-        rew = 0
-        for j in range(A.max_episodes):
-            a = A.get_action(s, evaluate=True)
-            s, r, d, _ = e.step(a)
-            rew += r
-            e.render()
-            if d == True:
-                break
 
-        print("reward at itr " + str(i) + " = " + str(rew) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) )
+
+        rew_total = 0
+        for _ in range(40):
+            rew = 0
+            s = e.reset()
+            for j in range(A.max_episodes):
+                a = A.get_action(s, evaluate=True)
+                s, r, d, _ = e.step(a)
+                rew += r
+
+                #e.render()
+
+                if d == True:
+                    break
+
+            rew_total += rew
+        rew_total = rew_total/40
+        print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) )
 torch.save(A.replay_buffer, "mem")

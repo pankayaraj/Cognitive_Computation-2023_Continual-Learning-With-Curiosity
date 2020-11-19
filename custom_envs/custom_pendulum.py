@@ -1,6 +1,3 @@
-# adapted from https://github.com/openai/gym/blob/master/gym/envs/classic_control/pendulum.py
-
-
 import gym
 from gym import spaces
 from gym.utils import seeding
@@ -36,8 +33,8 @@ class PendulumEnv(gym.Env):
         )
 
         self.seed()
+        # to change the gravity for continual learning
 
-    #to change the gravity for continual learning
     def set_gravity(self, gravity):
         self.g = gravity
 
@@ -46,7 +43,6 @@ class PendulumEnv(gym.Env):
 
     def set_length(self, length):
         self.l = length
-
 
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
@@ -113,4 +109,4 @@ class PendulumEnv(gym.Env):
 
 
 def angle_normalize(x):
-    return (((x+np.pi) % (2*np.pi)) - np.pi)
+    return (((x + np.pi) % (2 * np.pi)) - np.pi)

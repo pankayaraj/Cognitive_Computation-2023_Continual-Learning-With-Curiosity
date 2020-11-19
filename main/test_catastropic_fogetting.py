@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 parser.add_argument("--env", type=str, default="Pendulum-v0")
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
-parser.add_argument("--lr", type=float, default=0.003)
+parser.add_argument("--lr", type=float, default=0.0003)
 parser.add_argument("--alpha", type=float, default=0.2)
 parser.add_argument("--gamma", type=float, default=0.99)
 parser.add_argument("--cuda", type=bool, default=False)
@@ -22,7 +22,7 @@ parser.add_argument("--target_update_interval", type=int, default=1)
 parser.add_argument("--save_interval", type=int, default=1000)
 parser.add_argument("--eval-interval", type=int, default=1000)
 parser.add_argument("--batch_size", type=int, default=256)
-parser.add_argument("--memory_size", type=int, default=100000)
+parser.add_argument("--memory_size", type=int, default=15000)
 parser.add_argument("--no_steps", type=int, default=100000)
 parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
@@ -30,7 +30,7 @@ parser.add_argument("--save_directory", type=str, default="models/native_SAC_cat
 parser.add_argument("--interval_based_increment", type=bool, default=True,
                     help="weather to increase the factor on certain intervals or do it linearly")
 
-parser.add_argument("--rate_change_interval", type=int, default=10000)
+parser.add_argument("--rate_change_interval", type=int, default=20000)
 parser.add_argument("--l_interval_rate", type=int, default=5,
                     help="rate to increase length by for every rate change interval")
 parser.add_argument("--l_linear_rate", type=float, default=0.0005,
@@ -53,9 +53,9 @@ else:
 
 hidden_layers = args.hidden_layers
 
-q_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=hidden_layers,
+q_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=args.hidden_layers,
                           non_linearity=torch.relu, device=device, l_r=args.lr)
-policy_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=hidden_layers,
+policy_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=args.hidden_layers,
                           non_linearity=torch.relu, device=device, l_r=args.lr)
 
 algo_nn_param = Algo_Param(gamma=args.gamma, alpha=args.alpha, tau=args.tau,
@@ -73,7 +73,7 @@ save_interval = args.save_interval
 eval_interval = args.eval_interval
 save_dir = args.save_directory
 
-
+test_sample_no = 40
 
 
 test_lengths = [1.0 for i in  range(0, int(args.no_steps/args.rate_change_interval))]
@@ -114,7 +114,7 @@ for i in range(args.no_steps):
 
         for l_i, l in enumerate(test_lengths):
             rew_total = 0
-            for k in range(20):
+            for k in range(test_sample_no):
                 e = env_eval
                 e.set_length(l)
 
@@ -130,7 +130,7 @@ for i in range(args.no_steps):
                         break
                 rew_total += rew
 
-            rew_total = rew_total/10
+            rew_total = rew_total/test_sample_no
 
 
             results[l_i].append(rew_total)
