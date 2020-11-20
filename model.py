@@ -495,6 +495,15 @@ class ICM_Next_State_NN(BaseNN):
 
         return next_state_pred
 
+    def get_next_state(self, state, action, format="torch"):
+        next_state = self.forward(state, action)
+
+        if format == "torch":
+            return next_state
+        else:
+            return next_state.cpu().detach().numpy()
+
+
     def to(self, device):
         super().to(device)
         self.nn_params.device = device
@@ -535,6 +544,14 @@ class ICM_Action_NN(BaseNN):
         action_pred = self.action(inp)
 
         return action_pred
+
+    def get_action(self, state, next_state, format="torch"):
+        action =  self.forward(state, next_state)
+
+        if format == "torch":
+            return action
+        else:
+            return action.cpu().detach().numpy()
 
     def to(self, device):
         super().to(device)

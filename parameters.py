@@ -43,7 +43,8 @@ class Algo_Param_DDPG():
 class Save_Paths():
 
     def __init__(self, policy_path="policy_temp", q_path="q_temp", target_q_path="target_q_temp",
-                 v_path="v_temp", nu_path = "nu_temp", zeta_path="zeta_temp"):
+                 v_path="v_temp", nu_path = "nu_temp", zeta_path="zeta_temp",
+                 icm_n_state_path = "icm_n_state", icm_action_path = "icm_action"):
 
         self.policy_path = policy_path
         self.q_path = q_path
@@ -51,15 +52,20 @@ class Save_Paths():
         self.v_path = v_path
         self.nu_path = nu_path
         self.zeta_path = zeta_path
-
+        self.icm_n_state_path = icm_n_state_path
+        self.icm_action_path  = icm_action_path
 
 class Load_Paths():
 
     def __init__(self, policy_path="policy_temp", q_path="q_temp", target_q_path="target_q_temp",
-                 v_path="v_temp", nu_path="nu_temp", zeta_path="zeta_temp"):
+                 v_path="v_temp", nu_path="nu_temp", zeta_path="zeta_temp",
+                 icm_n_state_path = "icm_n_state", icm_action_path = "icm_action"):
+
         self.policy_path = policy_path
         self.q_path = q_path
         self.target_q_path = target_q_path
         self.v_path = v_path
         self.nu_path = nu_path
         self.zeta_path = zeta_path
+        self.icm_n_state_path = icm_n_state_path
+        self.icm_action_path = icm_action_path
