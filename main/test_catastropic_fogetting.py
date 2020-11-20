@@ -1,7 +1,10 @@
 import torch
 import numpy as np
 import argparse
+
 from algorithms.SAC import SAC
+from algorithms.SAC_w_Curiosity import SAC_with_Curiosity
+
 from parameters import Algo_Param, NN_Paramters, Save_Paths, Load_Paths
 
 from custom_envs.custom_pendulum import PendulumEnv
@@ -9,6 +12,7 @@ from custom_envs.custom_pendulum import PendulumEnv
 
 parser = argparse.ArgumentParser(description='SAC arguments')
 
+parser.add_argument("--algo", type=str, default="SAC_w_cur")
 parser.add_argument("--env", type=str, default="Pendulum-v0")
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
@@ -23,7 +27,7 @@ parser.add_argument("--save_interval", type=int, default=1000)
 parser.add_argument("--eval-interval", type=int, default=1000)
 parser.add_argument("--batch_size", type=int, default=256)
 parser.add_argument("--memory_size", type=int, default=15000)
-parser.add_argument("--no_steps", type=int, default=100000)
+parser.add_argument("--no_steps", type=int, default=50000)
 parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
 
@@ -57,16 +61,20 @@ q_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=args.hidden_la
                           non_linearity=torch.relu, device=device, l_r=args.lr)
 policy_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=args.hidden_layers,
                           non_linearity=torch.relu, device=device, l_r=args.lr)
-
+icm_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=args.hidden_layers,
+                          non_linearity=torch.relu, device=device, l_r=args.lr)
 algo_nn_param = Algo_Param(gamma=args.gamma, alpha=args.alpha, tau=args.tau,
                            target_update_interval=args.target_update_interval,
                            automatic_alpha_tuning=args.automatic_entropy_tuning)
 
-
-A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param,
+if args.algo == "SAC":
+    A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param,
         max_episodes=args.max_episodes, memory_capacity=args.memory_size,
         batch_size=args.batch_size, alpha_lr=args.lr)
-
+elif args.algo == "SAC_w_cur":
+    A = SAC_with_Curiosity(env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes=1000,
+                           memory_capacity=100000
+                           , batch_size=256, alpha_lr=0.0003)
 
 
 save_interval = args.save_interval

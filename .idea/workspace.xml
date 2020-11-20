@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/algorithms/SAC_w_Curiosity.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_alogrithms/SAC_with_curiosity_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/parameters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/test_catastropic_fogetting.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/test_catastropic_fogetting.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_alogrithms/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/policy_target" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_alogrithms/q1" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/q1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_alogrithms/q2" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/q2" afterDir="false" />
@@ -41,7 +37,7 @@
       <recent name="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.SAC_with_curiosity_test">
+  <component name="RunManager" selected="Python.test_catastropic_fogetting">
     <configuration name="SAC_w_Curiosity" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -156,11 +152,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_catastropic_fogetting" />
         <item itemvalue="Python.SAC_with_curiosity_test" />
         <item itemvalue="Python.SAC_w_Curiosity" />
         <item itemvalue="Python.test_env_change" />
         <item itemvalue="Python.plot (2)" />
-        <item itemvalue="Python.test_catastropic_fogetting" />
       </list>
     </recent_temporary>
   </component>
