@@ -484,7 +484,13 @@ class ICM_Next_State_NN(BaseNN):
 
         state = torch.Tensor(state).to(self.nn_params.device)
         action = torch.Tensor(action).to(self.nn_params.device)
-        inp = torch.cat((state, action), dim=1)
+
+        if len(state.size()) == 1:
+            inp = torch.cat((state, action), dim=0)
+        else:
+            inp = torch.cat((state, action), dim=1)
+
+
 
         for i, layer in enumerate(self.layers):
             if self.non_lin != None:
@@ -534,7 +540,11 @@ class ICM_Action_NN(BaseNN):
 
         state = torch.Tensor(state).to(self.nn_params.device)
         next_state = torch.Tensor(next_state).to(self.nn_params.device)
-        inp = torch.cat((state, next_state), dim=1)
+
+        if len(state.size()) == 1:
+            inp = torch.cat((state, next_state), dim=0)
+        else:
+            inp = torch.cat((state, next_state), dim=1)
 
         for i, layer in enumerate(self.layers):
             if self.non_lin != None:

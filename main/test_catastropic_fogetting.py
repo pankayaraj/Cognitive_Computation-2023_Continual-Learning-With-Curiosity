@@ -1,5 +1,6 @@
 import torch
 import numpy as np
+
 import argparse
 
 from algorithms.SAC import SAC
@@ -35,7 +36,7 @@ parser.add_argument("--interval_based_increment", type=bool, default=True,
                     help="weather to increase the factor on certain intervals or do it linearly")
 
 parser.add_argument("--rate_change_interval", type=int, default=20000)
-parser.add_argument("--l_interval_rate", type=int, default=5,
+parser.add_argument("--l_interval_rate", type=int, default=1,
                     help="rate to increase length by for every rate change interval")
 parser.add_argument("--l_linear_rate", type=float, default=0.0005,
                     help="rate of change for linear increase")
@@ -81,7 +82,7 @@ save_interval = args.save_interval
 eval_interval = args.eval_interval
 save_dir = args.save_directory
 
-test_sample_no = 40
+test_sample_no = 10
 
 
 test_lengths = [1.0 for i in  range(0, int(args.no_steps/args.rate_change_interval))]
@@ -100,13 +101,18 @@ state = A.initalize()
 
 for i in range(args.no_steps):
 
+
+
     if args.interval_based_increment:
         if i%args.rate_change_interval == 0:
+            print("Length Change")
             if i != 0:
-                env.set_length(length=env.l + args.l_interval_rate)
+                A.env.set_length(length=env.l + args.l_interval_rate)
+            A.log_alpha = torch.zeros(1, requires_grad=True, device=device)
+            A.alpha_optim = torch.optim.Adam([A.log_alpha], lr=A.alpha_lr)
     else:
         if i != 0:
-            env.set_length(length=env.l + args.l_linear_rate)
+            A.env.set_length(length=env.l + args.l_linear_rate)
     A.update()
 
     if i < A.batch_size:
@@ -123,7 +129,8 @@ for i in range(args.no_steps):
         for l_i, l in enumerate(test_lengths):
             rew_total = 0
             for k in range(test_sample_no):
-                e = env_eval
+                #e = env_eval
+                e = PendulumEnv()
                 e.set_length(l)
 
                 s = e.reset()

@@ -1,5 +1,6 @@
 import torch
 import numpy as np
+
 import gym
 
 from algorithms.SAC import SAC
@@ -25,7 +26,7 @@ algo_nn_param = Algo_Param(gamma=0.99, alpha=0.2, tau=0.005, target_update_inter
 
 A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=1000, memory_capacity=100000
         ,batch_size=256, alpha_lr=0.0003)
-
+#A.load("q1", "q2", "q1", "q2", "policy_target")
 
 save_interval = 1000
 eval_interval = 1000
@@ -48,7 +49,7 @@ for i in range(100000):
 
 
         rew_total = 0
-        for _ in range(40):
+        for _ in range(10):
             rew = 0
             s = e.reset()
             for j in range(A.max_episodes):
@@ -62,6 +63,6 @@ for i in range(100000):
                     break
 
             rew_total += rew
-        rew_total = rew_total/40
+        rew_total = rew_total/10
         print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) )
 torch.save(A.replay_buffer, "mem")

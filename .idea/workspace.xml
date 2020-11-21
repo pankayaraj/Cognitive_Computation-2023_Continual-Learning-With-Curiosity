@@ -2,7 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithms/SAC.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/SAC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithms/SAC_w_Curiosity.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/SAC_w_Curiosity.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC/diff_length/policy_target" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC/diff_length/q1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC/diff_length/q2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC/diff_length/replay_mem" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC/diff_length/replay_mem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC/results_mass__s_i_1000" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC/results_mass__s_i_1000" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/test_catastropic_fogetting.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/test_catastropic_fogetting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/test_env_change.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/test_env_change.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_alogrithms/SAC_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/SAC_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_alogrithms/SAC_with_curiosity_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/SAC_with_curiosity_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_alogrithms/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/policy_target" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_alogrithms/q1" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/q1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_alogrithms/q2" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/q2" afterDir="false" />
@@ -30,15 +47,15 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Test_Exsisiting/stable_baselines_test.py" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_catastropic_fogetting">
-    <configuration name="SAC_w_Curiosity" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.SAC_test">
+    <configuration name="SAC" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -50,7 +67,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithms/SAC_w_Curiosity.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithms/SAC.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -59,7 +76,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="SAC_with_curiosity_test" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
+    <configuration name="SAC_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -71,7 +88,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_alogrithms/SAC_with_curiosity_test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_alogrithms/SAC_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -80,7 +97,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="plot (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="random" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -88,11 +105,32 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/plot.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/random.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Continual-Learning-With-Curiosity" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -108,9 +146,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="$USER_HOME$/miniconda3/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/test_catastropic_fogetting.py" />
@@ -122,41 +160,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_env_change" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
-      <module name="Continual-Learning-With-Curiosity" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/test_env_change.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
+      <item itemvalue="Python.SAC_test" />
       <item itemvalue="Python.test_catastropic_fogetting" />
-      <item itemvalue="Python.plot (2)" />
-      <item itemvalue="Python.test_env_change" />
-      <item itemvalue="Python.SAC_with_curiosity_test" />
-      <item itemvalue="Python.SAC_w_Curiosity" />
+      <item itemvalue="Python.SAC" />
+      <item itemvalue="Python.random" />
+      <item itemvalue="Python.test" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.SAC_test" />
         <item itemvalue="Python.test_catastropic_fogetting" />
-        <item itemvalue="Python.SAC_with_curiosity_test" />
-        <item itemvalue="Python.SAC_w_Curiosity" />
-        <item itemvalue="Python.test_env_change" />
-        <item itemvalue="Python.plot (2)" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.random" />
+        <item itemvalue="Python.SAC" />
       </list>
     </recent_temporary>
   </component>

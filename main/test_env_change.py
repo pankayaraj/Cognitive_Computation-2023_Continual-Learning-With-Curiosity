@@ -67,7 +67,7 @@ masses = args.m
 save_interval = args.save_interval
 eval_interval = args.eval_interval
 save_dir = args.save_directory
-test_sample_no = 40
+test_sample_no = 10
 
 #results
 results = [[] for i in range(len(gravities))]
@@ -93,13 +93,12 @@ for i in range(args.no_steps):
         #for m_i, m in enumerate(masses):
         for l_i, l in enumerate(lengths):
             rew_total = 0
+            e = PendulumEnv()
+
+            # e.set_gravity(g)
+            # e.set_mass(m)
+            e.set_length(l)
             for k in range(test_sample_no):
-                e = env_eval
-
-                #e.set_gravity(g)
-                #e.set_mass(m)
-                e.set_length(l)
-
                 s = e.reset()
                 rew = 0
                 for j in range(A.max_episodes):

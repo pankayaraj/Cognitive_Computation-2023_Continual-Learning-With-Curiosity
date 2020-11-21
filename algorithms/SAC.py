@@ -117,17 +117,9 @@ class SAC():
         q2_loss.backward()
         self.critic_2_optim.step()
 
+
         pi, log_pi, _ = self.policy.sample(state_batch)
 
-        q1_pi = self.critic_1.get_value(state_batch, pi)
-        q2_pi = self.critic_2.get_value(state_batch, pi)
-        min_q_pi = torch.min(q1_pi, q2_pi)
-
-        policy_loss = ((self.alpha*log_pi) - min_q_pi).mean()
-
-        self.policy_optim.zero_grad()
-        policy_loss.backward()
-        self.policy_optim.step()
 
         if self.automatic_alpha_tuning:
             alpha_loss = -(self.log_alpha * (log_pi + self.target_entropy).detach()).mean()
@@ -135,7 +127,22 @@ class SAC():
             alpha_loss.backward()
             self.alpha_optim.step()
 
-            self.alpha = self.log_alpha.exp()
+            self.alpha = self.log_alpha.exp().detach()
+
+
+        q1_pi = self.critic_1.get_value(state_batch, pi)
+        q2_pi = self.critic_2.get_value(state_batch, pi)
+        min_q_pi = torch.min(q1_pi, q2_pi)
+
+
+
+        policy_loss = ((self.alpha*log_pi) - min_q_pi).mean()
+
+        self.policy_optim.zero_grad()
+        policy_loss.backward()
+        self.policy_optim.step()
+
+
 
         if self.update_no%self.target_update_interval == 0:
 
@@ -188,8 +195,8 @@ class SAC():
 
         self.critic_1.save(critic_1_path)
         self.critic_2.save(critic_2_path)
-        self.critic_target_1.save(critic_1_path)
-        self.critic_target_2.save(critic_2_path)
+        self.critic_target_1.save(critic_2_target_path)
+        self.critic_target_2.save(critic_2_target_path)
         self.policy.save(policy_path)
 
     def load(self, critic_1_path="critic_1", critic_2_path="critic_2",

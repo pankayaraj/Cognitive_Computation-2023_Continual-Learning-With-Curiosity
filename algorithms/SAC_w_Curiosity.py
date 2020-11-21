@@ -8,8 +8,12 @@ from util.replay_buffer import Replay_Memory
 
 class Debug():
     def __init__(self):
-        self.icm_next_state_loss = None
-        self.icm_action_loss = None
+        self.icm_next_state_loss = 0
+        self.icm_action_loss = 0
+
+        self.f_icm_r = 0
+        self.i_icm_r = 0
+
 
 
 class SAC_with_Curiosity():
@@ -26,7 +30,7 @@ class SAC_with_Curiosity():
         self.algo_nn_param = algo_nn_param
         self.icm_nn_param = icm_nn_param
 
-
+        self.alpha_lr = alpha_lr
         self.gamma = self.algo_nn_param.gamma
         self.alpha = self.algo_nn_param.alpha
         self.tau   = self.algo_nn_param.tau
@@ -151,6 +155,16 @@ class SAC_with_Curiosity():
         #policy update
         pi, log_pi, _ = self.policy.sample(state_batch)
 
+        # alpha update
+        if self.automatic_alpha_tuning:
+            alpha_loss = -(self.log_alpha * (log_pi + self.target_entropy).detach()).mean()
+            self.alpha_optim.zero_grad()
+            alpha_loss.backward()
+            self.alpha_optim.step()
+
+            self.alpha = self.log_alpha.exp().detach()
+
+
         q1_pi = self.critic_1.get_value(state_batch, pi)
         q2_pi = self.critic_2.get_value(state_batch, pi)
         min_q_pi = torch.min(q1_pi, q2_pi)
@@ -161,20 +175,16 @@ class SAC_with_Curiosity():
         f_icm_r = torch.nn.functional.mse_loss(p_n_s, torch.FloatTensor(next_state_batch))
         i_icm_r = torch.nn.functional.mse_loss(p_a, pi)
 
-        policy_loss = ((self.alpha*log_pi) - min_q_pi - f_icm_r - i_icm_r).mean()
+        self.debug.f_icm_r = f_icm_r
+        self.debug.i_icm_r =  i_icm_r
+
+        policy_loss = ((self.alpha*log_pi) - min_q_pi - f_icm_r ).mean()
 
         self.policy_optim.zero_grad()
         policy_loss.backward()
         self.policy_optim.step()
 
-        #alpha update
-        if self.automatic_alpha_tuning:
-            alpha_loss = -(self.log_alpha * (log_pi + self.target_entropy).detach()).mean()
-            self.alpha_optim.zero_grad()
-            alpha_loss.backward()
-            self.alpha_optim.step()
 
-            self.alpha = self.log_alpha.exp()
 
 
 
@@ -242,3 +252,13 @@ class SAC_with_Curiosity():
         self.critic_target_1.load(critic_1_target_path)
         self.critic_target_2.load(critic_2_target_path)
         self.policy.load(policy_path)
+
+    def get_curiosity_rew(self, state, action, next_state):
+
+        p_n_s = self.icm_nxt_state.get_next_state(state, action )
+        p_a = self.icm_action.get_action(state, next_state)
+
+        f_icm_r = torch.nn.functional.mse_loss(p_n_s, torch.FloatTensor(next_state))
+        i_icm_r = torch.nn.functional.mse_loss(p_a, torch.FloatTensor(action))
+
+        return f_icm_r, i_icm_r
