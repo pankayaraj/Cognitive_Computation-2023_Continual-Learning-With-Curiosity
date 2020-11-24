@@ -5,13 +5,19 @@ import gym
 
 from algorithms.SAC import SAC
 from parameters import Algo_Param, NN_Paramters, Load_Paths, Save_Paths
+from custom_envs.custom_pendulum import PendulumEnv
 
-
-env = gym.make("Pendulum-v0")
-env_eval = gym.make("Pendulum-v0")
+#env = gym.make("Pendulum-v0")
+#env_eval = gym.make("Pendulum-v0")
 
 #env = gym.make("MountainCarContinuous-v0")
 #env_eval = gym.make("MountainCarContinuous-v0")
+
+env = PendulumEnv()
+env_eval = PendulumEnv()
+
+env.l = 1.4
+env_eval.l  = 1.4
 
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.shape[0]
@@ -26,7 +32,7 @@ algo_nn_param = Algo_Param(gamma=0.99, alpha=0.2, tau=0.005, target_update_inter
 
 A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=1000, memory_capacity=100000
         ,batch_size=256, alpha_lr=0.0003)
-#A.load("q1", "q2", "q1", "q2", "policy_target")
+A.load("q1", "q2", "q1", "q2", "policy_target")
 
 save_interval = 1000
 eval_interval = 1000
@@ -42,7 +48,8 @@ for i in range(100000):
     else:
         state = A.step(state, random=False)
     if i%save_interval==0:
-        A.save("q1", "q2", "q1_target", "q2_target", "policy_target")
+        #A.save("q1", "q2", "q1_target", "q2_target", "policy_target")
+        pass
     if i%eval_interval==0:
 
         e = env_eval

@@ -106,7 +106,8 @@ class Continuous_Gaussian_Policy(BaseNN):
 
     def forward(self, state):
 
-        state = torch.Tensor(state).to(self.nn_params.device)
+        if type(state) != torch.Tensor:
+            state = torch.Tensor(state).to(self.nn_params.device)
         self.batch_size = state.size()[0]
         inp = state
         for i, layer in enumerate(self.layers):
@@ -179,7 +180,8 @@ class DDPG_Policy(BaseNN):
 
     def forward(self, state):
 
-        state = torch.Tensor(state).to(self.nn_params.device)
+        if type(state) != torch.Tensor:
+            state = torch.Tensor(state).to(self.nn_params.device)
         self.batch_size = state.size()[0]
         inp = state
         for i, layer in enumerate(self.layers):
@@ -241,7 +243,8 @@ class DiscretePolicyNN(BaseNN):
 
     def forward(self, state):
 
-        state = torch.Tensor(state).to(self.nn_params.device)
+        if type(state) != torch.Tensor:
+            state = torch.Tensor(state).to(self.nn_params.device)
         self.batch_size = state.size()[0]
         inp = state
         for i, layer in enumerate(self.layers):
@@ -336,8 +339,10 @@ class Q_Function_NN(BaseNN):
 
     def forward(self, state, action):
 
-        state = torch.Tensor(state).to(self.nn_params.device)
-        action = torch.Tensor(action).to(self.nn_params.device)
+        if type(state) != torch.Tensor:
+            state = torch.Tensor(state).to(self.nn_params.device)
+        if type(action) != torch.Tensor:
+            action = torch.Tensor(action).to(self.nn_params.device)
 
         inp = torch.cat((state, action), dim= 1)
 
@@ -387,8 +392,10 @@ class Value_Function_NN(BaseNN):
 
     def forward(self, state):
 
-        inp = torch.Tensor(state).to(self.nn_params.device)
-
+        if type(state) != torch.Tensor:
+            inp = torch.Tensor(state).to(self.nn_params.device)
+        else:
+            inp = state
 
         for i, layer in enumerate(self.layers):
             if self.non_lin != None:
@@ -437,8 +444,8 @@ class Discrete_Q_Function_NN(BaseNN):
         self.to(self.nn_params.device)
 
     def forward(self, state):
-
-        state = torch.Tensor(state).to(self.nn_params.device)
+        if type(state) != torch.Tensor:
+            state = torch.Tensor(state).to(self.nn_params.device)
         inp = state
 
         for i, layer in enumerate(self.layers):
@@ -481,9 +488,11 @@ class ICM_Next_State_NN(BaseNN):
         self.to(self.nn_params.device)
 
     def forward(self, state, action):
+        if type(state) != torch.Tensor:
+            state = torch.Tensor(state).to(self.nn_params.device)
+        if type(action) != torch.Tensor:
+            action = torch.Tensor(action).to(self.nn_params.device)
 
-        state = torch.Tensor(state).to(self.nn_params.device)
-        action = torch.Tensor(action).to(self.nn_params.device)
 
         if len(state.size()) == 1:
             inp = torch.cat((state, action), dim=0)
@@ -537,9 +546,11 @@ class ICM_Action_NN(BaseNN):
         self.to(self.nn_params.device)
 
     def forward(self, state, next_state):
+        if type(state) != torch.Tensor:
+            state = torch.Tensor(state).to(self.nn_params.device)
+        if type(next_state) != torch.Tensor:
+            next_state = torch.Tensor(next_state).to(self.nn_params.device)
 
-        state = torch.Tensor(state).to(self.nn_params.device)
-        next_state = torch.Tensor(next_state).to(self.nn_params.device)
 
         if len(state.size()) == 1:
             inp = torch.cat((state, next_state), dim=0)

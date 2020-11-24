@@ -17,6 +17,7 @@ class SAC():
         self.env = env
         self.device = q_nn_param.device
 
+        self.alpha_lr = alpha_lr
         self.q_nn_param = q_nn_param
         self.policy_nn_param = policy_nn_param
         self.algo_nn_param = algo_nn_param
@@ -58,7 +59,6 @@ class SAC():
 
         self.replay_buffer = Replay_Memory(capacity=memory_capacity)
 
-
     def get_action(self, state, evaluate=False):
 
         action, log_prob, action_mean = self.policy.sample(state, format="torch")
@@ -66,7 +66,7 @@ class SAC():
         if evaluate == False:
             return action.cpu().detach().numpy()
         else:
-            return action_mean.detach().numpy()
+            return action_mean.cpu().detach().numpy()
 
     def initalize(self):
 
@@ -93,8 +93,8 @@ class SAC():
         state_batch = batch.state
         action_batch = batch.action
         next_state_batch = batch.next_state
-        reward_batch = torch.FloatTensor(batch.reward).unsqueeze(1)
-        done_mask_batch = torch.FloatTensor(batch.done_mask).unsqueeze(1)
+        reward_batch = torch.FloatTensor(batch.reward).unsqueeze(1).to(self.q_nn_param.device)
+        done_mask_batch = torch.FloatTensor(batch.done_mask).unsqueeze(1).to(self.q_nn_param.device)
 
         with torch.no_grad():
             next_action_batch, next_log_prob_batch, _ = self.policy.sample(next_state_batch, format="torch")

@@ -3,6 +3,7 @@ import numpy as np
 import argparse
 from algorithms.SAC import SAC
 from parameters import Algo_Param, NN_Paramters, Save_Paths, Load_Paths
+import gym
 
 from custom_envs.custom_pendulum import PendulumEnv
 
@@ -28,8 +29,8 @@ parser.add_argument("--no_steps", type=int, default=30000)
 parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC/diff_length")
 parser.add_argument("--g", type=list, default=[10., 8., 6., 2.], help="list of gravities to try on the env to emulate CL")
-parser.add_argument("--l", type=list, default=[1., 2., 10., 20.], help="list of length to try on the env to emulate CL")
-parser.add_argument("--m", type=list, default=[1., 2., 10., 20.], help="list of masses to try on the env to emulate CL")
+parser.add_argument("--l", type=list, default=[1., 1.2, 1.4, 1.6], help="list of length to try on the env to emulate CL")
+parser.add_argument("--m", type=list, default=[1., 1.2, 1.4, 1.6], help="list of masses to try on the env to emulate CL")
 args = parser.parse_args()
 
 env, env_eval = None, None
@@ -38,6 +39,7 @@ if args.env == "Pendulum-v0":
     env_eval = PendulumEnv()
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.shape[0]
+
 
 if args.cuda:
     device = torch.device("cuda")

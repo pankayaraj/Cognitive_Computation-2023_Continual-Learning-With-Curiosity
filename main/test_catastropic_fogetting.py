@@ -13,32 +13,32 @@ from custom_envs.custom_pendulum import PendulumEnv
 
 parser = argparse.ArgumentParser(description='SAC arguments')
 
-parser.add_argument("--algo", type=str, default="SAC_w_cur")
+parser.add_argument("--algo", type=str, default="SAC")
 parser.add_argument("--env", type=str, default="Pendulum-v0")
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
 parser.add_argument("--lr", type=float, default=0.0003)
 parser.add_argument("--alpha", type=float, default=0.2)
 parser.add_argument("--gamma", type=float, default=0.99)
-parser.add_argument("--cuda", type=bool, default=False)
+parser.add_argument("--cuda", type=bool, default=True)
 parser.add_argument("--tau", type=float, default=0.005)
 parser.add_argument("--automatic_entropy_tuning", type=bool, default=True)
 parser.add_argument("--target_update_interval", type=int, default=1)
 parser.add_argument("--save_interval", type=int, default=1000)
 parser.add_argument("--eval-interval", type=int, default=1000)
 parser.add_argument("--batch_size", type=int, default=256)
-parser.add_argument("--memory_size", type=int, default=15000)
-parser.add_argument("--no_steps", type=int, default=50000)
+parser.add_argument("--memory_size", type=int, default=90000)
+parser.add_argument("--no_steps", type=int, default=90000)
 parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
 
-parser.add_argument("--interval_based_increment", type=bool, default=True,
+parser.add_argument("--interval_based_increment", type=bool, default=False,
                     help="weather to increase the factor on certain intervals or do it linearly")
 
-parser.add_argument("--rate_change_interval", type=int, default=20000)
-parser.add_argument("--l_interval_rate", type=int, default=1,
+parser.add_argument("--rate_change_interval", type=int, default=30000)
+parser.add_argument("--l_interval_rate", type=int, default=0.4,
                     help="rate to increase length by for every rate change interval")
-parser.add_argument("--l_linear_rate", type=float, default=0.0005,
+parser.add_argument("--l_linear_rate", type=float, default=1.3e-5,
                     help="rate of change for linear increase")
 
 
@@ -73,9 +73,9 @@ if args.algo == "SAC":
         max_episodes=args.max_episodes, memory_capacity=args.memory_size,
         batch_size=args.batch_size, alpha_lr=args.lr)
 elif args.algo == "SAC_w_cur":
-    A = SAC_with_Curiosity(env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes=1000,
-                           memory_capacity=100000
-                           , batch_size=256, alpha_lr=0.0003)
+    A = SAC_with_Curiosity(env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes=args.max_episodes,
+                           memory_capacity=args.memory_size
+                           , batch_size=args.batch_size, alpha_lr=args.lr)
 
 
 save_interval = args.save_interval
@@ -108,8 +108,8 @@ for i in range(args.no_steps):
             print("Length Change")
             if i != 0:
                 A.env.set_length(length=env.l + args.l_interval_rate)
-            A.log_alpha = torch.zeros(1, requires_grad=True, device=device)
-            A.alpha_optim = torch.optim.Adam([A.log_alpha], lr=A.alpha_lr)
+            #A.log_alpha = torch.zeros(1, requires_grad=True, device=device)
+            #A.alpha_optim = torch.optim.Adam([A.log_alpha], lr=A.alpha_lr)
     else:
         if i != 0:
             A.env.set_length(length=env.l + args.l_linear_rate)
@@ -129,8 +129,8 @@ for i in range(args.no_steps):
         for l_i, l in enumerate(test_lengths):
             rew_total = 0
             for k in range(test_sample_no):
-                #e = env_eval
-                e = PendulumEnv()
+                e = env_eval
+                #e = PendulumEnv()
                 e.set_length(l)
 
                 s = e.reset()
@@ -154,4 +154,4 @@ for i in range(args.no_steps):
             print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
 
 torch.save(A.replay_buffer, save_dir + "/replay_mem")
-torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) )
+torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval))

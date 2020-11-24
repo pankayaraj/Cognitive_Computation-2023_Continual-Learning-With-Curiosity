@@ -81,7 +81,7 @@ class SAC_with_Curiosity():
         if evaluate == False:
             return action.cpu().detach().numpy()
         else:
-            return action_mean.detach().numpy()
+            return action_mean.cpu().detach().numpy()
 
     def initalize(self):
 
@@ -108,8 +108,8 @@ class SAC_with_Curiosity():
         state_batch = batch.state
         action_batch = batch.action
         next_state_batch = batch.next_state
-        reward_batch = torch.FloatTensor(batch.reward).unsqueeze(1)
-        done_mask_batch = torch.FloatTensor(batch.done_mask).unsqueeze(1)
+        reward_batch = torch.FloatTensor(batch.reward).unsqueeze(1).to(self.q_nn_param.device)
+        done_mask_batch = torch.FloatTensor(batch.done_mask).unsqueeze(1).to(self.q_nn_param.device)
 
         #critic update
         with torch.no_grad():
