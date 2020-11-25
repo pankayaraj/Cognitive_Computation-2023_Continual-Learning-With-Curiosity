@@ -113,6 +113,9 @@ for i in range(args.no_steps):
     else:
         if i != 0:
             A.env.set_length(length=env.l + args.l_linear_rate)
+        if i%args.memory_size:
+            A.log_alpha = torch.zeros(1, requires_grad=True, device=device)
+            A.alpha_optim = torch.optim.Adam([A.log_alpha], lr=A.alpha_lr)
     A.update()
 
     if i < A.batch_size:
