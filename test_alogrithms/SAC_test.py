@@ -16,23 +16,26 @@ from custom_envs.custom_pendulum import PendulumEnv
 env = PendulumEnv()
 env_eval = PendulumEnv()
 
-env.l = 1.4
-env_eval.l  = 1.4
+seed = env.seed()[0]
+env_eval.seed(seed)
+
+env.l = 1.
+env_eval.l  = 1.
 
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.shape[0]
 
 q_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256, 256],
-                          non_linearity=torch.relu, device=torch.device("cpu"), l_r=0.003)
+                          non_linearity=torch.relu, device=torch.device("cuda"), l_r=0.003)
 policy_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256, 256],
-                          non_linearity=torch.relu, device=torch.device("cpu"), l_r=0.003)
+                          non_linearity=torch.relu, device=torch.device("cuda"), l_r=0.003)
 
 algo_nn_param = Algo_Param(gamma=0.99, alpha=0.2, tau=0.005, target_update_interval=1, automatic_alpha_tuning=True)
 
 
 A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=1000, memory_capacity=100000
         ,batch_size=256, alpha_lr=0.0003)
-A.load("q1", "q2", "q1", "q2", "policy_target")
+#A.load("q1", "q2", "q1", "q2", "policy_target")
 
 save_interval = 1000
 eval_interval = 1000

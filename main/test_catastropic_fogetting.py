@@ -27,18 +27,18 @@ parser.add_argument("--target_update_interval", type=int, default=1)
 parser.add_argument("--save_interval", type=int, default=1000)
 parser.add_argument("--eval-interval", type=int, default=1000)
 parser.add_argument("--batch_size", type=int, default=256)
-parser.add_argument("--memory_size", type=int, default=90000)
+parser.add_argument("--memory_size", type=int, default=10000)
 parser.add_argument("--no_steps", type=int, default=90000)
 parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
 
-parser.add_argument("--interval_based_increment", type=bool, default=True,
+parser.add_argument("--interval_based_increment", type=bool, default=False,
                     help="weather to increase the factor on certain intervals or do it linearly")
 
 parser.add_argument("--rate_change_interval", type=int, default=30000)
 parser.add_argument("--l_interval_rate", type=int, default=0.4,
                     help="rate to increase length by for every rate change interval")
-parser.add_argument("--l_linear_rate", type=float, default=1.3e-5,
+parser.add_argument("--l_linear_rate", type=float, default=65e-7,
                     help="rate of change for linear increase")
 
 
@@ -154,4 +154,4 @@ for i in range(args.no_steps):
             print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
 
 torch.save(A.replay_buffer, save_dir + "/replay_mem")
-torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_4")
+torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_3")

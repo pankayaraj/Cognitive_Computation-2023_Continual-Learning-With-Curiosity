@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2543fa0c-92d8-4b88-8da8-6ad59702920a" name="Default Changelist" comment="" />
+    <list default="true" id="2543fa0c-92d8-4b88-8da8-6ad59702920a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/curiosity_False_linear_True_m_s_50000__restart_alpha_False/results_length__s_i_1000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/curiosity_False_linear_True_m_s_90000__restart_alpha_False/length.png" beforeDir="false" afterPath="$PROJECT_DIR$/curiosity_False_linear_True_m_s_90000__restart_alpha_False/length.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/curiosity_False_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_1" beforeDir="false" afterPath="$PROJECT_DIR$/curiosity_False_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/curiosity_False_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_2" beforeDir="false" afterPath="$PROJECT_DIR$/curiosity_False_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/curiosity_False_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_3" beforeDir="false" afterPath="$PROJECT_DIR$/curiosity_False_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/curiosity_False_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q2_target" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q2_target" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" beforeDir="false" afterPath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" beforeDir="false" afterPath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/test_catastropic_fogetting.py" beforeDir="false" afterPath="$PROJECT_DIR$/../main/test_catastropic_fogetting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test_alogrithms/SAC_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../test_alogrithms/SAC_test.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1kjuYDCj1nWsFxC6lNerIQ94nui" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -15,6 +39,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
@@ -58,6 +83,7 @@
       <option name="presentableId" value="Default" />
       <updated>1606226366985</updated>
       <workItem from="1606226368308" duration="6744000" />
+      <workItem from="1606293352869" duration="2654000" />
     </task>
     <servers />
   </component>
@@ -65,24 +91,25 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1478" height="208" key="GridCell.Tab.0.bottom" timestamp="1606276024788">
+    <state width="1478" height="208" key="GridCell.Tab.0.bottom" timestamp="1606304221175">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="208" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606276024788" />
-    <state width="1478" height="208" key="GridCell.Tab.0.center" timestamp="1606276024787">
+    <state width="1478" height="208" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606304221175" />
+    <state width="1478" height="208" key="GridCell.Tab.0.center" timestamp="1606304221175">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="208" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606276024787" />
-    <state width="1478" height="208" key="GridCell.Tab.0.left" timestamp="1606276024787">
+    <state width="1478" height="208" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606304221175" />
+    <state width="1478" height="208" key="GridCell.Tab.0.left" timestamp="1606304221175">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="208" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606276024787" />
-    <state width="1478" height="208" key="GridCell.Tab.0.right" timestamp="1606276024788">
+    <state width="1478" height="208" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606304221175" />
+    <state width="1478" height="208" key="GridCell.Tab.0.right" timestamp="1606304221175">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="208" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606276024788" />
+    <state width="1478" height="208" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606304221175" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Results_Main$plot.coverage" NAME="plot Coverage Results" MODIFIED="1606304221168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/BackUpResults$plot.coverage" NAME="plot Coverage Results" MODIFIED="1606276024780" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
