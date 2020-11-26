@@ -14,6 +14,11 @@ class Debug():
         self.f_icm_r = 0
         self.i_icm_r = 0
 
+    def print_all(self):
+        print("ICM_LOSS = " + str(self.icm_next_state_loss.item()) + " , " + str(self.icm_action_loss.item())
+              + " I_rew = " + str(self.f_icm_r.item())
+              + ", " + str(self.i_icm_r.item()) )
+
 
 
 class SAC_with_Curiosity():
@@ -138,8 +143,8 @@ class SAC_with_Curiosity():
         pred_action = self.icm_action.get_action(state_batch, next_state_batch, format="torch")
 
 
-        icm_next_state_loss = 0.5*torch.nn.functional.mse_loss(pred_next_state, torch.FloatTensor(next_state_batch))
-        icm_action_loss = 0.5*torch.nn.functional.mse_loss(pred_action, torch.FloatTensor(action_batch))
+        icm_next_state_loss = 0.5*torch.nn.functional.mse_loss(pred_next_state, torch.FloatTensor(next_state_batch).to(self.icm_nn_param.device))
+        icm_action_loss = 0.5*torch.nn.functional.mse_loss(pred_action, torch.FloatTensor(action_batch).to(self.icm_nn_param.device))
 
         self.icm_nxt_state_optim.zero_grad()
         icm_next_state_loss.backward()
@@ -172,13 +177,14 @@ class SAC_with_Curiosity():
         p_n_s = self.icm_nxt_state.get_next_state(state_batch, pi)
         p_a = self.icm_action.get_action(state_batch, next_state_batch)
 
-        f_icm_r = torch.nn.functional.mse_loss(p_n_s, torch.FloatTensor(next_state_batch))
-        i_icm_r = torch.nn.functional.mse_loss(p_a, pi)
+        with torch.no_grad():
+            f_icm_r = torch.nn.functional.mse_loss(p_n_s, torch.FloatTensor(next_state_batch).to(self.icm_nn_param.device))
+            i_icm_r = torch.nn.functional.mse_loss(p_a, pi)
 
         self.debug.f_icm_r = f_icm_r
         self.debug.i_icm_r =  i_icm_r
 
-        policy_loss = ((self.alpha*log_pi) - min_q_pi - f_icm_r ).mean()
+        policy_loss = ((self.alpha*log_pi) - min_q_pi - 1000*f_icm_r - i_icm_r ).mean()
 
         self.policy_optim.zero_grad()
         policy_loss.backward()

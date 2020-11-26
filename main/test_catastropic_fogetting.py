@@ -13,7 +13,7 @@ from custom_envs.custom_pendulum import PendulumEnv
 
 parser = argparse.ArgumentParser(description='SAC arguments')
 
-parser.add_argument("--algo", type=str, default="SAC")
+parser.add_argument("--algo", type=str, default="SAC_w_cur")
 parser.add_argument("--env", type=str, default="Pendulum-v0")
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
@@ -27,16 +27,16 @@ parser.add_argument("--target_update_interval", type=int, default=1)
 parser.add_argument("--save_interval", type=int, default=1000)
 parser.add_argument("--eval-interval", type=int, default=1000)
 parser.add_argument("--batch_size", type=int, default=256)
-parser.add_argument("--memory_size", type=int, default=10000)
+parser.add_argument("--memory_size", type=int, default=90000)
 parser.add_argument("--no_steps", type=int, default=90000)
 parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
 
-parser.add_argument("--interval_based_increment", type=bool, default=False,
+parser.add_argument("--interval_based_increment", type=bool, default=True,
                     help="weather to increase the factor on certain intervals or do it linearly")
 
 parser.add_argument("--rate_change_interval", type=int, default=30000)
-parser.add_argument("--l_interval_rate", type=int, default=0.4,
+parser.add_argument("--l_interval_rate", type=int, default=0.2,
                     help="rate to increase length by for every rate change interval")
 parser.add_argument("--l_linear_rate", type=float, default=65e-7,
                     help="rate of change for linear increase")
@@ -113,9 +113,11 @@ for i in range(args.no_steps):
     else:
         if i != 0:
             A.env.set_length(length=env.l + args.l_linear_rate)
-        if i%args.memory_size:
-            A.log_alpha = torch.zeros(1, requires_grad=True, device=device)
-            A.alpha_optim = torch.optim.Adam([A.log_alpha], lr=A.alpha_lr)
+
+    if i%args.memory_size:
+        #A.log_alpha = torch.zeros(1, requires_grad=True, device=device)
+        #A.alpha_optim = torch.optim.Adam([A.log_alpha], lr=A.alpha_lr)
+        pass
     A.update()
 
     if i < A.batch_size:
@@ -126,8 +128,10 @@ for i in range(args.no_steps):
         A.save(save_dir+"/q1", save_dir+"/q2",
                save_dir+"/q1_target", save_dir+"/q2_target",
                save_dir+"/policy_target")
-    if i%eval_interval==0:
 
+
+    if i%eval_interval==0:
+        A.debug.print_all()
 
         for l_i, l in enumerate(test_lengths):
             rew_total = 0
