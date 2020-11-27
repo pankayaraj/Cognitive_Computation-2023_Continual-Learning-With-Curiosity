@@ -2,10 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_True_m_s_90000__restart_alpha_False - Copy/length.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_True_m_s_90000__restart_alpha_False - Copy/results_length__s_i_1000_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_True_m_s_90000__restart_alpha_False - Copy/results_length__s_i_1000_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_True_m_s_90000__restart_alpha_False - Copy/results_length__s_i_1000_3" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/test_catastropic_fogetting.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/test_catastropic_fogetting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +193,7 @@
       <workItem from="1606312497983" duration="61000" />
       <workItem from="1606312724634" duration="5912000" />
       <workItem from="1606321860309" duration="939000" />
-      <workItem from="1606384125772" duration="15810000" />
+      <workItem from="1606384125772" duration="16735000" />
     </task>
     <servers />
   </component>
@@ -204,22 +213,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="170" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1606314658473" />
-    <state width="1478" height="204" key="GridCell.Tab.0.bottom" timestamp="1606418306530">
+    <state width="1478" height="204" key="GridCell.Tab.0.bottom" timestamp="1606435237148">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="204" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606418306530" />
-    <state width="1478" height="204" key="GridCell.Tab.0.center" timestamp="1606418306530">
+    <state width="1478" height="204" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606435237148" />
+    <state width="1478" height="204" key="GridCell.Tab.0.center" timestamp="1606435237148">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="204" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606418306530" />
-    <state width="1478" height="204" key="GridCell.Tab.0.left" timestamp="1606418306529">
+    <state width="1478" height="204" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606435237148" />
+    <state width="1478" height="204" key="GridCell.Tab.0.left" timestamp="1606435237148">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="204" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606418306529" />
-    <state width="1478" height="204" key="GridCell.Tab.0.right" timestamp="1606418306530">
+    <state width="1478" height="204" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606435237148" />
+    <state width="1478" height="204" key="GridCell.Tab.0.right" timestamp="1606435237148">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="204" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606418306530" />
+    <state width="1478" height="204" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606435237148" />
     <state x="279" y="58" key="SettingsEditor" timestamp="1606089369432">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
