@@ -7,14 +7,14 @@ from algorithms.SAC import SAC
 from parameters import Algo_Param, NN_Paramters, Load_Paths, Save_Paths
 from custom_envs.custom_pendulum import PendulumEnv
 
-#env = gym.make("Pendulum-v0")
-#env_eval = gym.make("Pendulum-v0")
+env = gym.make("Pendulum-v0")
+env_eval = gym.make("Pendulum-v0")
 
 #env = gym.make("MountainCarContinuous-v0")
 #env_eval = gym.make("MountainCarContinuous-v0")
 
-env = PendulumEnv()
-env_eval = PendulumEnv()
+#env = PendulumEnv()
+#env_eval = PendulumEnv()
 
 seed = env.seed()[0]
 env_eval.seed(seed)
@@ -33,7 +33,7 @@ policy_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256, 256
 algo_nn_param = Algo_Param(gamma=0.99, alpha=0.2, tau=0.005, target_update_interval=1, automatic_alpha_tuning=True)
 
 
-A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=1000, memory_capacity=100000
+A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=200, memory_capacity=100000
         ,batch_size=256, alpha_lr=0.0003)
 #A.load("q1", "q2", "q1", "q2", "policy_target")
 

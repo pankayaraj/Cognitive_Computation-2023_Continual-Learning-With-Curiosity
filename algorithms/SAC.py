@@ -64,7 +64,7 @@ class SAC():
         action, log_prob, action_mean = self.policy.sample(state, format="torch")
 
         if evaluate == False:
-            return action.cpu().detach().numpy()
+            return action.cpu().detach().numpy(), action_mean.cpu().detach().numpy()
         else:
             return action_mean.cpu().detach().numpy()
 
@@ -155,8 +155,9 @@ class SAC():
 
         if random:
             action = self.env.action_space.sample()
+            action_mean = action
         else:
-            action = self.get_action(state, evaluate=False)
+            action, action_mean = self.get_action(state, evaluate=False)
 
         next_state, reward, done, _ = self.env.step(action)
 
@@ -165,20 +166,20 @@ class SAC():
 
         if done:
             mask = 0.0
-            self.replay_buffer.push(state, action, reward, next_state, mask)
+            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask)
             next_state = self.env.reset()
             self.steps_per_eps = 0
             return next_state
 
         if self.steps_per_eps == self.max_episodes:
             mask = 1.0
-            self.replay_buffer.push(state, action, reward, next_state, mask)
+            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask)
             next_state = self.env.reset()
             self.steps_per_eps = 0
             return next_state
         mask = 1.0
 
-        self.replay_buffer.push(state, action, reward, next_state, mask)
+        self.replay_buffer.push(state, action, action_mean, reward, next_state, mask)
         return next_state
 
     def hard_update(self):

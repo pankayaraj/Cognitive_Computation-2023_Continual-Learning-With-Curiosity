@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2543fa0c-92d8-4b88-8da8-6ad59702920a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../custom_envs/custom_mountain_car.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/curiosity_True_linear_True_m_s_90000__restart_alpha_False - Copy/length.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/curiosity_True_linear_True_m_s_90000__restart_alpha_False - Copy/results_length__s_i_1000_1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/curiosity_True_linear_True_m_s_90000__restart_alpha_False - Copy/results_length__s_i_1000_2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/curiosity_True_linear_True_m_s_90000__restart_alpha_False - Copy/results_length__s_i_1000_3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" beforeDir="false" afterPath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" beforeDir="false" afterPath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" beforeDir="false" afterPath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test_alogrithms/SAC_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../test_alogrithms/SAC_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,6 +72,8 @@
       <workItem from="1606312724633" duration="1892000" />
       <workItem from="1606321860334" duration="677000" />
       <workItem from="1606384124461" duration="2779000" />
+      <workItem from="1606446991697" duration="1226000" />
+      <workItem from="1606529998705" duration="1615000" />
     </task>
     <servers />
   </component>
@@ -108,10 +101,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1478" height="208" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606435188960" />
-    <state x="477" y="240" key="com.intellij.ide.util.TipDialog" timestamp="1606339271792">
+    <state x="477" y="240" key="com.intellij.ide.util.TipDialog" timestamp="1606448450048">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="477" y="240" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1606339271792" />
+    <state x="477" y="240" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1606448450048" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Results_Main$plot.coverage" NAME="plot Coverage Results" MODIFIED="1606435188951" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
