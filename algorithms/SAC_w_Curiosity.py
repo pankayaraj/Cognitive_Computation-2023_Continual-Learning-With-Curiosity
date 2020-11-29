@@ -112,6 +112,7 @@ class SAC_with_Curiosity():
 
         state_batch = batch.state
         action_batch = batch.action
+        action_mean_batch = batch.action_mean
         next_state_batch = batch.next_state
         reward_batch = torch.FloatTensor(batch.reward).unsqueeze(1).to(self.q_nn_param.device)
         done_mask_batch = torch.FloatTensor(batch.done_mask).unsqueeze(1).to(self.q_nn_param.device)
@@ -158,7 +159,7 @@ class SAC_with_Curiosity():
         self.debug.icm_action_loss = icm_action_loss
 
         #policy update
-        pi, log_pi, _ = self.policy.sample(state_batch)
+        pi, log_pi, pi_m = self.policy.sample(state_batch)
 
         # alpha update
         if self.automatic_alpha_tuning:

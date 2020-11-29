@@ -2,15 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2543fa0c-92d8-4b88-8da8-6ad59702920a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../custom_envs/custom_mountain_car.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plot_comparision.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../test_alogrithms/SAC_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../test_alogrithms/SAC_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../algorithms/SAC_w_Curiosity.py" beforeDir="false" afterPath="$PROJECT_DIR$/../algorithms/SAC_w_Curiosity.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" beforeDir="false" afterPath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test_alogrithms/mem" beforeDir="false" afterPath="$PROJECT_DIR$/../test_alogrithms/mem" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -73,7 +86,7 @@
       <workItem from="1606321860334" duration="677000" />
       <workItem from="1606384124461" duration="2779000" />
       <workItem from="1606446991697" duration="1226000" />
-      <workItem from="1606529998705" duration="1615000" />
+      <workItem from="1606529998705" duration="4171000" />
     </task>
     <servers />
   </component>
