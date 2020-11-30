@@ -67,3 +67,15 @@ plt.title("For SAC trained at " + str(changing_variable_name) + " of " + str(cha
 name = "curiosity" + "/" + changing_variable_name
 plt.savefig(name)
 plt.close(fig)
+
+for i in range(len(changing_variable)):
+    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+    plt.plot(rewards_r_t[i], linewidth=3)
+    plt.plot(rewards_r_f[i], linewidth=3)
+    plt.legend(legend)
+    plt.xlabel('No of steps X1000')
+    plt.ylabel("Reward")
+    plt.title("For SAC trained at " + str(changing_variable_name) + " of " + str(changing_variable[0]))
+    name = "curiosity" + "/" + "time_stamp_" + str(changing_variable[i]) + ".png"
+    plt.savefig(name)
+    plt.close(fig)
