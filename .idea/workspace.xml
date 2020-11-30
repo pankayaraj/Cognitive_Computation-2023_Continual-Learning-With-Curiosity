@@ -2,16 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Results_Main/plot_comparision.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Results_Main/plot_avg.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Results_Main/plot_comparision_curiosity.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Continual-Learning-With-Curiosity.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Continual-Learning-With-Curiosity.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithms/SAC_w_Curiosity.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/SAC_w_Curiosity.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_alogrithms/mem" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/mem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_True_m_s_90000__restart_alpha_False/length.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_True_m_s_90000__restart_alpha_False/length.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/plot_comparision.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/plot_comparision.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,15 +35,15 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../other_tests" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_catastropic_fogetting">
-    <configuration name="SAC_test" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.plot_comparision_curiosity">
+    <configuration name="plot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -54,12 +51,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_alogrithms" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_alogrithms/SAC_test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/plot.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -68,7 +64,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="SAC_w_Curiosity" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="plot_avg" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -76,12 +72,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithms" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithms/SAC_w_Curiosity.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/plot_avg.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -90,7 +85,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="plot_comparision" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -98,12 +93,32 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/plot_comparision.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plot_comparision_curiosity" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Continual-Learning-With-Curiosity" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/plot_comparision_curiosity.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -134,46 +149,24 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_env_change" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
-      <module name="Continual-Learning-With-Curiosity" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/test_env_change.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
-      <item itemvalue="Python.SAC_test" />
       <item itemvalue="Python.test_catastropic_fogetting" />
-      <item itemvalue="Python.test" />
-      <item itemvalue="Python.test_env_change" />
-      <item itemvalue="Python.SAC_w_Curiosity" />
+      <item itemvalue="Python.plot_avg" />
+      <item itemvalue="Python.plot" />
+      <item itemvalue="Python.plot_comparision" />
+      <item itemvalue="Python.plot_comparision_curiosity" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.plot_comparision_curiosity" />
+        <item itemvalue="Python.plot_comparision" />
+        <item itemvalue="Python.plot_avg" />
+        <item itemvalue="Python.plot" />
         <item itemvalue="Python.test_catastropic_fogetting" />
-        <item itemvalue="Python.SAC_test" />
-        <item itemvalue="Python.SAC_w_Curiosity" />
-        <item itemvalue="Python.test" />
-        <item itemvalue="Python.test_env_change" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -199,49 +192,15 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="223" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606315239434">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="223" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1606315239434" />
-    <state x="503" y="54" key="#test_env_change" timestamp="1606043901992">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="503" y="54" key="#test_env_change/0.0.1536.824@0.0.1536.824" timestamp="1606043901992" />
-    <state x="549" y="170" key="FileChooserDialogImpl" timestamp="1606449234590">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="549" y="170" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1606449234590" />
-    <state width="1478" height="204" key="GridCell.Tab.0.bottom" timestamp="1606535384655">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1478" height="204" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606535384655" />
-    <state width="1478" height="204" key="GridCell.Tab.0.center" timestamp="1606535384655">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1478" height="204" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606535384655" />
-    <state width="1478" height="204" key="GridCell.Tab.0.left" timestamp="1606535384655">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1478" height="204" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606535384655" />
-    <state width="1478" height="204" key="GridCell.Tab.0.right" timestamp="1606535384655">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1478" height="204" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606535384655" />
-    <state x="279" y="58" key="SettingsEditor" timestamp="1606089369432">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="279" y="58" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1606089369432" />
-    <state x="477" y="240" key="com.intellij.ide.util.TipDialog" timestamp="1606384130769">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="477" y="240" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1606384130769" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Continual_Learning_With_Curiosity$test_env_change.coverage" NAME="test_env_change Coverage Results" MODIFIED="1606089382589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/main" />
-    <SUITE FILE_PATH="coverage/Continual_Learning_With_Curiosity$SAC_test.coverage" NAME="SAC_test Coverage Results" MODIFIED="1606534531422" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_alogrithms" />
-    <SUITE FILE_PATH="coverage/Continual_Learning_With_Curiosity$test.coverage" NAME="test Coverage Results" MODIFIED="1606384474763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/main" />
-    <SUITE FILE_PATH="coverage/Continual_Learning_With_Curiosity$test_catastropic_fogetting.coverage" NAME="test_catastropic_fogetting Coverage Results" MODIFIED="1606534862317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/main" />
-    <SUITE FILE_PATH="coverage/Continual_Learning_With_Curiosity$SAC_w_Curiosity.coverage" NAME="SAC_w_Curiosity Coverage Results" MODIFIED="1606385576517" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/algorithms" />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Results_Main/plot_avg.py</url>
+          <line>51</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -9,8 +9,8 @@ l_linear_rate = 65e-7
 update_on_interval = False
 no_steps = 90000
 
-dir_name_r_t = "curiosity_False_linear_True_m_s_10000__restart_alpha_True"
-dir_name_r_f = "curiosity_False_linear_True_m_s_10000__restart_alpha_False"
+dir_name_r_f = "curiosity_False_linear_True_m_s_90000__restart_alpha_False"
+dir_name_r_t = "curiosity_True_linear_True_m_s_90000__restart_alpha_False"
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]
 if update_on_interval:
@@ -28,7 +28,7 @@ load_dir_4 = "results_length__s_i_1000_4"
 changing_variable_name = "reinitalized_alpha_comparision"
 
 
-legend = ["Reinitalized alpha", "Non Reinitalized alpha"]
+legend = ["With Curiosity", "Without Curisoty"]
 
 
 r1 = torch.load(dir_name_r_t + "/" + load_dir_1)
@@ -64,6 +64,6 @@ plt.legend(legend)
 plt.xlabel('No of steps X1000')
 plt.ylabel("Reward")
 plt.title("For SAC trained at " + str(changing_variable_name) + " of " + str(changing_variable[0]) )
-name = "reinitalizing_alpha" + "/" + changing_variable_name
+name = "curiosity" + "/" + changing_variable_name
 plt.savefig(name)
 plt.close(fig)
