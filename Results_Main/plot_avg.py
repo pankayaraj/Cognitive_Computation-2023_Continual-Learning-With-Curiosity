@@ -9,7 +9,7 @@ l_linear_rate = 65e-7
 update_on_interval = False
 no_steps = 90000
 
-dir_name = "curiosity_False_linear_False_m_s_10000__restart_alpha_False"
+dir_name = "curiosity_False_linear_True_m_s_30000__restart_alpha_True"
 
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]

@@ -29,7 +29,7 @@ parser.add_argument("--eval-interval", type=int, default=1000)
 parser.add_argument("--restart_alpha", type=bool, default=True)
 parser.add_argument("--restart_alpha_interval", type=int, default=30000)
 parser.add_argument("--batch_size", type=int, default=256)
-parser.add_argument("--memory_size", type=int, default=90000)
+parser.add_argument("--memory_size", type=int, default=30000)
 parser.add_argument("--no_steps", type=int, default=90000)
 parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
@@ -115,7 +115,7 @@ for i in range(args.no_steps):
         if i != 0:
             A.env.set_length(length=env.l + args.l_linear_rate)
     if args.restart_alpha:
-        if i%args.restart_alpha_interval:
+        if i%args.restart_alpha_interval == 0:
             A.log_alpha = torch.zeros(1, requires_grad=True, device=device)
             A.alpha_optim = torch.optim.Adam([A.log_alpha], lr=A.alpha_lr)
 
@@ -132,8 +132,6 @@ for i in range(args.no_steps):
 
 
     if i%eval_interval==0:
-
-
         for l_i, l in enumerate(test_lengths):
             rew_total = 0
             for k in range(test_sample_no):
