@@ -44,7 +44,8 @@ class Save_Paths():
 
     def __init__(self, policy_path="policy_temp", q_path="q_temp", target_q_path="target_q_temp",
                  v_path="v_temp", nu_path = "nu_temp", zeta_path="zeta_temp",
-                 icm_n_state_path = "icm_n_state", icm_action_path = "icm_action"):
+                 icm_n_state_path = "icm_n_state", icm_action_path = "icm_action",
+                 icm_reward_path = "icm_reward_path"):
 
         self.policy_path = policy_path
         self.q_path = q_path
@@ -54,12 +55,14 @@ class Save_Paths():
         self.zeta_path = zeta_path
         self.icm_n_state_path = icm_n_state_path
         self.icm_action_path  = icm_action_path
+        self.icm_reward_path = icm_reward_path
 
 class Load_Paths():
 
     def __init__(self, policy_path="policy_temp", q_path="q_temp", target_q_path="target_q_temp",
                  v_path="v_temp", nu_path="nu_temp", zeta_path="zeta_temp",
-                 icm_n_state_path = "icm_n_state", icm_action_path = "icm_action"):
+                 icm_n_state_path = "icm_n_state", icm_action_path = "icm_action",
+                 icm_reward_path = "icm_reward_path"):
 
         self.policy_path = policy_path
         self.q_path = q_path
@@ -69,3 +72,4 @@ class Load_Paths():
         self.zeta_path = zeta_path
         self.icm_n_state_path = icm_n_state_path
         self.icm_action_path = icm_action_path
+        self.icm_reward_path = icm_reward_path
