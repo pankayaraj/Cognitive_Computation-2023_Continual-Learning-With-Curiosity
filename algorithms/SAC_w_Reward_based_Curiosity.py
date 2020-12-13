@@ -170,7 +170,7 @@ class SAC_with_reward_based_Curiosity():
 
         #policy update
         pi, log_pi, pi_m = self.policy.sample(state_batch)
-
+        act = torch.tensor(action_batch).to(self.icm_nn_param.device)
         # alpha update
         if self.automatic_alpha_tuning:
             alpha_loss = -(self.log_alpha * (log_pi + self.target_entropy).detach()).mean()
@@ -187,7 +187,7 @@ class SAC_with_reward_based_Curiosity():
 
         p_n_s = self.icm_nxt_state.get_next_state(state_batch, pi)
         p_a = self.icm_action.get_action(state_batch, next_state_batch)
-        p_r = self.icm_reward.get_reward(state_batch, p_a)
+        p_r = self.icm_reward.get_reward(state_batch, pi)
 
         with torch.no_grad():
             f_icm_r = torch.nn.functional.mse_loss(p_n_s, torch.FloatTensor(next_state_batch).to(self.icm_nn_param.device))

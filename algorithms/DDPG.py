@@ -77,27 +77,29 @@ class DDPG():
     def step(self, state, random=False):
         batch_ize = 1
         self.steps_done += 1
+        action = self.env.action_space.sample()
+        action_mean = self.env.action_space.sample()
         if random == True:
-            action = self.env.action_space.sample()
+            action = action
         else:
-            action = self.get_action(state, evaluate=False)
+            action = action_mean
 
         next_state, reward, done, _ = self.env.step(action)
         self.steps_done += 1
         if done:
             mask = 0.0
-            self.replay_buffer.push(state, action, reward, next_state, mask)
+            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask)
             next_state = self.env.reset()
             return next_state
 
         if self.steps_done == self.max_episodes:
             mask = 1.0
-            self.replay_buffer.push(state, action, reward, next_state, mask)
+            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask)
             next_state = self.env.reset()
             return next_state
         mask = 1.0
 
-        self.replay_buffer.push(state, action, reward, next_state, mask)
+        self.replay_buffer.push(state, action, action_mean, reward, next_state, mask)
         return next_state
 
     def update(self, batch_size=None):

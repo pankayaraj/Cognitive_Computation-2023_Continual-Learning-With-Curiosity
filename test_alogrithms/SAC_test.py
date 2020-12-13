@@ -26,9 +26,9 @@ state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.shape[0]
 
 q_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256, 256],
-                          non_linearity=torch.relu, device=torch.device("cuda"), l_r=0.003)
+                          non_linearity=torch.relu, device=torch.device("cpu"), l_r=0.003)
 policy_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256, 256],
-                          non_linearity=torch.relu, device=torch.device("cuda"), l_r=0.003)
+                          non_linearity=torch.relu, device=torch.device("cpu"), l_r=0.003)
 
 algo_nn_param = Algo_Param(gamma=0.99, alpha=0.2, tau=0.005, target_update_interval=1, automatic_alpha_tuning=True)
 

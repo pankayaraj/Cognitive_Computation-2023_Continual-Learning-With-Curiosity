@@ -231,6 +231,8 @@ class SAC_with_Curiosity():
         mask = 1.0
 
         self.replay_buffer.push(state, action, action_mean, reward, next_state, mask)
+
+
         return next_state
 
     def hard_update(self):

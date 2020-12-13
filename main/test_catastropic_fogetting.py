@@ -14,7 +14,7 @@ from custom_envs.custom_pendulum import PendulumEnv
 
 parser = argparse.ArgumentParser(description='SAC arguments')
 
-parser.add_argument("--algo", type=str, default="SAC_w_r_cur")
+parser.add_argument("--algo", type=str, default="SAC_w_cur")
 parser.add_argument("--env", type=str, default="Pendulum-v0")
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
@@ -35,7 +35,7 @@ parser.add_argument("--no_steps", type=int, default=90000)
 parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
 
-parser.add_argument("--interval_based_increment", type=bool, default=False,
+parser.add_argument("--interval_based_increment", type=bool, default=True,
                     help="weather to increase the factor on certain intervals or do it linearly")
 
 parser.add_argument("--rate_change_interval", type=int, default=30000)
@@ -129,6 +129,8 @@ for i in range(args.no_steps):
         state = A.step(state, random=True)
     else:
         state = A.step(state, random=False)
+
+
     if i%save_interval==0:
         A.save(save_dir+"/q1", save_dir+"/q2",
                save_dir+"/q1_target", save_dir+"/q2_target",
@@ -161,7 +163,7 @@ for i in range(args.no_steps):
             results[l_i].append(rew_total)
 
             if args.algo == "SAC_w_cur" or args.algo == "SAC_w_r_cur":
-                A.debug.print_all()
+                pass
 
             print(env.l)
             print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))

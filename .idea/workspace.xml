@@ -2,37 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Results_Main/plot_diff_buffer_size.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/algorithms/SAC_w_Reward_based_Curiosity.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/algorithms/ASAC.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/algorithms/ASAC_with_curiosity.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_alogrithms/ASAC_test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_alogrithms/plot_temp.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/length.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/length.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/length_avg.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/length_avg.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/results_length__s_i_1000_1" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/results_length__s_i_1000_1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/results_length__s_i_1000_2" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/results_length__s_i_1000_2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/results_length__s_i_1000_3" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/results_length__s_i_1000_3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/length.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/length.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/length_avg.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/length_avg.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/results_length__s_i_1000_1" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/results_length__s_i_1000_1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/results_length__s_i_1000_2" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/results_length__s_i_1000_2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/results_length__s_i_1000_3" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/results_length__s_i_1000_3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/plot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/plot_avg.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/plot_avg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/plot_comparision_alpha_restart.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/plot_comparision_alpha_restart.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/reinitalizing_alpha/reinitalized_alpha_comparision.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/reinitalizing_alpha/reinitalized_alpha_comparision.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/reinitalizing_alpha/time_stamp_1.0.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/reinitalizing_alpha/time_stamp_1.0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/reinitalizing_alpha/time_stamp_1.195.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/reinitalizing_alpha/time_stamp_1.195.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/reinitalizing_alpha/time_stamp_1.3900000000000001.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/reinitalizing_alpha/time_stamp_1.3900000000000001.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/plot_diff_buffer_size.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/plot_diff_buffer_size.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithms/CDESP.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/CDESP.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithms/DDPG.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/DDPG.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithms/SAC_w_Curiosity.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/SAC_w_Curiosity.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithms/SAC_w_Reward_based_Curiosity.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/SAC_w_Reward_based_Curiosity.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2_target" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/test_catastropic_fogetting.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/test_catastropic_fogetting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/parameters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_alogrithms/SAC_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/SAC_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_alogrithms/mem" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/mem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_alogrithms/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/policy_target" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,8 +54,8 @@
       <recent name="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_catastropic_fogetting">
-    <configuration name="plot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.plot_diff_buffer_size">
+    <configuration name="ASAC_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -75,11 +63,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_alogrithms" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/plot.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_alogrithms/ASAC_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -88,7 +76,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="plot_avg" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="SAC_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -96,11 +84,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_alogrithms" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/plot_avg.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_alogrithms/SAC_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -109,7 +97,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="plot_comparision_alpha_restart" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="plot_diff_buffer_size" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -121,7 +109,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/plot_comparision_alpha_restart.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/plot_diff_buffer_size.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -130,7 +118,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="plot_comparision_curiosity" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="plot_temp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -138,11 +126,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_alogrithms" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/plot_comparision_curiosity.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_alogrithms/plot_temp.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -173,19 +161,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.plot_comparision_curiosity" />
-      <item itemvalue="Python.plot_comparision_alpha_restart" />
+      <item itemvalue="Python.SAC_test" />
       <item itemvalue="Python.test_catastropic_fogetting" />
-      <item itemvalue="Python.plot" />
-      <item itemvalue="Python.plot_avg" />
+      <item itemvalue="Python.ASAC_test" />
+      <item itemvalue="Python.plot_temp" />
+      <item itemvalue="Python.plot_diff_buffer_size" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.plot_diff_buffer_size" />
+        <item itemvalue="Python.plot_temp" />
         <item itemvalue="Python.test_catastropic_fogetting" />
-        <item itemvalue="Python.plot_comparision_alpha_restart" />
-        <item itemvalue="Python.plot" />
-        <item itemvalue="Python.plot_avg" />
-        <item itemvalue="Python.plot_comparision_curiosity" />
+        <item itemvalue="Python.ASAC_test" />
+        <item itemvalue="Python.SAC_test" />
       </list>
     </recent_temporary>
   </component>
