@@ -79,6 +79,9 @@ class SAC_with_Curiosity():
         self.replay_buffer = Replay_Memory(capacity=memory_capacity)
         self.debug = debug
 
+        self.icm_i_r = []
+        self.icm_f_r = []
+
     def get_action(self, state, evaluate=False):
 
         action, log_prob, action_mean = self.policy.sample(state, format="torch")
@@ -175,24 +178,12 @@ class SAC_with_Curiosity():
         q2_pi = self.critic_2.get_value(state_batch, pi)
         min_q_pi = torch.min(q1_pi, q2_pi)
 
-        p_n_s = self.icm_nxt_state.get_next_state(state_batch, pi)
-        p_a = self.icm_action.get_action(state_batch, next_state_batch)
 
-        with torch.no_grad():
-            f_icm_r = torch.nn.functional.mse_loss(p_n_s, torch.FloatTensor(next_state_batch).to(self.icm_nn_param.device))
-            i_icm_r = torch.nn.functional.mse_loss(p_a, pi)
-
-        self.debug.f_icm_r = f_icm_r
-        self.debug.i_icm_r =  i_icm_r
-
-        policy_loss = ((self.alpha*log_pi) - min_q_pi - 1000*f_icm_r - i_icm_r ).mean()
+        policy_loss = ((self.alpha*log_pi) - min_q_pi).mean()
 
         self.policy_optim.zero_grad()
         policy_loss.backward()
         self.policy_optim.step()
-
-
-
 
 
         if self.update_no%self.target_update_interval == 0:
@@ -211,6 +202,22 @@ class SAC_with_Curiosity():
             action, action_mean = self.get_action(state, evaluate=False)
 
         next_state, reward, done, _ = self.env.step(action)
+
+        p_next_state = self.icm_nxt_state.get_next_state(state, action)
+        p_action = self.icm_action.get_action(state, next_state)
+
+        with torch.no_grad():
+            f_icm_r = torch.nn.functional.mse_loss(p_next_state,
+                                                   torch.Tensor(next_state).to(self.icm_nn_param.device)).cpu().detach().numpy()
+            i_icm_r = torch.nn.functional.mse_loss(p_action, torch.Tensor(action)).cpu().detach().numpy()
+
+        self.debug.f_icm_r = f_icm_r
+        self.debug.i_icm_r = i_icm_r
+
+        self.icm_f_r.append(f_icm_r)
+        self.icm_i_r.append(i_icm_r)
+
+        reward = reward + 5*i_icm_r
 
         self.steps_done += 1
         self.steps_per_eps += 1

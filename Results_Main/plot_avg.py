@@ -6,10 +6,10 @@ import numpy as np
 length_interval = 30000
 l_interval_rate = 0.4
 l_linear_rate = 65e-7
-update_on_interval = False
+update_on_interval = True
 no_steps = 90000
 
-dir_name = "curiosity_False_linear_True_m_s_10000__restart_alpha_False"
+dir_name = "curiosity_False_linear_False_m_s_10000__restart_alpha_False"
 
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]
@@ -24,6 +24,7 @@ load_dir_1 = "results_length__s_i_1000_1"
 load_dir_2 = "results_length__s_i_1000_2"
 load_dir_3 = "results_length__s_i_1000_3"
 load_dir_4 = "results_length__s_i_1000_4"
+load_dir_5 = "results_length__s_i_1000_5"
 
 changing_variable_name = "length_avg"
 
@@ -33,14 +34,15 @@ legend = [str(i) for i in changing_variable]
 r1 = torch.load(dir_name + "/" + load_dir_1)
 r2 = torch.load(dir_name + "/" + load_dir_2)
 r3 = torch.load(dir_name + "/" + load_dir_3)
-#r4 = torch.load(dir_name + "/" + load_dir_4)
+r4 = torch.load(dir_name + "/" + load_dir_4)
+r5 = torch.load(dir_name + "/" + load_dir_5)
 
 rewards = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 
 for j in range(int(no_steps/length_interval)):
     for i in range(len(r1[0])):
-        rewards[j][i] = r1[j][i] + r2[j][i] + r3[j][i] #+ r4[j][i]
-        rewards[j][i] = rewards[j][i]/4
+        rewards[j][i] = r1[j][i] + r2[j][i] + r3[j][i] + r4[j][i] + r5[j][i]
+        rewards[j][i] = rewards[j][i]/5
 
 rewards = np.array(rewards)
 

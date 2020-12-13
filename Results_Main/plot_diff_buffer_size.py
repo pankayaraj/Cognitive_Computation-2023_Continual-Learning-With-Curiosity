@@ -52,7 +52,7 @@ rewards_r_2 = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 for j in range(int(no_steps/length_interval)):
     for i in range(len(r1[0])):
         rewards_r_2[j][i] = r1[j][i] + r2[j][i] + r3[j][i] #+ r4[j][i]
-        rewards_r_2[j][i] = rewards_r_2[j][i]/4
+        rewards_r_2[j][i] = rewards_r_2[j][i]/3
 
 rewards_r_3 = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 
@@ -63,7 +63,7 @@ r3 = torch.load(dir_name_r_3 + "/" + load_dir_3)
 for j in range(int(no_steps/length_interval)):
     for i in range(len(r1[0])):
         rewards_r_3[j][i] = r1[j][i] + r2[j][i] + r3[j][i] #+ r4[j][i]
-        rewards_r_3[j][i] = rewards_r_3[j][i]/4
+        rewards_r_3[j][i] = rewards_r_3[j][i]/3
 
 rewards_r_1_avg = np.sum(rewards_r_1, axis=0)/len(rewards_r_1)
 rewards_r_2_avg = np.sum(rewards_r_2, axis=0)/len(rewards_r_2)
