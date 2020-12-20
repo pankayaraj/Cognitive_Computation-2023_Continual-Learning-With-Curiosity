@@ -47,10 +47,7 @@ class Replay_Memory():
 
     def sample(self, batch_size):
 
-        if len(self.state) < self.capacity:
-            indices = np.random.choice(len(self.state), batch_size)
-        else:
-            indices = np.random.choice(self.capacity, batch_size)
+        indices = self.get_sample_indices(batch_size)
 
         state = np.take(np.array(self.state), indices, axis=0)
         action = np.take(np.array(self.action), indices, axis=0)
@@ -60,6 +57,17 @@ class Replay_Memory():
         done_mask = np.take(np.array(self.done_mask), indices, axis=0)
 
         return Transition_tuple(state, action, action_mean, reward, next_state, done_mask)
+
+    def encode_sample(self, indices):
+        state, action, action_mean, reward, next_state, done_mask = [], [], [], [], [], []
+        for i in indices:
+            state.append(self.state[i])
+            action.append(self.action[i])
+            action_mean.append(self.action_mean[i])
+            reward.append(self.reward[i])
+            next_state.append(self.next_state[i])
+            done_mask.append(self.done_mask[i])
+        return state, action, action_mean, reward, next_state, done_mask
 
     def iterate_through(self):
         all_data = self.sample(self.no_data)
@@ -71,6 +79,13 @@ class Replay_Memory():
                 t.append(all_attributes[j][i])
 
             yield t
+    def get_sample_indices(self, batch_size):
+        if len(self.state) < self.capacity:
+            indices = np.random.choice(len(self.state), batch_size)
+        else:
+            indices = np.random.choice(self.capacity, batch_size)
+        return indices
+
 
     def __len__(self):
         return self.no_data
