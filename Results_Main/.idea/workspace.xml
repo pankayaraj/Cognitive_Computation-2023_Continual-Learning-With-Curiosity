@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2543fa0c-92d8-4b88-8da8-6ad59702920a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../util/Resoviour_Replay_Buffer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/Continual-Learning-With-Curiosity.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/Continual-Learning-With-Curiosity.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -80,7 +83,7 @@
       <workItem from="1606446991697" duration="1226000" />
       <workItem from="1606529998705" duration="4171000" />
       <workItem from="1608205223905" duration="589000" />
-      <workItem from="1608462408759" duration="323000" />
+      <workItem from="1608462408759" duration="932000" />
     </task>
     <servers />
   </component>
