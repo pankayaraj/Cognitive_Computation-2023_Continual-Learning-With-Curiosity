@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2543fa0c-92d8-4b88-8da8-6ad59702920a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/plot_comparision.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../algorithms/SAC_w_Curiosity.py" beforeDir="false" afterPath="$PROJECT_DIR$/../algorithms/SAC_w_Curiosity.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/q2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" beforeDir="false" afterPath="$PROJECT_DIR$/../main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" beforeDir="false" afterPath="$PROJECT_DIR$/../main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../test_alogrithms/mem" beforeDir="false" afterPath="$PROJECT_DIR$/../test_alogrithms/mem" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +79,8 @@
       <workItem from="1606384124461" duration="2779000" />
       <workItem from="1606446991697" duration="1226000" />
       <workItem from="1606529998705" duration="4171000" />
+      <workItem from="1608205223905" duration="589000" />
+      <workItem from="1608462408759" duration="323000" />
     </task>
     <servers />
   </component>
