@@ -14,7 +14,8 @@ from custom_envs.custom_pendulum import PendulumEnv
 
 parser = argparse.ArgumentParser(description='SAC arguments')
 
-parser.add_argument("--algo", type=str, default="SAC_w_cur")
+parser.add_argument("--algo", type=str, default="SAC")
+parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO")
 parser.add_argument("--env", type=str, default="Pendulum-v0")
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
@@ -30,8 +31,8 @@ parser.add_argument("--eval-interval", type=int, default=1000)
 parser.add_argument("--restart_alpha", type=bool, default=False)
 parser.add_argument("--restart_alpha_interval", type=int, default=10000)
 parser.add_argument("--batch_size", type=int, default=256)
-parser.add_argument("--memory_size", type=int, default=10000)
-parser.add_argument("--no_steps", type=int, default=90000)
+parser.add_argument("--memory_size", type=int, default=2000)
+parser.add_argument("--no_steps", type=int, default=120000)
 parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
 
@@ -70,11 +71,11 @@ icm_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=args.hidden_
 algo_nn_param = Algo_Param(gamma=args.gamma, alpha=args.alpha, tau=args.tau,
                            target_update_interval=args.target_update_interval,
                            automatic_alpha_tuning=args.automatic_entropy_tuning)
-
+buffer_type = args.buffer_type
 if args.algo == "SAC":
     A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param,
         max_episodes=args.max_episodes, memory_capacity=args.memory_size,
-        batch_size=args.batch_size, alpha_lr=args.lr)
+        batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type)
 elif args.algo == "SAC_w_cur":
     A = SAC_with_Curiosity(env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes=args.max_episodes,
                            memory_capacity=args.memory_size

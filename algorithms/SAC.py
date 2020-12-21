@@ -5,14 +5,15 @@ import torch
 from model import Q_Function_NN, Value_Function_NN, Continuous_Gaussian_Policy
 from parameters import Algo_Param, NN_Paramters, Save_Paths, Load_Paths
 from util.replay_buffer import Replay_Memory
-
+from util.reservoir_replay_buffer import Reservoir_Replay_Memory
+from util.reservoir_with_fifo_replay_buffer import Reservoir_with_FIFO_Replay_Buffer
 
 
 class SAC():
 
     def __init__(self, env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes =100, memory_capacity =10000,
                  batch_size=400, save_path = Save_Paths(), load_path= Load_Paths(), action_space = None, alpha_lr=0.0003,
-                 ):
+                 buffer_type= "FIFO"):
 
         self.env = env
         self.device = q_nn_param.device
@@ -57,7 +58,12 @@ class SAC():
             self.log_alpha = torch.zeros(1, requires_grad=True, device=self.device)
             self.alpha_optim = torch.optim.Adam([self.log_alpha], lr=alpha_lr)
 
-        self.replay_buffer = Replay_Memory(capacity=memory_capacity)
+        if buffer_type == "FIFO":
+            self.replay_buffer = Replay_Memory(capacity=memory_capacity)
+        elif buffer_type == "Reservior":
+            self.replay_buffer = Reservoir_Replay_Memory(capacity=memory_capacity)
+        elif buffer_type == "Half_Reservior_FIFO":
+            self.replay_buffer = Reservoir_with_FIFO_Replay_Buffer(capacity=memory_capacity)
 
     def get_action(self, state, evaluate=False):
 
