@@ -9,9 +9,9 @@ l_linear_rate = 65e-7
 update_on_interval = False
 no_steps = 120000
 
-dir_name_r_fifo = "buff_size_10000/linear_False_m_s_10000__restart_alpha_False_Buffer_FIFO"
-dir_name_r_hrf = "buff_size_10000/linear_False_m_s_10000__restart_alpha_False_Buffer_HRF"
-dir_name_r_res = "buff_size_10000/linear_False_m_s_10000__restart_alpha_False_Buffer_Res"
+dir_name_r_fifo = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_FIFO"
+dir_name_r_hrf = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF"
+dir_name_r_res = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_Res"
 
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]
@@ -87,7 +87,7 @@ plt.legend(legend)
 plt.xlabel('No of steps X1000')
 plt.ylabel("Reward")
 plt.title("For SAC trained at " + str(changing_variable_name) + " average " )
-name = "diff_buffer_type" + "/" + changing_variable_name
+name = "buff_size_2000/diff_buffer_type" + "/" + changing_variable_name
 plt.savefig(name)
 plt.close(fig)
 
@@ -100,6 +100,6 @@ for i in range(len(changing_variable)):
     plt.xlabel('No of steps X1000')
     plt.ylabel("Reward")
     plt.title("For SAC trained at " + str(changing_variable_name) + " of " + str(changing_variable[i]))
-    name = "diff_buffer_type" + "/" + "diff_buffer_type_" + str(changing_variable[i]) + ".png"
+    name = "buff_size_2000/diff_buffer_type" + "/" + "diff_buffer_type_" + str(changing_variable[i]) + ".png"
     plt.savefig(name)
     plt.close(fig)

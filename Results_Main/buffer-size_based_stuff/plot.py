@@ -8,7 +8,7 @@ l_linear_rate = 65e-7
 update_on_interval = False
 no_steps = 120000
 
-dir_name = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_Res"
+dir_name = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_FIFO"
 
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]

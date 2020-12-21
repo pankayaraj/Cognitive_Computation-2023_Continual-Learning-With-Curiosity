@@ -3,84 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity/reinitalized_alpha_comparision.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity/time_stamp_1.0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity/time_stamp_1.195.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity/time_stamp_1.3900000000000001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_False/length.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_False/length_avg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_False/results_length__s_i_1000_1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_False/results_length__s_i_1000_2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_False/results_length__s_i_1000_3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_False/results_length__s_i_1000_4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_False/results_length__s_i_1000_5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_True/length.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_True/length_avg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_True/results_length__s_i_1000_1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_True/results_length__s_i_1000_2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_True/results_length__s_i_1000_3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_False_m_s_10000__restart_alpha_True/results_length__s_i_1000_4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/length.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/length_avg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/results_length__s_i_1000_1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/results_length__s_i_1000_2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_False/results_length__s_i_1000_3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/length.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/length_avg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/results_length__s_i_1000_1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/results_length__s_i_1000_2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_10000__restart_alpha_True/results_length__s_i_1000_3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_30000__restart_alpha_False/length.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_30000__restart_alpha_False/length_avg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_30000__restart_alpha_False/results_length__s_i_1000_1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_30000__restart_alpha_False/results_length__s_i_1000_2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_30000__restart_alpha_False/results_length__s_i_1000_3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_30000__restart_alpha_True/length.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_30000__restart_alpha_True/length_avg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_30000__restart_alpha_True/results_length__s_i_1000_1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_30000__restart_alpha_True/results_length__s_i_1000_2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_30000__restart_alpha_True/results_length__s_i_1000_3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_90000__restart_alpha_False/length.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_90000__restart_alpha_False/length_avg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_90000__restart_alpha_True/length.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_90000__restart_alpha_True/length_avg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_90000__restart_alpha_True/results_length__s_i_1000_1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_90000__restart_alpha_True/results_length__s_i_1000_2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_False_linear_True_m_s_90000__restart_alpha_True/results_length__s_i_1000_3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_False_m_s_10000__restart_alpha_False/length.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_False_m_s_10000__restart_alpha_False/length_avg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_False_m_s_10000__restart_alpha_False/results_length__s_i_1000_1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_False_m_s_10000__restart_alpha_False/results_length__s_i_1000_2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_False_m_s_10000__restart_alpha_False/results_length__s_i_1000_3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_False_m_s_10000__restart_alpha_False/results_length__s_i_1000_4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_False_m_s_10000__restart_alpha_False/results_length__s_i_1000_5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_True_m_s_90000__restart_alpha_False/length.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_True_m_s_90000__restart_alpha_False/length_avg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/curiosity_True_linear_True_m_s_90000__restart_alpha_False/results_length__s_i_1000_3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/diff_buffer_size/buffer size.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/diff_buffer_size/time_stamp_1.0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/diff_buffer_size/time_stamp_1.195.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/diff_buffer_size/time_stamp_1.3900000000000001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/forward_curiosity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/forward_curiosity_linear_false.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/inverse_curiosity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/inverse_curiosity_linear_false.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/plot.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/plot_avg.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/plot_comparision_alpha_restart.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/plot_comparision_curiosity.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/plot_cur.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/plot_diff_buffer_size.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/reinitalizing_alpha/reinitalized_alpha_comparision.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/reinitalizing_alpha/time_stamp_1.0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/reinitalizing_alpha/time_stamp_1.195.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/reinitalizing_alpha/time_stamp_1.3900000000000001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithms/SAC.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/SAC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff/plot_avg.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff/plot_avg.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" afterDir="false" />
@@ -125,7 +49,7 @@
       <recent name="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_catastropic_fogetting">
+  <component name="RunManager" selected="Python.plot_comparision_diff_buff_type">
     <configuration name="plot (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -168,7 +92,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="plot_cur" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="plot_comparision_diff_buff_type" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -176,12 +100,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/plot_cur.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff/plot_comparision_diff_buff_type.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -233,19 +156,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.plot_cur" />
       <item itemvalue="Python.test" />
       <item itemvalue="Python.test_catastropic_fogetting" />
       <item itemvalue="Python.plot (1)" />
       <item itemvalue="Python.plot_avg" />
+      <item itemvalue="Python.plot_comparision_diff_buff_type" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_catastropic_fogetting" />
-        <item itemvalue="Python.plot_avg" />
+        <item itemvalue="Python.plot_comparision_diff_buff_type" />
         <item itemvalue="Python.plot (1)" />
+        <item itemvalue="Python.plot_avg" />
+        <item itemvalue="Python.test_catastropic_fogetting" />
         <item itemvalue="Python.test" />
-        <item itemvalue="Python.plot_cur" />
       </list>
     </recent_temporary>
   </component>
