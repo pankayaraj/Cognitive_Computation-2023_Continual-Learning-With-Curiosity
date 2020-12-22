@@ -9,7 +9,9 @@ l_linear_rate = 65e-7
 update_on_interval = True
 no_steps = 120000
 
-dir_name = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_FIFO"
+total_samples = 5
+
+dir_name = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_Res_Cur"
 
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]
@@ -38,7 +40,7 @@ r4 = torch.load(dir_name + "/" + load_dir_4)
 r5 = torch.load(dir_name + "/" + load_dir_5)
 
 rewards = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
-
+rew_ind_avg = []
 for j in range(int(no_steps/length_interval)):
     for i in range(len(r1[0])):
         rewards[j][i] = r1[j][i] + r2[j][i] + r3[j][i] + r4[j][i] + r5[j][i]
@@ -46,12 +48,19 @@ for j in range(int(no_steps/length_interval)):
 
 rewards = np.array(rewards)
 
+rew_ind_total = np.array([r1, r2, r3, r4, r5])
+rew_ind_avg = np.sum(rew_ind_total, axis=1)/len(rewards)
+
+rew_std = np.std(rew_ind_avg, axis=0)
+
+x = [i for i in range(no_steps//1000)]
 reward_avg = np.sum(rewards, axis=0)/len(rewards)
 
 
 
 fig, ax = plt.subplots(1, 1, figsize=(10, 10))
-plt.plot(reward_avg, linewidth=3)
+plt.plot(x, reward_avg, linewidth=3)
+plt.fill_between(x, reward_avg + rew_std, reward_avg - rew_std, alpha = 0.3)
 #plt.legend(legend)
 plt.xlabel('No of steps X1000')
 plt.ylabel("Reward")

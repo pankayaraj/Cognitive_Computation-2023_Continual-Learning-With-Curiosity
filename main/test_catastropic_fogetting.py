@@ -6,6 +6,7 @@ import argparse
 from algorithms.SAC import SAC
 from algorithms.SAC_w_Curiosity import SAC_with_Curiosity
 from algorithms.SAC_w_Reward_based_Curiosity import SAC_with_reward_based_Curiosity
+from algorithms.SAC_w_Cur_Buffer import SAC_with_Curiosity_Buffer
 
 from parameters import Algo_Param, NN_Paramters, Save_Paths, Load_Paths
 
@@ -14,8 +15,8 @@ from custom_envs.custom_pendulum import PendulumEnv
 
 parser = argparse.ArgumentParser(description='SAC arguments')
 
-parser.add_argument("--algo", type=str, default="SAC")
-parser.add_argument("--buffer_type", type=str, default="FIFO")
+parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
+parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO")
 parser.add_argument("--env", type=str, default="Pendulum-v0")
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
@@ -84,6 +85,12 @@ elif args.algo == "SAC_w_r_cur":
     A = SAC_with_reward_based_Curiosity(env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes=args.max_episodes,
                            memory_capacity=args.memory_size
                            , batch_size=args.batch_size, alpha_lr=args.lr)
+elif args.algo == "SAC_w_cur_buffer":
+    A = SAC_with_Curiosity_Buffer(env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param,
+                           max_episodes=args.max_episodes,
+                           memory_capacity=args.memory_size
+                           , batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type)
+
 
 save_interval = args.save_interval
 eval_interval = args.eval_interval
@@ -170,7 +177,7 @@ for i in range(args.no_steps):
             print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
 
 torch.save(A.replay_buffer, save_dir + "/replay_mem")
-torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_5")
+torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_2")
 
 if args.algo == "SAC_w_cur":
     torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity")

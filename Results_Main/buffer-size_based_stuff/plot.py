@@ -1,6 +1,7 @@
 import torch
 import matplotlib.pyplot as plt
 from pathlib import Path
+import numpy as np
 
 length_interval = 30000
 l_interval_rate = 0.4
@@ -8,7 +9,7 @@ l_linear_rate = 65e-7
 update_on_interval = False
 no_steps = 120000
 
-dir_name = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_FIFO"
+dir_name = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_Res_Cur"
 
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]
@@ -38,15 +39,27 @@ r5 = torch.load(dir_name + "/" + load_dir_5)
 
 rewards = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 
+rew_total = [[] for j in range(int(no_steps/length_interval))]
 for j in range(int(no_steps/length_interval)):
+    rew_total[j].append(r1[j])
+    rew_total[j].append(r2[j])
+    rew_total[j].append(r3[j])
+    rew_total[j].append(r4[j])
+    rew_total[j].append(r5[j])
+
     for i in range(len(r1[0])):
         rewards[j][i] = r1[j][i] + r2[j][i] + r3[j][i] + r4[j][i] + r5[j][i]
         rewards[j][i] = rewards[j][i]/5
 
+rew_total = np.array(rew_total)
+rew_std = np.std(rew_total, axis=1)
+x = [i for i in range(no_steps//1000)]
+
 fig, ax = plt.subplots(1, 1, figsize=(10, 10))
 
 for i in range(len(changing_variable)):
-    plt.plot(rewards[i], linewidth=3)
+    plt.plot(x, rewards[i], linewidth=3)
+    plt.fill_between(x, rewards[i] + rew_std[i], rewards[i] - rew_std[i], alpha = 0.3)
 
 plt.legend(legend)
 plt.xlabel('No of steps X1000')
