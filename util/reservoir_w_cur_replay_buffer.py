@@ -27,12 +27,15 @@ class Reservoir_with_Cur_Replay_Memory():
     def push(self, state, action, action_mean, reward, curiosity, next_state, done_mask):
 
         data = (state, action, action_mean, reward, curiosity, next_state, done_mask)
-        priority = curiosity
+
+        priority = curiosity.item()
+
+        d = (priority, next(self.tiebreaker), data)
 
         if len(self.storage) < self.capacity:
-            heapq.heappush(self.storage, (priority, next(self.tiebreaker), data))
+            heapq.heappush(self.storage, d)
         elif priority > self.storage[0][0]:
-            heapq.heapreplace(self.storage, (priority, next((self.tiebreaker)), data))
+            heapq.heapreplace(self.storage, d)
 
     def sample(self, batch_size):
         indices = self.get_sample_indices(batch_size)

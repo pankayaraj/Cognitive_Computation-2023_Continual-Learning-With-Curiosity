@@ -177,8 +177,8 @@ for i in range(args.no_steps):
             print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
 
 torch.save(A.replay_buffer, save_dir + "/replay_mem")
-torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_2")
+torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_5")
 
-if args.algo == "SAC_w_cur":
+if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer":
     torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity")
     torch.save(A.icm_f_r, "results/native_SAC_catastrophic_forgetting/forward_curiosity")
