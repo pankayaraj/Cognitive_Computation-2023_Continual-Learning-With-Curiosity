@@ -14,9 +14,9 @@ from custom_envs.custom_pendulum import PendulumEnv
 
 
 parser = argparse.ArgumentParser(description='SAC arguments')
-
-parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
-parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO")
+#"SAC_w_cur_buffer"
+parser.add_argument("--algo", type=str, default="SAC")
+parser.add_argument("--buffer_type", type=str, default="FIFO")
 parser.add_argument("--env", type=str, default="Pendulum-v0")
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
@@ -32,7 +32,7 @@ parser.add_argument("--eval-interval", type=int, default=1000)
 parser.add_argument("--restart_alpha", type=bool, default=False)
 parser.add_argument("--restart_alpha_interval", type=int, default=10000)
 parser.add_argument("--batch_size", type=int, default=256)
-parser.add_argument("--memory_size", type=int, default=2000)
+parser.add_argument("--memory_size", type=int, default=1000)
 parser.add_argument("--no_steps", type=int, default=120000)
 parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
@@ -177,7 +177,7 @@ for i in range(args.no_steps):
             print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
 
 torch.save(A.replay_buffer, save_dir + "/replay_mem")
-torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_5")
+torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_1")
 
 if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer":
     torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity")

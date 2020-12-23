@@ -11,7 +11,7 @@ no_steps = 120000
 
 total_samples = 5
 
-dir_name = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF_Cur"
+dir_name = "buff_size_1000/linear_False_m_s_1000__restart_alpha_False_Buffer_HRF_Cur"
 
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]
