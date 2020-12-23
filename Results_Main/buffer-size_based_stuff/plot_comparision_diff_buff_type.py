@@ -9,11 +9,11 @@ l_linear_rate = 65e-7
 update_on_interval = False
 no_steps = 120000
 
-dir_name_r_fifo = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_FIFO"
-dir_name_r_hrf = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF"
-dir_name_r_res = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_Res"
-dir_name_r_res_cur = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_Res_Cur"
-dir_name_r_hrf_cur = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF_Cur"
+dir_name_r_fifo = "buff_size_1000/linear_False_m_s_1000__restart_alpha_False_Buffer_FIFO"
+dir_name_r_hrf = "buff_size_1000/linear_False_m_s_1000__restart_alpha_False_Buffer_HRF"
+dir_name_r_res = "buff_size_1000/linear_False_m_s_1000__restart_alpha_False_Buffer_Res"
+dir_name_r_res_cur = "buff_size_1000/linear_False_m_s_1000__restart_alpha_False_Buffer_Res_Cur"
+dir_name_r_hrf_cur = "buff_size_1000/linear_False_m_s_1000__restart_alpha_False_Buffer_HRF_Cur"
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]
 if update_on_interval:
@@ -33,7 +33,7 @@ changing_variable_name = "diff_buffer_type_comparision"
 
 legend = [ "FIFO", "Reservior", "Reservior with FIFO", "Curiosity based Reservior", "Curiosity based Reservior with FIFO" ]
 
-"""
+
 #HRF
 r1 = torch.load(dir_name_r_hrf + "/" + load_dir_1)
 r2 = torch.load(dir_name_r_hrf + "/" + load_dir_2)
@@ -60,7 +60,7 @@ rew_hrf_std = np.std(rew_hrf_total, axis=1)
 rew_hrf_ind_total = np.array([r1, r2, r3, r4, r5])
 rew_hrf_ind_avg = np.sum(rew_hrf_ind_total, axis=1)/len(rewards_r_hrf)
 rew_hrf_ind_std = np.std(rew_hrf_ind_avg, axis=0)
-"""
+
 #fifo
 
 r1 = torch.load(dir_name_r_fifo + "/" + load_dir_1)
@@ -90,7 +90,7 @@ rew_fifo_ind_total = np.array([r1, r2, r3, r4, r5])
 rew_fifo_ind_avg = np.sum(rew_fifo_ind_total, axis=1)/len(rewards_r_fifo)
 rew_fifo_ind_std = np.std(rew_fifo_ind_avg, axis=0)
 
-"""
+
 #res
 
 r1 = torch.load(dir_name_r_res+ "/" + load_dir_1)
@@ -144,12 +144,12 @@ for j in range(int(no_steps/length_interval)):
         rewards_r_res_cur[j][i] = r1[j][i] + r2[j][i] + r3[j][i] + r4[j][i] + r5[j][i]
         rewards_r_res_cur[j][i] = rewards_r_res_cur[j][i]/5
 
-rew_res_cur_std = np.std(rew_res_total, axis=1)
+rew_res_cur_std = np.std(rew_res_cur_total, axis=1)
 
 rew_res_cur_ind_total = np.array([r1, r2, r3, r4, r5])
-rew_res_cur_ind_avg = np.sum(rew_res_cur_ind_total, axis=1)/len(rewards_r_res)
+rew_res_cur_ind_avg = np.sum(rew_res_cur_ind_total, axis=1)/len(rewards_r_res_cur)
 rew_res_cur_ind_std = np.std(rew_res_cur_ind_avg, axis=0)
-"""
+
 
 #res fifo cur
 
@@ -182,9 +182,9 @@ rew_hrf_cur_ind_std = np.std(rew_hrf_cur_ind_avg, axis=0)
 
 
 rewards_r_fifo_avg = np.sum(rewards_r_fifo, axis=0)/len(rewards_r_fifo)
-#rewards_r_res_avg = np.sum(rewards_r_res, axis=0)/len(rewards_r_res)
-#rewards_r_hrf_avg = np.sum(rewards_r_hrf, axis=0)/len(rewards_r_hrf)
-#rewards_r_res_cur_avg = np.sum(rewards_r_res_cur, axis=0)/len(rewards_r_res_cur)
+rewards_r_res_avg = np.sum(rewards_r_res, axis=0)/len(rewards_r_res)
+rewards_r_hrf_avg = np.sum(rewards_r_hrf, axis=0)/len(rewards_r_hrf)
+rewards_r_res_cur_avg = np.sum(rewards_r_res_cur, axis=0)/len(rewards_r_res_cur)
 rewards_r_hrf_cur_avg = np.sum(rewards_r_hrf_cur, axis=0)/len(rewards_r_hrf_cur)
 
 x = [i for i in range(no_steps//1000)]
@@ -193,7 +193,7 @@ fig, ax = plt.subplots(1, 1, figsize=(10, 10))
 plt.plot(rewards_r_fifo_avg, linewidth=3)
 plt.fill_between(x, rewards_r_fifo_avg + rew_fifo_ind_std, rewards_r_fifo_avg - rew_fifo_ind_std, alpha = 0.2)
 
-"""
+
 plt.plot(rewards_r_res_avg, linewidth=3)
 plt.fill_between(x, rewards_r_res_avg + rew_res_ind_std, rewards_r_res_avg - rew_res_ind_std, alpha = 0.2)
 
@@ -202,7 +202,7 @@ plt.fill_between(x, rewards_r_hrf_avg + rew_hrf_ind_std, rewards_r_hrf_avg - rew
 
 plt.plot(rewards_r_res_cur_avg, linewidth=3)
 plt.fill_between(x, rewards_r_res_cur_avg + rew_res_cur_ind_std, rewards_r_res_cur_avg - rew_res_cur_ind_std, alpha = 0.2)
-"""
+
 
 plt.plot(rewards_r_hrf_cur_avg, linewidth=3)
 plt.fill_between(x, rewards_r_hrf_cur_avg + rew_hrf_cur_ind_std, rewards_r_hrf_cur_avg - rew_hrf_cur_ind_std, alpha = 0.2)
@@ -221,7 +221,7 @@ for i in range(len(changing_variable)):
     plt.plot(rewards_r_fifo[i], linewidth=3)
     plt.fill_between(x, rewards_r_fifo[i] + rew_fifo_std[i], rewards_r_fifo[i] - rew_fifo_std[i], alpha=0.2)
 
-    """
+
     plt.plot(rewards_r_res[i], linewidth=3)
     plt.fill_between(x, rewards_r_res[i] + rew_res_std[i], rewards_r_res[i] - rew_res_std[i], alpha=0.2)
 
@@ -230,7 +230,7 @@ for i in range(len(changing_variable)):
 
     plt.plot(rewards_r_res_cur[i], linewidth=3)
     plt.fill_between(x, rewards_r_res_cur[i] + rew_res_cur_std[i], rewards_r_res_cur[i] - rew_res_cur_std[i], alpha=0.2)
-    """
+
 
     plt.plot(rewards_r_hrf_cur[i], linewidth=3)
     plt.fill_between(x, rewards_r_hrf_cur[i] + rew_hrf_cur_std[i], rewards_r_hrf_cur[i] - rew_hrf_cur_std[i], alpha=0.2)
