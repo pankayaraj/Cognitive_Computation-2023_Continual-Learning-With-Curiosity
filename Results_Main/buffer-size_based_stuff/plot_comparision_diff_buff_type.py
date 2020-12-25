@@ -9,11 +9,13 @@ l_linear_rate = 65e-7
 update_on_interval = False
 no_steps = 120000
 
-dir_name_r_fifo = "buff_size_1000/linear_False_m_s_1000__restart_alpha_False_Buffer_FIFO"
-dir_name_r_hrf = "buff_size_1000/linear_False_m_s_1000__restart_alpha_False_Buffer_HRF"
-dir_name_r_res = "buff_size_1000/linear_False_m_s_1000__restart_alpha_False_Buffer_Res"
-dir_name_r_res_cur = "buff_size_1000/linear_False_m_s_1000__restart_alpha_False_Buffer_Res_Cur"
-dir_name_r_hrf_cur = "buff_size_1000/linear_False_m_s_1000__restart_alpha_False_Buffer_HRF_Cur"
+m_s = 2000
+l_i = length_interval//1000
+dir_name_r_fifo = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_FIFO"
+dir_name_r_hrf = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_HRF"
+dir_name_r_res = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_Res"
+dir_name_r_res_cur = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_Res_Cur"
+dir_name_r_hrf_cur = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_HRF_Cur"
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]
 if update_on_interval:
@@ -212,33 +214,37 @@ plt.legend(legend)
 plt.xlabel('No of steps X1000')
 plt.ylabel("Reward")
 plt.title("For SAC trained at " + str(changing_variable_name) + " average " )
-name = "buff_size_1000/diff_buffer_type" + "/" + changing_variable_name
+name = "buff_size_"+ str(m_s) + "/diff_buffer_type" + "/" + changing_variable_name
 plt.savefig(name)
 plt.close(fig)
 
 for i in range(len(changing_variable)):
     fig, ax = plt.subplots(1, 1, figsize=(10, 10))
-    plt.plot(rewards_r_fifo[i], linewidth=3)
+    plt.plot(rewards_r_fifo[i], linewidth=2)
     plt.fill_between(x, rewards_r_fifo[i] + rew_fifo_std[i], rewards_r_fifo[i] - rew_fifo_std[i], alpha=0.2)
 
 
-    plt.plot(rewards_r_res[i], linewidth=3)
+    plt.plot(rewards_r_res[i], linewidth=2)
     plt.fill_between(x, rewards_r_res[i] + rew_res_std[i], rewards_r_res[i] - rew_res_std[i], alpha=0.2)
 
-    plt.plot(rewards_r_hrf[i], linewidth=3)
+
+    plt.plot(rewards_r_hrf[i], linewidth=2)
     plt.fill_between(x, rewards_r_hrf[i] + rew_hrf_std[i], rewards_r_hrf[i] - rew_hrf_std[i], alpha=0.2)
 
-    plt.plot(rewards_r_res_cur[i], linewidth=3)
+
+    plt.plot(rewards_r_res_cur[i], linewidth=2)
     plt.fill_between(x, rewards_r_res_cur[i] + rew_res_cur_std[i], rewards_r_res_cur[i] - rew_res_cur_std[i], alpha=0.2)
 
-
-    plt.plot(rewards_r_hrf_cur[i], linewidth=3)
+    plt.plot(rewards_r_hrf_cur[i], linewidth=2)
     plt.fill_between(x, rewards_r_hrf_cur[i] + rew_hrf_cur_std[i], rewards_r_hrf_cur[i] - rew_hrf_cur_std[i], alpha=0.2)
+
+
+    plt.axvline(x=i * l_i, color="black", linewidth=3)
 
     plt.legend(legend)
     plt.xlabel('No of steps X1000')
     plt.ylabel("Reward")
     plt.title("For SAC trained at " + str(changing_variable_name) + " of " + str(changing_variable[i]))
-    name = "buff_size_1000/diff_buffer_type" + "/" + "diff_buffer_type_" + str(changing_variable[i]) + ".png"
+    name = "buff_size_"+ str(m_s) + "/diff_buffer_type" + "/" + "diff_buffer_type_" + str(changing_variable[i]) + ".png"
     plt.savefig(name)
     plt.close(fig)

@@ -63,7 +63,7 @@ class SAC():
         elif buffer_type == "Reservior":
             self.replay_buffer = Reservoir_Replay_Memory(capacity=memory_capacity)
         elif buffer_type == "Half_Reservior_FIFO":
-            self.replay_buffer = Reservoir_with_FIFO_Replay_Buffer(capacity=memory_capacity)
+            self.replay_buffer = Reservoir_with_FIFO_Replay_Buffer(capacity=memory_capacity, fifo_fac=0.3)
         elif buffer_type == "MTR":
             self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=5)
 

@@ -80,7 +80,7 @@ class SAC_with_Curiosity_Buffer():
         if buffer_type == "Reservior":
             self.replay_buffer = Reservoir_with_Cur_Replay_Memory(capacity=memory_capacity)
         elif buffer_type == "Half_Reservior_FIFO":
-            self.replay_buffer = Half_Reservoir_w_Cur_FIFO_Replay_Buffer(capacity=memory_capacity)
+            self.replay_buffer = Half_Reservoir_w_Cur_FIFO_Replay_Buffer(capacity=memory_capacity, fifo_fac=0.3)
 
         self.debug = debug
 
