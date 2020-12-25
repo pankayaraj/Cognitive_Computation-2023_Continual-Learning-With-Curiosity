@@ -7,7 +7,7 @@ length_interval = 30000
 l_interval_rate = 0.4
 l_linear_rate = 65e-7
 update_on_interval = False
-no_steps = 160000
+no_steps = 200000
 
 dir_name = "buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF_Cur"
 

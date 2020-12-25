@@ -7,7 +7,7 @@ length_interval = 30000
 l_interval_rate = 0.4
 l_linear_rate = 65e-7
 update_on_interval = True
-no_steps = 160000
+no_steps = 200000
 
 total_samples = 5
 
