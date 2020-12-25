@@ -7,7 +7,7 @@ from parameters import Algo_Param, NN_Paramters, Save_Paths, Load_Paths
 from util.replay_buffer import Replay_Memory
 from util.reservoir_replay_buffer import Reservoir_Replay_Memory
 from util.reservoir_with_fifo_replay_buffer import Reservoir_with_FIFO_Replay_Buffer
-
+from util.multi_time_scale_buffer import Multi_time_Scale_Buffer
 
 class SAC():
 
@@ -64,6 +64,8 @@ class SAC():
             self.replay_buffer = Reservoir_Replay_Memory(capacity=memory_capacity)
         elif buffer_type == "Half_Reservior_FIFO":
             self.replay_buffer = Reservoir_with_FIFO_Replay_Buffer(capacity=memory_capacity)
+        elif buffer_type == "MTR":
+            self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=5)
 
     def get_action(self, state, evaluate=False):
 

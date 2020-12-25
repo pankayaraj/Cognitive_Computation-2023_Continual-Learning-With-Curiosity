@@ -118,10 +118,14 @@ for i in range(args.no_steps):
 
 
     if args.interval_based_increment:
+
         if i%args.rate_change_interval == 0:
             print("Length Change")
             if i != 0:
-                A.env.set_length(length=env.l + args.l_interval_rate)
+                if i == 60000:
+                    pass
+                else:
+                    A.env.set_length(length=env.l + args.l_interval_rate)
 
     else:
         if i != 0:
@@ -177,7 +181,7 @@ for i in range(args.no_steps):
             print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
 
 torch.save(A.replay_buffer, save_dir + "/replay_mem")
-torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_1")
+torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_2")
 
 if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer":
     torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity")

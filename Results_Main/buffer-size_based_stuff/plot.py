@@ -9,7 +9,7 @@ l_linear_rate = 65e-7
 update_on_interval = False
 no_steps = 120000
 
-dir_name = "buff_size_1000/linear_False_m_s_1000__restart_alpha_False_Buffer_HRF"
+dir_name = "buff_size_10000/linear_False_m_s_1000__restart_alpha_False_Buffer_MTR"
 
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]

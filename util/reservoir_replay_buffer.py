@@ -1,6 +1,8 @@
 import numpy as np
 import heapq
 import random
+from itertools import count
+
 class Transition_tuple():
 
     def __init__(self, state, action, action_mean, reward, next_state, done_mask):
@@ -20,15 +22,19 @@ class Reservoir_Replay_Memory():
     def __init__(self, capacity=10000):
         self.capacity = capacity
         self.storage = []
+        self.tiebreaker = count()
 
     def push(self, state, action, action_mean, reward, next_state, done_mask):
         data = (state, action, action_mean, reward, next_state, done_mask)
         priority = random.uniform(0, 1)
 
+
+        d = (priority, next(self.tiebreaker), data)
+
         if len(self.storage) < self.capacity:
-            heapq.heappush(self.storage, (priority, data))
+            heapq.heappush(self.storage, d)
         elif priority > self.storage[0][0]:
-            heapq.heapreplace(self.storage, (priority, data))
+            heapq.heapreplace(self.storage, d)
 
     def sample(self, batch_size):
         indices = self.get_sample_indices(batch_size)
@@ -40,7 +46,7 @@ class Reservoir_Replay_Memory():
     def encode_sample(self, indices):
         state, action, action_mean, reward, next_state, done_mask = [], [], [], [], [], []
         for i in indices:
-            data = self.storage[i][1]
+            data = self.storage[i][2]
             s, a, a_m, r, n_s, d = data
 
             state.append(s)
