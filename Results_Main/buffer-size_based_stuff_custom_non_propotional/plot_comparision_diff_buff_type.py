@@ -16,7 +16,7 @@ dir_name_r_fifo = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__r
 dir_name_r_hrf = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_HRF"
 dir_name_r_res = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_Res"
 dir_name_r_res_cur = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_Res_Cur"
-dir_name_r_hrf_cur = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_HRF_Cur"
+dir_name_r_hrf_cur = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_HRF_TR_Cur"
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]
 if update_on_interval:

@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="" />
+    <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/util/reservior_w_cur_time_restriction_buffer_n_FIFO.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/util/reservior_w_cur_time_restriction_buffer_n_FIFO_flow_through.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.195.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.2.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.3900000000000001.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.4.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.5850000000000002.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.6.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_comparision.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_comparision.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot_avg.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot_avg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot_comparision_diff_buff_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot_comparision_diff_buff_type.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithms/SAC_w_Cur_Buffer.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/SAC_w_Cur_Buffer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_memn_n_c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/forward_curiosity" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/forward_curiosity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/inverse_curiosity" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/inverse_curiosity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_4" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/test_catastropic_fogetting_custom_env_change.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/test_catastropic_fogetting_custom_env_change.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/reservior_w_cur_time_restriction_buffer.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/reservior_w_cur_time_restriction_buffer.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,7 +71,7 @@
       <recent name="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.plot_comparision_diff_buff_type (2)">
+  <component name="RunManager" selected="Python.test_catastropic_fogetting_custom_env_change">
     <configuration name="plot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -106,7 +135,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_catastropic_fogetting" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="reservior_w_cur_time_restriction_buffer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -114,11 +143,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/util" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/test_catastropic_fogetting.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/util/reservior_w_cur_time_restriction_buffer.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -149,19 +178,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.test_catastropic_fogetting_custom_env_change" />
       <item itemvalue="Python.plot" />
       <item itemvalue="Python.plot_avg" />
       <item itemvalue="Python.plot_comparision_diff_buff_type (2)" />
-      <item itemvalue="Python.test_catastropic_fogetting" />
+      <item itemvalue="Python.test_catastropic_fogetting_custom_env_change" />
+      <item itemvalue="Python.reservior_w_cur_time_restriction_buffer" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_catastropic_fogetting_custom_env_change" />
         <item itemvalue="Python.plot_comparision_diff_buff_type (2)" />
         <item itemvalue="Python.plot_avg" />
         <item itemvalue="Python.plot" />
-        <item itemvalue="Python.test_catastropic_fogetting_custom_env_change" />
-        <item itemvalue="Python.test_catastropic_fogetting" />
+        <item itemvalue="Python.reservior_w_cur_time_restriction_buffer" />
       </list>
     </recent_temporary>
   </component>

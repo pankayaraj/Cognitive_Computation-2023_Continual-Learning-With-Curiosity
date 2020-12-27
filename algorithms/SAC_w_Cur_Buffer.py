@@ -5,6 +5,8 @@ from model import Q_Function_NN, Value_Function_NN, Continuous_Gaussian_Policy, 
 from parameters import Algo_Param, NN_Paramters, Save_Paths, Load_Paths
 from util.reservoir_w_cur_replay_buffer import Reservoir_with_Cur_Replay_Memory
 from util.reservoir_w_cur_fifo_replay_buffer import Half_Reservoir_w_Cur_FIFO_Replay_Buffer
+from util.reservior_w_cur_time_restriction_buffer import Reservoir_with_Cur_n_Time_Restirction_Replay_Memory
+from util.reservior_w_cur_time_restriction_buffer_n_FIFO import Half_Reservoir_w_Curn_Time_Restriction_FIFO_Replay_Buffer
 
 class Debug():
     def __init__(self):
@@ -81,6 +83,12 @@ class SAC_with_Curiosity_Buffer():
             self.replay_buffer = Reservoir_with_Cur_Replay_Memory(capacity=memory_capacity)
         elif buffer_type == "Half_Reservior_FIFO":
             self.replay_buffer = Half_Reservoir_w_Cur_FIFO_Replay_Buffer(capacity=memory_capacity, fifo_fac=0.3)
+        elif buffer_type == "Reservior_TR":
+            self.replay_buffer = Reservoir_with_Cur_n_Time_Restirction_Replay_Memory(capacity=memory_capacity,
+                                                                                     lambda_v=0.5, r=1, slope=3, shift=5 )
+        elif buffer_type == "Half_Reservior_TR_FIFO":
+            self.replay_buffer = Half_Reservoir_w_Curn_Time_Restriction_FIFO_Replay_Buffer(capacity=memory_capacity,
+                                                                                     fifo_fac = 0.3, lambda_v=0.5, r=1, slope=3, shift=5)
 
         self.debug = debug
 

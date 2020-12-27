@@ -16,8 +16,8 @@ from custom_envs.custom_pendulum import PendulumEnv
 parser = argparse.ArgumentParser(description='SAC arguments')
 #"SAC_w_cur_buffer"
 #Half_Reservior_FIFO
-parser.add_argument("--algo", type=str, default="SAC")
-parser.add_argument("--buffer_type", type=str, default="Reservior")
+parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
+parser.add_argument("--buffer_type", type=str, default="Reservior_TR")
 parser.add_argument("--env", type=str, default="Pendulum-v0")
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
@@ -105,9 +105,11 @@ state = A.initalize()
 for i in range(args.no_steps):
 
     if i%change_varaiable_at[c] == 0:
+        torch.save(A.replay_buffer, save_dir + "/replay_memn_c_t" + str(c))
         A.env.set_length(length=change_varaiable[c])
         if c < len(change_varaiable_at)-1:
             c += 1
+
 
 
     if args.restart_alpha:
@@ -158,10 +160,11 @@ for i in range(args.no_steps):
                 pass
 
             print(env.l)
-            print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
+            #print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
+            print("reward at itr " + str(i) + " = " + str(rew_total) +  " for length: " + str(l))
 
-torch.save(A.replay_buffer, save_dir + "/replay_memn_n_c")
-torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_1")
+torch.save(A.replay_buffer, save_dir + "/replay_memn_c_t")
+torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_4")
 
 if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer":
     torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity")
