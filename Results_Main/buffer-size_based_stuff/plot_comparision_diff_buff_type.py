@@ -9,7 +9,7 @@ l_linear_rate = 65e-7
 update_on_interval = False
 no_steps = 120000
 
-m_s = 2000
+m_s = 1000
 l_i = length_interval//1000
 dir_name_r_fifo = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_FIFO"
 dir_name_r_hrf = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_HRF"
@@ -33,7 +33,7 @@ load_dir_5 = "results_length__s_i_1000_5"
 changing_variable_name = "diff_buffer_type_comparision"
 
 
-legend = [ "FIFO", "Reservior", "Reservior with FIFO", "Curiosity based Reservior", "Curiosity based Reservior with FIFO" ]
+legend = [ "FIFO", "Reservior", "Reservior with FIFO", ]
 
 
 #HRF
@@ -202,12 +202,12 @@ plt.fill_between(x, rewards_r_res_avg + rew_res_ind_std, rewards_r_res_avg - rew
 plt.plot(rewards_r_hrf_avg, linewidth=3)
 plt.fill_between(x, rewards_r_hrf_avg + rew_hrf_ind_std, rewards_r_hrf_avg - rew_hrf_ind_std, alpha = 0.2)
 
-plt.plot(rewards_r_res_cur_avg, linewidth=3)
-plt.fill_between(x, rewards_r_res_cur_avg + rew_res_cur_ind_std, rewards_r_res_cur_avg - rew_res_cur_ind_std, alpha = 0.2)
+#plt.plot(rewards_r_res_cur_avg, linewidth=3)
+#plt.fill_between(x, rewards_r_res_cur_avg + rew_res_cur_ind_std, rewards_r_res_cur_avg - rew_res_cur_ind_std, alpha = 0.2)
 
 
-plt.plot(rewards_r_hrf_cur_avg, linewidth=3)
-plt.fill_between(x, rewards_r_hrf_cur_avg + rew_hrf_cur_ind_std, rewards_r_hrf_cur_avg - rew_hrf_cur_ind_std, alpha = 0.2)
+#plt.plot(rewards_r_hrf_cur_avg, linewidth=3)
+#plt.fill_between(x, rewards_r_hrf_cur_avg + rew_hrf_cur_ind_std, rewards_r_hrf_cur_avg - rew_hrf_cur_ind_std, alpha = 0.2)
 
 
 plt.legend(legend)
@@ -232,11 +232,11 @@ for i in range(len(changing_variable)):
     plt.fill_between(x, rewards_r_hrf[i] + rew_hrf_std[i], rewards_r_hrf[i] - rew_hrf_std[i], alpha=0.2)
 
 
-    plt.plot(rewards_r_res_cur[i], linewidth=2)
-    plt.fill_between(x, rewards_r_res_cur[i] + rew_res_cur_std[i], rewards_r_res_cur[i] - rew_res_cur_std[i], alpha=0.2)
+    #plt.plot(rewards_r_res_cur[i], linewidth=2)
+    #plt.fill_between(x, rewards_r_res_cur[i] + rew_res_cur_std[i], rewards_r_res_cur[i] - rew_res_cur_std[i], alpha=0.2)
 
-    plt.plot(rewards_r_hrf_cur[i], linewidth=2)
-    plt.fill_between(x, rewards_r_hrf_cur[i] + rew_hrf_cur_std[i], rewards_r_hrf_cur[i] - rew_hrf_cur_std[i], alpha=0.2)
+    #plt.plot(rewards_r_hrf_cur[i], linewidth=2)
+    #plt.fill_between(x, rewards_r_hrf_cur[i] + rew_hrf_cur_std[i], rewards_r_hrf_cur[i] - rew_hrf_cur_std[i], alpha=0.2)
 
 
     plt.axvline(x=i * l_i, color="black", linewidth=3)

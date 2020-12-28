@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 
 
-change_variable_at = [0, 30, 60, 120, 200]
-change_variable = [1.0, 1.2, 1.4, 1.6, 1.6]
+change_variable_at = [0, 30, 60, 90, 120]
+change_variable = [1.0, 1.2, 1.4, 1.6, 120]
 
 change_var  = [1.0]
 
@@ -12,11 +12,12 @@ for i in range(1, len(change_variable_at)):
         change_var.append(change_variable[i-1])
         j += 1
 
+"""
 change_var = [1.0 for i in range(90)]
 for i in range(1, 90):
 
     change_var[i] = change_var[i-1] +  65e-7
-
+"""
 
 plt.plot(change_var)
-plt.savefig("setting_0")
+plt.savefig("setting_2_1")

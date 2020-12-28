@@ -9,7 +9,7 @@ l_linear_rate = 65e-7
 update_on_interval = False
 no_steps = 90000
 
-dir_name_r_f = "curiosity_False_linear_False_m_s_10000__restart_alpha_False"
+dir_name_r_f = "curiosity_False_linear_True_m_s_10000__restart_alpha_False"
 dir_name_r_t = "curiosity_True_linear_False_m_s_10000__restart_alpha_False"
 
 changing_variable = [1.0  for i in range(int(no_steps / length_interval))]
@@ -67,8 +67,8 @@ plt.plot(rewards_r_f_avg, linewidth=3)
 plt.legend(legend)
 plt.xlabel('No of steps X1000')
 plt.ylabel("Reward")
-plt.title("For SAC trained at " + str(changing_variable_name) + " of " + str(changing_variable[0]) )
-name = "curiosity" + "/" + changing_variable_name
+plt.title("Average" )
+name = "curiosity" + "/" + "avg"
 plt.savefig(name)
 plt.close(fig)
 
@@ -79,7 +79,7 @@ for i in range(len(changing_variable)):
     plt.legend(legend)
     plt.xlabel('No of steps X1000')
     plt.ylabel("Reward")
-    plt.title("For SAC trained at " + str(changing_variable_name) + " of " + str(changing_variable[0]))
+    plt.title("Length = " + str(changing_variable[i]))
     name = "curiosity" + "/" + "time_stamp_" + str(changing_variable[i]) + ".png"
     plt.savefig(name)
     plt.close(fig)
