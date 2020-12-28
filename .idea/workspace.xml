@@ -2,18 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/util/reservior_w_cur_time_restriction_buffer_n_FIFO.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/reservior_w_cur_time_restriction_buffer_n_FIFO_flow_through.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/util/replay_buff_cur.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.195.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.2.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.3900000000000001.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.4.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.5850000000000002.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.6.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.6.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_comparision.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_comparision.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF/length.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF/length.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF/length_avg.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF/length_avg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF/results_length__s_i_1000_3" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF/results_length__s_i_1000_3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF/results_length__s_i_1000_4" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF/results_length__s_i_1000_4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF/results_length__s_i_1000_5" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/linear_False_m_s_2000__restart_alpha_False_Buffer_HRF/results_length__s_i_1000_5" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot_avg.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot_avg.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot_comparision_diff_buff_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot_comparision_diff_buff_type.py" afterDir="false" />
@@ -21,15 +21,21 @@
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_memn_n_c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2_target" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_memn_c_t" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_memn_c_t" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_memn_c_t0" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_memn_c_t0" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_memn_c_t1" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_memn_c_t1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_memn_c_t2" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_memn_c_t2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_memn_c_t3" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_memn_c_t3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/forward_curiosity" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/forward_curiosity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/inverse_curiosity" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/inverse_curiosity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_4" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_5" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_5" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/test_catastropic_fogetting_custom_env_change.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/test_catastropic_fogetting_custom_env_change.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/reservior_w_cur_time_restriction_buffer.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/reservior_w_cur_time_restriction_buffer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/reservior_w_cur_time_restriction_buffer_n_FIFO_flow_through.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/reservior_w_cur_time_restriction_buffer_n_FIFO_flow_through.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,8 +194,8 @@
       <list>
         <item itemvalue="Python.test_catastropic_fogetting_custom_env_change" />
         <item itemvalue="Python.plot_comparision_diff_buff_type (2)" />
-        <item itemvalue="Python.plot_avg" />
         <item itemvalue="Python.plot" />
+        <item itemvalue="Python.plot_avg" />
         <item itemvalue="Python.reservior_w_cur_time_restriction_buffer" />
       </list>
     </recent_temporary>
