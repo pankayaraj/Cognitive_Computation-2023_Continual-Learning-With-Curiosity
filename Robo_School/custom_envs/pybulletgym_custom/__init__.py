@@ -1,1 +1,0 @@
-from custom_envs.pybulletgym_custom.envs import register  # this is included to trigger env loading
