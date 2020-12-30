@@ -34,8 +34,12 @@ class Reservoir_with_Cur_Replay_Memory():
 
         if len(self.storage) < self.capacity:
             heapq.heappush(self.storage, d)
+            return True
         elif priority > self.storage[0][0]:
             heapq.heapreplace(self.storage, d)
+            return True
+        else:
+            return False
 
     def sample(self, batch_size):
         indices = self.get_sample_indices(batch_size)

@@ -2,20 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Continual-Learning-With-Curiosity.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Continual-Learning-With-Curiosity.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.2.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.4.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.6.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_comparision.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/buff_size_2000/diff_buffer_type/diff_buffer_type_comparision.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot_comparision_diff_buff_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot_comparision_diff_buff_type.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/additional_test/Tests/compare_precentage.py" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/compare_precentage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/additional_test/Tests/custom_non_proportional_2/ratio_comparision_at_120000.png" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/custom_non_proportional_2/ratio_comparision_at_120000.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/additional_test/Tests/custom_non_proportional_2/ratio_comparision_at_200000.png" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/custom_non_proportional_2/ratio_comparision_at_200000.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/additional_test/Tests/custom_non_proportional_2/ratio_comparision_at_30000.png" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/custom_non_proportional_2/ratio_comparision_at_30000.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/additional_test/Tests/custom_non_proportional_2/ratio_comparision_at_60000.png" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/custom_non_proportional_2/ratio_comparision_at_60000.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_alogrithms/SAC_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_alogrithms/SAC_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/test_time_fun.py" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/test_time_fun.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/reservoir_w_cur_replay_buffer.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/reservoir_w_cur_replay_buffer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,20 +49,21 @@
       <recent name="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.SAC_test">
-    <configuration name="SAC_test" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.test_time_fun">
+    <configuration name="plot_comparision_curiosity" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_alogrithms" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="SDK_HOME" value="D:\SOFTWARES\Programming\Anaconda\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main/curiosity_based_stuff" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_alogrithms/SAC_test.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/curiosity_based_stuff/plot_comparision_curiosity.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -79,19 +72,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="compare_precentage" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="plot_comparision_diff_buff_type" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/additional_test/Tests" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="SDK_HOME" value="D:\SOFTWARES\Programming\Anaconda\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/additional_test/Tests/compare_precentage.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff/plot_comparision_diff_buff_type.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -100,7 +94,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="plot_comparision_diff_buff_type (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="plot_time_fun" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -108,11 +102,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff_custom_non_propotional/plot_comparision_diff_buff_type.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/plot_time_fun.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -151,11 +146,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/additional_test/Tests" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/additional_test/Tests/test_time_fun.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/test_time_fun.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -165,23 +161,23 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.plot_comparision_curiosity" />
+      <item itemvalue="Python.plot_comparision_diff_buff_type" />
       <item itemvalue="Python.temp_plots" />
-      <item itemvalue="Python.compare_precentage" />
-      <item itemvalue="Python.plot_comparision_diff_buff_type (1)" />
       <item itemvalue="Python.test_time_fun" />
-      <item itemvalue="Python.SAC_test" />
+      <item itemvalue="Python.plot_time_fun" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.SAC_test" />
-        <item itemvalue="Python.temp_plots" />
         <item itemvalue="Python.test_time_fun" />
-        <item itemvalue="Python.compare_precentage" />
-        <item itemvalue="Python.plot_comparision_diff_buff_type (1)" />
+        <item itemvalue="Python.plot_time_fun" />
+        <item itemvalue="Python.temp_plots" />
+        <item itemvalue="Python.plot_comparision_diff_buff_type" />
+        <item itemvalue="Python.plot_comparision_curiosity" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -203,11 +199,57 @@
       <workItem from="1606530000463" duration="7191000" />
       <workItem from="1608205208069" duration="672000" />
       <workItem from="1608462410278" duration="1347000" />
-      <workItem from="1609173484223" duration="2602000" />
+      <workItem from="1609173484223" duration="3096000" />
+      <workItem from="1609341219197" duration="2942000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="503" y="54" key="#plot_comparision_curiosity" timestamp="1609173666587">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="503" y="54" key="#plot_comparision_curiosity/0.0.1536.824@0.0.1536.824" timestamp="1609173666587" />
+    <state x="503" y="54" key="#plot_comparision_diff_buff_type" timestamp="1609175585643">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="503" y="54" key="#plot_comparision_diff_buff_type/0.0.1536.824@0.0.1536.824" timestamp="1609175585643" />
+    <state x="503" y="54" key="#temp_plots" timestamp="1609177369136">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="503" y="54" key="#temp_plots/0.0.1536.824@0.0.1536.824" timestamp="1609177369136" />
+    <state width="1478" height="204" key="GridCell.Tab.0.bottom" timestamp="1609344121503">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1478" height="204" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1609344121503" />
+    <state width="1478" height="204" key="GridCell.Tab.0.center" timestamp="1609344121503">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1478" height="204" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1609344121503" />
+    <state width="1478" height="204" key="GridCell.Tab.0.left" timestamp="1609344121503">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1478" height="204" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1609344121503" />
+    <state width="1478" height="204" key="GridCell.Tab.0.right" timestamp="1609344121503">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1478" height="204" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1609344121503" />
+    <state x="279" y="58" key="SettingsEditor" timestamp="1609341359869">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="279" y="58" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1609341359869" />
+    <state x="477" y="240" key="com.intellij.ide.util.TipDialog" timestamp="1609341300137">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="477" y="240" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1609341300137" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Continual_Learning_With_Curiosity$plot_comparision_curiosity.coverage" NAME="plot_comparision_curiosity Coverage Results" MODIFIED="1609174538240" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Results_Main/curiosity_based_stuff" />
+    <SUITE FILE_PATH="coverage/Continual_Learning_With_Curiosity$plot_comparision_diff_buff_type.coverage" NAME="plot_comparision_diff_buff_type Coverage Results" MODIFIED="1609175585670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff" />
+    <SUITE FILE_PATH="coverage/Continual_Learning_With_Curiosity$test_time_fun.coverage" NAME="test_time_fun Coverage Results" MODIFIED="1609344121490" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional" />
+    <SUITE FILE_PATH="coverage/Continual_Learning_With_Curiosity$temp_plots.coverage" NAME="temp_plots Coverage Results" MODIFIED="1609177408070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/additional_test/Tests" />
+    <SUITE FILE_PATH="coverage/Continual_Learning_With_Curiosity$plot_time_fun.coverage" NAME="plot_time_fun Coverage Results" MODIFIED="1609343125761" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional" />
   </component>
 </project>
