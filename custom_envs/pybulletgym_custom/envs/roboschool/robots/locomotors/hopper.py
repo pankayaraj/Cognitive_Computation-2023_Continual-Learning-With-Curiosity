@@ -6,7 +6,7 @@ class Hopper(WalkerBase, MJCFBasedRobot):
     foot_list = ["foot"]
 
     def __init__(self, power=0.75):
-
+        self.power = power
         WalkerBase.__init__(self, power=power)
         MJCFBasedRobot.__init__(self, "hopper.xml", "torso", action_dim=3, obs_dim=15)
 

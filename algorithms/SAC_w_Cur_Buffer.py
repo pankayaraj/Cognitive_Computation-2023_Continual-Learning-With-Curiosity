@@ -224,7 +224,7 @@ class SAC_with_Curiosity_Buffer():
         with torch.no_grad():
             f_icm_r = torch.nn.functional.mse_loss(p_next_state,
                                                    torch.Tensor(next_state).to(self.icm_nn_param.device)).cpu().detach().numpy()
-            i_icm_r = torch.nn.functional.mse_loss(p_action, torch.Tensor(action)).cpu().detach().numpy()
+            i_icm_r = torch.nn.functional.mse_loss(p_action, torch.Tensor(action).to(self.icm_nn_param.device)).cpu().detach().numpy()
 
         self.debug.f_icm_r = f_icm_r
         self.debug.i_icm_r = i_icm_r

@@ -68,7 +68,7 @@ algo_nn_param = Algo_Param(gamma=0.99, alpha=0.2, tau=0.005, target_update_inter
 
 A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=4000, memory_capacity=100000
         ,batch_size=256, alpha_lr=0.0003)
-A.load("q1", "q2", "q1", "q2", "policy_target")
+#A.load("q1", "q2", "q1", "q2", "policy_target")
 
 save_interval = 1000
 eval_interval = 1000
@@ -100,8 +100,6 @@ for i in range(500000):
                 s, r, d, _ = e.step(a)
 
                 rew += r
-
-                #e.render()
 
                 if d == True:
                     break
