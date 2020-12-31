@@ -126,8 +126,7 @@ for i in range(args.no_steps):
         if c < len(change_varaiable_at)-1:
             c += 1
 
-    if i == args.no_steps-1:
-        torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem_" + str(c+1))
+
 
     if args.restart_alpha:
         if i%args.restart_alpha_interval == 0:
@@ -186,7 +185,8 @@ for i in range(args.no_steps):
             #print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
             print("reward at itr " + str(i) + " = " + str(rew_total) +  " for variable: " + str(l))
 
-#torch.save(A.replay_buffer, save_dir + "/replay_mem_c_t")
+#saving the final buffer
+torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem_" + str(c+1))
 torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_" + str(experiment_no))
 
 if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer":

@@ -35,7 +35,7 @@ for j in range(len(M1)):
     x4 = 0
     a = M1[j].reservior_buffer.storage
     #a = M1[j].storage
-
+    
 
     for i in range(len(a)):
         
@@ -46,10 +46,9 @@ for j in range(len(M1)):
         elif a[i][1] >= change_var_at[2] and a[i][1] < change_var_at[3]:
             x3 += 1
         elif a[i][1] >= change_var_at[3] :
-
             x4 += 1
 
-
+    print(x1, x2, x3, x4)
     size = len(a)
     ratio1.append([x1/size, x2/size, x3/size, x4/size])
 
@@ -73,7 +72,7 @@ for j in range(len(M1)):
             x4 += 1
     size = len(a)
     ratio2.append([x1 / size, x2 / size, x3 / size, x4 / size])
-
+    print(x1, x2, x3, x4)
 labels = ["p = 0.75", "p = 1.75", "p = 2.75", "p = 3.75"]
 x = np.arange(len(labels))  # the label locations
 width = 0.35  # the width of the bars
