@@ -7,7 +7,7 @@ import numpy as np
 
 no_steps = 400000
 
-dir_name = "buff_size_50k/res_cur_tr_ft"
+dir_name = "buff_size_50k/hrf"
 
 
 changing_variable = [0.75, 1.75, 2.75, 3.75]
@@ -52,10 +52,13 @@ fig, ax = plt.subplots(1, 1, figsize=(70, 30))
 
 for i in range(len(changing_variable)):
     plt.plot(x, rewards[i], linewidth=3)
-    plt.fill_between(x, rewards[i] + rew_std[i], rewards[i] - rew_std[i], alpha = 0.3)
-    plt.axvline(changing_variable_at[i], color="black", linewidth=3)
+    plt.fill_between(x, rewards[i] + rew_std[i], rewards[i] - rew_std[i], alpha = 0.1)
 
 plt.legend(legend, prop={'size':30})
+
+for i in range(len(changing_variable)):
+    plt.axvline(changing_variable_at[i], color="black", linewidth=5)
+
 plt.xlabel('No of steps X1000')
 plt.ylabel("Reward")
 plt.title("For SAC trained at " + str(changing_variable_name) + " of " + str(changing_variable[0]))

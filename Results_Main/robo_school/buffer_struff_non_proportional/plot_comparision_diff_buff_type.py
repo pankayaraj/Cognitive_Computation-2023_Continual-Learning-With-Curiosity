@@ -8,10 +8,10 @@ no_steps = 400000
 m_s = "50k"
 
 dir_name_r_fifo = "buff_size_" + m_s +"/fifo"
-#dir_name_r_hrf = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_HRF"
+dir_name_r_hrf = "buff_size_" + m_s + "/hrf"
 #dir_name_r_res = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_Res"
 #dir_name_r_res_cur = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_Res_Cur"
-dir_name_r_hrf_cur =  "buff_size_50k/res_cur_tr_ft"
+dir_name_r_hrf_cur =  "buff_size_" + m_s + "/hrf_cur_tr_ft"
 
 changing_variable = [0.75, 1.75, 2.75, 3.75]
 changing_variable_at = [0, 100, 150, 350]
@@ -24,9 +24,9 @@ load_dir_5 = "results_length__s_i_1000_5"
 
 changing_variable_name = "diff_buffer_type_comparision"
 
-legend = ["FIFO", "Curiosity Reservoir with FIFO"]
+legend = ["FIFO", "HRF", "Curious HRF"]
 
-"""
+
 #HRF
 r1 = torch.load(dir_name_r_hrf + "/" + load_dir_1)
 r2 = torch.load(dir_name_r_hrf + "/" + load_dir_2)
@@ -53,7 +53,7 @@ rew_hrf_std = np.std(rew_hrf_total, axis=1)
 rew_hrf_ind_total = np.array([r1, r2, r3, r4, r5])
 rew_hrf_ind_avg = np.sum(rew_hrf_ind_total, axis=1)/len(rewards_r_hrf)
 rew_hrf_ind_std = np.std(rew_hrf_ind_avg, axis=0)
-"""
+
 #fifo
 
 r1 = torch.load(dir_name_r_fifo + "/" + load_dir_1)
@@ -176,29 +176,29 @@ rew_hrf_cur_ind_std = np.std(rew_hrf_cur_ind_avg, axis=0)
 
 rewards_r_fifo_avg = np.sum(rewards_r_fifo, axis=0)/len(rewards_r_fifo)
 #rewards_r_res_avg = np.sum(rewards_r_res, axis=0)/len(rewards_r_res)
-#rewards_r_hrf_avg = np.sum(rewards_r_hrf, axis=0)/len(rewards_r_hrf)
+rewards_r_hrf_avg = np.sum(rewards_r_hrf, axis=0)/len(rewards_r_hrf)
 #rewards_r_res_cur_avg = np.sum(rewards_r_res_cur, axis=0)/len(rewards_r_res_cur)
 rewards_r_hrf_cur_avg = np.sum(rewards_r_hrf_cur, axis=0)/len(rewards_r_hrf_cur)
 
 x = [i for i in range(no_steps//1000)]
 
 fig, ax = plt.subplots(1, 1, figsize=(70, 30))
-plt.plot(rewards_r_fifo_avg, linewidth=3)
-plt.fill_between(x, rewards_r_fifo_avg + rew_fifo_ind_std, rewards_r_fifo_avg - rew_fifo_ind_std, alpha = 0.2)
+plt.plot(rewards_r_fifo_avg, linewidth=5)
+plt.fill_between(x, rewards_r_fifo_avg + rew_fifo_ind_std, rewards_r_fifo_avg - rew_fifo_ind_std, alpha = 0.1)
 
 
-#plt.plot(rewards_r_res_avg, linewidth=3)
-#plt.fill_between(x, rewards_r_res_avg + rew_res_ind_std, rewards_r_res_avg - rew_res_ind_std, alpha = 0.2)
+#plt.plot(rewards_r_res_avg, linewidth=5)
+#plt.fill_between(x, rewards_r_res_avg + rew_res_ind_std, rewards_r_res_avg - rew_res_ind_std, alpha = 0.1)
 
-#plt.plot(rewards_r_hrf_avg, linewidth=3)
-#plt.fill_between(x, rewards_r_hrf_avg + rew_hrf_ind_std, rewards_r_hrf_avg - rew_hrf_ind_std, alpha = 0.2)
+plt.plot(rewards_r_hrf_avg, linewidth=5)
+plt.fill_between(x, rewards_r_hrf_avg + rew_hrf_ind_std, rewards_r_hrf_avg - rew_hrf_ind_std, alpha = 0.1)
 
-#plt.plot(rewards_r_res_cur_avg, linewidth=3)
-#plt.fill_between(x, rewards_r_res_cur_avg + rew_res_cur_ind_std, rewards_r_res_cur_avg - rew_res_cur_ind_std, alpha = 0.2)
+#plt.plot(rewards_r_res_cur_avg, linewidth=5)
+#plt.fill_between(x, rewards_r_res_cur_avg + rew_res_cur_ind_std, rewards_r_res_cur_avg - rew_res_cur_ind_std, alpha = 0.1)
 
 
-plt.plot(rewards_r_hrf_cur_avg, linewidth=3)
-plt.fill_between(x, rewards_r_hrf_cur_avg + rew_hrf_cur_ind_std, rewards_r_hrf_cur_avg - rew_hrf_cur_ind_std, alpha = 0.2)
+plt.plot(rewards_r_hrf_cur_avg, linewidth=5)
+plt.fill_between(x, rewards_r_hrf_cur_avg + rew_hrf_cur_ind_std, rewards_r_hrf_cur_avg - rew_hrf_cur_ind_std, alpha = 0.1)
 
 
 plt.legend(legend,  prop={'size':30})
@@ -211,23 +211,23 @@ plt.close(fig)
 
 for i in range(len(changing_variable)):
     fig, ax = plt.subplots(1, 1, figsize=(70, 30))
-    plt.plot(rewards_r_fifo[i], linewidth=3)
-    plt.fill_between(x, rewards_r_fifo[i] + rew_fifo_std[i], rewards_r_fifo[i] - rew_fifo_std[i], alpha=0.2)
+    plt.plot(rewards_r_fifo[i], linewidth=5)
+    plt.fill_between(x, rewards_r_fifo[i] + rew_fifo_std[i], rewards_r_fifo[i] - rew_fifo_std[i], alpha=0.1)
 
 
-    #plt.plot(rewards_r_res[i], linewidth=2)
-    #plt.fill_between(x, rewards_r_res[i] + rew_res_std[i], rewards_r_res[i] - rew_res_std[i], alpha=0.2)
+    #plt.plot(rewards_r_res[i], linewidth=5)
+    #plt.fill_between(x, rewards_r_res[i] + rew_res_std[i], rewards_r_res[i] - rew_res_std[i], alpha=0.1)
 
 
-    #plt.plot(rewards_r_hrf[i], linewidth=2)
-    #plt.fill_between(x, rewards_r_hrf[i] + rew_hrf_std[i], rewards_r_hrf[i] - rew_hrf_std[i], alpha=0.2)
+    plt.plot(rewards_r_hrf[i], linewidth=5)
+    plt.fill_between(x, rewards_r_hrf[i] + rew_hrf_std[i], rewards_r_hrf[i] - rew_hrf_std[i], alpha=0.1)
 
 
-    #plt.plot(rewards_r_res_cur[i], linewidth=2)
-    #plt.fill_between(x, rewards_r_res_cur[i] + rew_res_cur_std[i], rewards_r_res_cur[i] - rew_res_cur_std[i], alpha=0.2)
+    #plt.plot(rewards_r_res_cur[i], linewidth=5)
+    #plt.fill_between(x, rewards_r_res_cur[i] + rew_res_cur_std[i], rewards_r_res_cur[i] - rew_res_cur_std[i], alpha=0.1)
 
-    plt.plot(rewards_r_hrf_cur[i], linewidth=3)
-    plt.fill_between(x, rewards_r_hrf_cur[i] + rew_hrf_cur_std[i], rewards_r_hrf_cur[i] - rew_hrf_cur_std[i], alpha=0.2)
+    plt.plot(rewards_r_hrf_cur[i], linewidth=5)
+    plt.fill_between(x, rewards_r_hrf_cur[i] + rew_hrf_cur_std[i], rewards_r_hrf_cur[i] - rew_hrf_cur_std[i], alpha=0.1)
 
 
     plt.axvline(changing_variable_at[i], color="black", linewidth=3)

@@ -5,7 +5,7 @@ import numpy as np
 
 no_steps = 400000
 
-dir_name = "buff_size_50k/res_cur_tr_ft"
+dir_name = "buff_size_50k/hrf"
 
 changing_variable = [0.75, 1.75, 2.75, 3.75]
 changing_variable_at = [0, 100, 150, 350]
@@ -47,10 +47,10 @@ reward_avg = np.sum(rewards, axis=0)/len(rewards)
 
 
 fig, ax = plt.subplots(1, 1, figsize=(70, 30))
-plt.plot(x, reward_avg, linewidth=3)
-plt.fill_between(x, reward_avg + rew_std, reward_avg - rew_std, alpha = 0.3)
+plt.plot(x, reward_avg, linewidth=5)
+plt.fill_between(x, reward_avg + rew_std, reward_avg - rew_std, alpha = 0.1)
 
-#plt.legend(legend)
+
 plt.xlabel('No of steps X1000')
 plt.ylabel("Reward")
 plt.title("For SAC trained at " + str(changing_variable_name) + " of " + str(changing_variable[0]) + " averaged over different time stamps")

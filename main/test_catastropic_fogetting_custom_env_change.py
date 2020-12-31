@@ -16,8 +16,8 @@ from util.roboschool_util.make_new_env import make_array_env
 parser = argparse.ArgumentParser(description='SAC arguments')
 #"SAC_w_cur_buffer"
 #Half_Reservior_FIFO
-parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
-parser.add_argument("--buffer_type", type=str, default="Half_Reservior_TR_FIFO_Flow_Through")
+parser.add_argument("--algo", type=str, default="SAC")
+parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO")
 parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
 parser.add_argument("--policy", type=str, default="gaussian")
@@ -111,10 +111,12 @@ results = [[] for i in range(len(test_lengths))]
 
 state = A.initalize()
 
+experiment_no = 5
+
 for i in range(args.no_steps):
 
     if i%change_varaiable_at[c] == 0:
-        torch.save(A.replay_buffer, save_dir + "/replay_mem_c_t" + str(c))
+        torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
 
         if args.env_type == "classic_control":
             A.env.set_length(length=change_varaiable[c])
@@ -125,7 +127,7 @@ for i in range(args.no_steps):
             c += 1
 
     if i == args.no_steps-1:
-        torch.save(A.replay_buffer, save_dir + "/replay_mem_c_t" + str(c+1))
+        torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem_" + str(c+1))
 
     if args.restart_alpha:
         if i%args.restart_alpha_interval == 0:
@@ -184,8 +186,8 @@ for i in range(args.no_steps):
             #print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
             print("reward at itr " + str(i) + " = " + str(rew_total) +  " for variable: " + str(l))
 
-torch.save(A.replay_buffer, save_dir + "/replay_mem_c_t")
-torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_2")
+#torch.save(A.replay_buffer, save_dir + "/replay_mem_c_t")
+torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_" + str(experiment_no))
 
 if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer":
     torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity")

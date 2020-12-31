@@ -2,11 +2,56 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3302cb7e-9cdc-4f15-b733-58de31db93ec" name="Default Changelist" comment="">
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/.idea/Continual-Learning-With-Curiosity.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Continual-Learning-With-Curiosity.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results_Main/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/test_time_fun.py" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/test_time_fun.py" afterDir="false" />
+=======
+<<<<<<< HEAD
+      <change afterPath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/dual_time_function.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/diff_buffer_type/diff_buffer_type_0.75.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/diff_buffer_type/diff_buffer_type_0.75.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/diff_buffer_type/diff_buffer_type_1.75.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/diff_buffer_type/diff_buffer_type_1.75.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/diff_buffer_type/diff_buffer_type_2.75.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/diff_buffer_type/diff_buffer_type_2.75.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/diff_buffer_type/diff_buffer_type_3.75.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/diff_buffer_type/diff_buffer_type_3.75.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/diff_buffer_type/diff_buffer_type_comparision.png" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/diff_buffer_type/diff_buffer_type_comparision.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/res_cur_tr_ft/power.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/res_cur_tr_ft/power_avg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/res_cur_tr_ft/results_length__s_i_1000_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/res_cur_tr_ft/results_length__s_i_1000_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/res_cur_tr_ft/results_length__s_i_1000_3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/res_cur_tr_ft/results_length__s_i_1000_4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/buff_size_50k/res_cur_tr_ft/results_length__s_i_1000_5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/plot_avg.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/plot_avg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/plot_comparision_diff_buff_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/plot_comparision_diff_buff_type.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/compare_precentage.py" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/compare_precentage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/ratio_comparision_at_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/ratio_comparision_at_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/ratio_comparision_at_100000.png" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/ratio_comparision_at_100000.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/ratio_comparision_at_150000.png" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/ratio_comparision_at_150000.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/ratio_comparision_at_350000.png" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/ratio_comparision_at_350000.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/policy_target" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2_target" beforeDir="false" afterPath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/q2_target" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models/native_SAC_catastropic_forgetting/diff_length/replay_mem_c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_4" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_5" beforeDir="false" afterPath="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting/results_length__s_i_1000_5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/test_catastropic_fogetting_custom_env_change.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/test_catastropic_fogetting_custom_env_change.py" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/Continual-Learning-With-Curiosity.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Continual-Learning-With-Curiosity.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results_Main/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Results_Main/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/test_time_fun.py" beforeDir="false" afterPath="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/test_time_fun.py" afterDir="false" />
+>>>>>>> 042bd00073bd9c6e62270cb80a5e47269876d70f
+>>>>>>> Stashed changes
       <change beforePath="$PROJECT_DIR$/util/reservoir_w_cur_replay_buffer.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/reservoir_w_cur_replay_buffer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,7 +86,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Tests" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -49,14 +94,25 @@
       <recent name="$PROJECT_DIR$/main/results/native_SAC_catastrophic_forgetting" />
     </key>
   </component>
+<<<<<<< Updated upstream
   <component name="RunManager" selected="Python.test_time_fun">
     <configuration name="plot_comparision_curiosity" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+=======
+<<<<<<< HEAD
+  <component name="RunManager" selected="Python.dual_time_function">
+    <configuration name="compare_precentage" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+=======
+  <component name="RunManager" selected="Python.test_time_fun">
+    <configuration name="plot_comparision_curiosity" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+>>>>>>> 042bd00073bd9c6e62270cb80a5e47269876d70f
+>>>>>>> Stashed changes
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
+<<<<<<< Updated upstream
       <option name="SDK_HOME" value="D:\SOFTWARES\Programming\Anaconda\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main/curiosity_based_stuff" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -64,6 +120,120 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/curiosity_based_stuff/plot_comparision_curiosity.py" />
+=======
+<<<<<<< HEAD
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/compare_precentage.py" />
+=======
+      <option name="SDK_HOME" value="D:\SOFTWARES\Programming\Anaconda\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main/curiosity_based_stuff" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/curiosity_based_stuff/plot_comparision_curiosity.py" />
+>>>>>>> 042bd00073bd9c6e62270cb80a5e47269876d70f
+>>>>>>> Stashed changes
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+<<<<<<< Updated upstream
+    <configuration name="plot_comparision_diff_buff_type" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+=======
+<<<<<<< HEAD
+    <configuration name="dual_time_function" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+=======
+    <configuration name="plot_comparision_diff_buff_type" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+>>>>>>> 042bd00073bd9c6e62270cb80a5e47269876d70f
+>>>>>>> Stashed changes
+      <module name="Continual-Learning-With-Curiosity" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+<<<<<<< Updated upstream
+      <option name="SDK_HOME" value="D:\SOFTWARES\Programming\Anaconda\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff/plot_comparision_diff_buff_type.py" />
+=======
+<<<<<<< HEAD
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/dual_time_function.py" />
+=======
+      <option name="SDK_HOME" value="D:\SOFTWARES\Programming\Anaconda\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff/plot_comparision_diff_buff_type.py" />
+>>>>>>> 042bd00073bd9c6e62270cb80a5e47269876d70f
+>>>>>>> Stashed changes
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+<<<<<<< Updated upstream
+    <configuration name="plot_time_fun" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+=======
+<<<<<<< HEAD
+    <configuration name="plot_avg" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+=======
+    <configuration name="plot_time_fun" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+>>>>>>> 042bd00073bd9c6e62270cb80a5e47269876d70f
+>>>>>>> Stashed changes
+      <module name="Continual-Learning-With-Curiosity" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+<<<<<<< Updated upstream
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/plot_time_fun.py" />
+=======
+<<<<<<< HEAD
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/plot_avg.py" />
+=======
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/plot_time_fun.py" />
+>>>>>>> 042bd00073bd9c6e62270cb80a5e47269876d70f
+>>>>>>> Stashed changes
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -79,35 +249,12 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="D:\SOFTWARES\Programming\Anaconda\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/buffer-size_based_stuff/plot_comparision_diff_buff_type.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="plot_time_fun" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Continual-Learning-With-Curiosity" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/plot_time_fun.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results_Main/robo_school/buffer_struff_non_proportional/plot_comparision_diff_buff_type.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -116,29 +263,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="temp_plots" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Continual-Learning-With-Curiosity" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="D:\SOFTWARES\Programming\Anaconda\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/additional_test/Tests" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/additional_test/Tests/temp_plots.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test_time_fun" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="test_catastropic_fogetting_custom_env_change" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="Continual-Learning-With-Curiosity" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -146,12 +271,29 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
+<<<<<<< Updated upstream
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/test_time_fun.py" />
+=======
+<<<<<<< HEAD
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/test_catastropic_fogetting_custom_env_change.py" />
+=======
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/additional_test/Tests/robo_school/buffer_non_proportional/test_time_fun.py" />
+>>>>>>> 042bd00073bd9c6e62270cb80a5e47269876d70f
+>>>>>>> Stashed changes
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -161,6 +303,24 @@
       <method v="2" />
     </configuration>
     <list>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+      <item itemvalue="Python.test_catastropic_fogetting_custom_env_change" />
+      <item itemvalue="Python.plot_comparision_diff_buff_type" />
+      <item itemvalue="Python.plot_avg" />
+      <item itemvalue="Python.compare_precentage" />
+      <item itemvalue="Python.dual_time_function" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.dual_time_function" />
+        <item itemvalue="Python.test_catastropic_fogetting_custom_env_change" />
+        <item itemvalue="Python.compare_precentage" />
+        <item itemvalue="Python.plot_comparision_diff_buff_type" />
+        <item itemvalue="Python.plot_avg" />
+=======
+>>>>>>> Stashed changes
       <item itemvalue="Python.plot_comparision_curiosity" />
       <item itemvalue="Python.plot_comparision_diff_buff_type" />
       <item itemvalue="Python.temp_plots" />
@@ -174,6 +334,10 @@
         <item itemvalue="Python.temp_plots" />
         <item itemvalue="Python.plot_comparision_diff_buff_type" />
         <item itemvalue="Python.plot_comparision_curiosity" />
+<<<<<<< Updated upstream
+=======
+>>>>>>> 042bd00073bd9c6e62270cb80a5e47269876d70f
+>>>>>>> Stashed changes
       </list>
     </recent_temporary>
   </component>
