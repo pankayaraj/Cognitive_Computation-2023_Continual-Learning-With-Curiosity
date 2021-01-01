@@ -4,8 +4,8 @@ from pathlib import Path
 import numpy as np
 
 no_steps = 400000
-
-dir_name = "buff_size_50k/hrf"
+n_step = int(no_steps/1000)
+dir_name = "buff_size_50k/fifo"
 
 changing_variable = [0.75, 1.75, 2.75, 3.75]
 changing_variable_at = [0, 100, 150, 350]
@@ -27,7 +27,21 @@ r3 = torch.load(dir_name + "/" + load_dir_3)
 r4 = torch.load(dir_name + "/" + load_dir_4)
 r5 = torch.load(dir_name + "/" + load_dir_5)
 
+for i in range(len(changing_variable)):
+    r1[i] = r1[i][0:n_step]
+    r2[i] = r2[i][0:n_step]
+    r3[i] = r3[i][0:n_step]
+    r4[i] = r4[i][0:n_step]
+    r5[i] = r5[i][0:n_step]
+
+r1 = r1[0:len(changing_variable)]
+r2 = r2[0:len(changing_variable)]
+r3 = r3[0:len(changing_variable)]
+r4 = r4[0:len(changing_variable)]
+r5 = r5[0:len(changing_variable)]
+
 rewards = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
+
 rew_ind_avg = []
 for j in range(len(changing_variable)):
     for i in range(len(r1[0])):
@@ -37,6 +51,7 @@ for j in range(len(changing_variable)):
 rewards = np.array(rewards)
 
 rew_ind_total = np.array([r1, r2, r3, r4, r5])
+
 rew_ind_avg = np.sum(rew_ind_total, axis=1)/len(rewards)
 
 rew_std = np.std(rew_ind_avg, axis=0)

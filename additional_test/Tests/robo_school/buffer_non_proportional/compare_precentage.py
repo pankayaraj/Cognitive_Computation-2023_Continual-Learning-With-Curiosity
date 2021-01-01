@@ -11,7 +11,7 @@ custom = True
 mul = 1000
 m_s = "50k"
 
-change_var_at = [0, 100, 150, 350]
+change_var_at = [0, 100, 150, 350, 400]
 change_var_at = [change_var_at[i]*mul for i in range(len(change_var_at))]
 
 
@@ -19,9 +19,9 @@ dir = ""
 M1 = []
 M2 = []
 
-for i in range(1,5):
+for i in range(1,6):
     M1.append(torch.load(dir + "hrf_" + m_s + "/" + "replay_mem" + str(i)))
-    M2.append(torch.load(dir + "hrf_cur_" + m_s + "/" + "replay_mem_c_t" + str(i)))
+    M2.append(torch.load(dir + "hrf_cur_" + m_s + "/" + "replay_mem" + str(i)))
 
 ratio1 = []
 ratio2 = []
@@ -33,9 +33,11 @@ for j in range(len(M1)):
     x2 = 0
     x3 = 0
     x4 = 0
+    x5 = 0
+
     a = M1[j].reservior_buffer.storage
     #a = M1[j].storage
-
+    print(a[0][0])
 
     for i in range(len(a)):
         
@@ -45,17 +47,22 @@ for j in range(len(M1)):
             x2 += 1
         elif a[i][1] >= change_var_at[2] and a[i][1] < change_var_at[3]:
             x3 += 1
-        elif a[i][1] >= change_var_at[3] :
+        elif a[i][1] >= change_var_at[3] and a[i][1] < change_var_at[4] :
             x4 += 1
+        elif a[i][1] >= change_var_at[4]:
+            x5 += 1
 
-    print(x1, x2, x3, x4)
+    print(x1, x2, x3, x4, x5)
     size = len(a)
-    ratio1.append([x1/size, x2/size, x3/size, x4/size])
+    ratio1.append([x1/size, x2/size, x3/size, x4/size, x5/size])
 
     x1 = 0
     x2 = 0
     x3 = 0
     x4 = 0
+    x5 = 0
+
+
 
     a = M2[j].reservior_buffer.storage
     #a = M2[j].storage
@@ -68,12 +75,15 @@ for j in range(len(M1)):
             x2 += 1
         elif a[i][1] >= change_var_at[2] and a[i][1] < change_var_at[3]:
             x3 += 1
-        elif a[i][1] >= change_var_at[3]:
+        elif a[i][1] >= change_var_at[3] and a[i][1] < change_var_at[4]:
             x4 += 1
+        elif a[i][1] >= change_var_at[4]:
+            x5 += 1
     size = len(a)
-    ratio2.append([x1 / size, x2 / size, x3 / size, x4 / size])
-    print(x1, x2, x3, x4)
-labels = ["p = 0.75", "p = 1.75", "p = 2.75", "p = 3.75"]
+    ratio2.append([x1 / size, x2 / size, x3 / size, x4 / size, x5/size])
+    print(x1, x2, x3, x4, x5)
+labels = ["p = 0.75", "p = 1.75", "p = 2.75", "p = 3.75",  "p = 4.75"]
+
 x = np.arange(len(labels))  # the label locations
 width = 0.35  # the width of the bars
 

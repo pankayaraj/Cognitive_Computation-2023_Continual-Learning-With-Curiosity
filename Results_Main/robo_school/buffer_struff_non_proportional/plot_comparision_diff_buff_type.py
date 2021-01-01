@@ -5,6 +5,7 @@ from pathlib import Path
 
 
 no_steps = 400000
+n_step = int(no_steps/1000)
 m_s = "50k"
 
 dir_name_r_fifo = "buff_size_" + m_s +"/fifo"
@@ -34,6 +35,19 @@ r3 = torch.load(dir_name_r_hrf + "/" + load_dir_3)
 r4 = torch.load(dir_name_r_hrf + "/" + load_dir_4)
 r5 = torch.load(dir_name_r_hrf + "/" + load_dir_5)
 
+for i in range(len(changing_variable)):
+    r1[i] = r1[i][0:n_step]
+    r2[i] = r2[i][0:n_step]
+    r3[i] = r3[i][0:n_step]
+    r4[i] = r4[i][0:n_step]
+    r5[i] = r5[i][0:n_step]
+
+r1 = r1[0:len(changing_variable)]
+r2 = r2[0:len(changing_variable)]
+r3 = r3[0:len(changing_variable)]
+r4 = r4[0:len(changing_variable)]
+r5 = r5[0:len(changing_variable)]
+
 rewards_r_hrf = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 rew_hrf_total = [[] for j in range(len(changing_variable))]
 rew_hrf_ind_avg = []
@@ -61,6 +75,19 @@ r2 = torch.load(dir_name_r_fifo + "/" + load_dir_2)
 r3 = torch.load(dir_name_r_fifo + "/" + load_dir_3)
 r4 = torch.load(dir_name_r_fifo + "/" + load_dir_4)
 r5 = torch.load(dir_name_r_fifo + "/" + load_dir_5)
+
+for i in range(len(changing_variable)):
+    r1[i] = r1[i][0:n_step]
+    r2[i] = r2[i][0:n_step]
+    r3[i] = r3[i][0:n_step]
+    r4[i] = r4[i][0:n_step]
+    r5[i] = r5[i][0:n_step]
+
+r1 = r1[0:len(changing_variable)]
+r2 = r2[0:len(changing_variable)]
+r3 = r3[0:len(changing_variable)]
+r4 = r4[0:len(changing_variable)]
+r5 = r5[0:len(changing_variable)]
 
 rewards_r_fifo = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 rew_fifo_total = [[] for j in range(len(changing_variable))]
@@ -92,6 +119,19 @@ r3 = torch.load(dir_name_r_res + "/" + load_dir_3)
 r4 = torch.load(dir_name_r_res + "/" + load_dir_4)
 r5 = torch.load(dir_name_r_res + "/" + load_dir_5)
 
+for i in range(len(changing_variable)):
+    r1[i] = r1[i][0:n_step]
+    r2[i] = r2[i][0:n_step]
+    r3[i] = r3[i][0:n_step]
+    r4[i] = r4[i][0:n_step]
+    r5[i] = r5[i][0:n_step]
+
+r1 = r1[0:len(changing_variable)]
+r2 = r2[0:len(changing_variable)]
+r3 = r3[0:len(changing_variable)]
+r4 = r4[0:len(changing_variable)]
+r5 = r5[0:len(changing_variable)]
+
 rewards_r_res = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 rew_res_total = [[] for j in range(len(changing_variable))]
 rew_res_ind_avg = []
@@ -122,6 +162,19 @@ r3 = torch.load(dir_name_r_res_cur + "/" + load_dir_3)
 r4 = torch.load(dir_name_r_res_cur + "/" + load_dir_4)
 r5 = torch.load(dir_name_r_res_cur + "/" + load_dir_5)
 
+for i in range(len(changing_variable)):
+    r1[i] = r1[i][0:n_step]
+    r2[i] = r2[i][0:n_step]
+    r3[i] = r3[i][0:n_step]
+    r4[i] = r4[i][0:n_step]
+    r5[i] = r5[i][0:n_step]
+
+r1 = r1[0:len(changing_variable)]
+r2 = r2[0:len(changing_variable)]
+r3 = r3[0:len(changing_variable)]
+r4 = r4[0:len(changing_variable)]
+r5 = r5[0:len(changing_variable)]
+
 rewards_r_res_cur = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 rew_res_cur_total = [[] for j in range(len(changing_variable))]
 rew_res_cur_ind_avg = []
@@ -151,6 +204,19 @@ r2 = torch.load(dir_name_r_hrf_cur + "/" + load_dir_2)
 r3 = torch.load(dir_name_r_hrf_cur + "/" + load_dir_3)
 r4 = torch.load(dir_name_r_hrf_cur + "/" + load_dir_4)
 r5 = torch.load(dir_name_r_hrf_cur + "/" + load_dir_5)
+
+for i in range(len(changing_variable)):
+    r1[i] = r1[i][0:n_step]
+    r2[i] = r2[i][0:n_step]
+    r3[i] = r3[i][0:n_step]
+    r4[i] = r4[i][0:n_step]
+    r5[i] = r5[i][0:n_step]
+
+r1 = r1[0:len(changing_variable)]
+r2 = r2[0:len(changing_variable)]
+r3 = r3[0:len(changing_variable)]
+r4 = r4[0:len(changing_variable)]
+r5 = r5[0:len(changing_variable)]
 
 rewards_r_hrf_cur = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 rew_hrf_cur_total = [[] for j in range(len(changing_variable))]

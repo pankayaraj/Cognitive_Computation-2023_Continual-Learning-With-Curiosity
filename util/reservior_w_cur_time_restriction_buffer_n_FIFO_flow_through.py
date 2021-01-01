@@ -28,6 +28,8 @@ class Half_Reservoir_w_Curn_Time_Restriction_FIFO_Flow_Through_Replay_Buffer():
         self.fifo_capacity = int(capacity*fifo_fac)
         self.reservior_capacity = capacity - self.fifo_capacity
 
+
+
         self.fifo_buffer = Replay_Memory_Cur(capacity=self.fifo_capacity)
         self.reservior_buffer = Reservoir_with_Cur_n_Time_Restirction_Replay_Memory(capacity=self.reservior_capacity,
                                                                                     lambda_v=lambda_v, r=r, slope=slope,
@@ -38,6 +40,8 @@ class Half_Reservoir_w_Curn_Time_Restriction_FIFO_Flow_Through_Replay_Buffer():
 
     def push(self, state, action, action_mean, reward, curiosity, next_state, done_mask):
         self.t += 1
+
+
         old_data = self.fifo_buffer.push(state, action, action_mean, reward, curiosity, next_state, done_mask)
         if old_data != None:
             state, action, action_mean, reward, curiosity, next_state, done_mask = old_data

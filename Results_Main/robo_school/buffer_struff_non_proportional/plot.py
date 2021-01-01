@@ -6,8 +6,8 @@ import numpy as np
 
 
 no_steps = 400000
-
-dir_name = "buff_size_50k/hrf"
+n_step = int(no_steps/1000)
+dir_name = "buff_size_50k/fifo"
 
 
 changing_variable = [0.75, 1.75, 2.75, 3.75]
@@ -30,6 +30,20 @@ r3 = torch.load(dir_name + "/" + load_dir_3)
 r4 = torch.load(dir_name + "/" + load_dir_4)
 r5 = torch.load(dir_name + "/" + load_dir_5)
 
+for i in range(len(changing_variable)):
+    r1[i] = r1[i][0:n_step]
+    r2[i] = r2[i][0:n_step]
+    r3[i] = r3[i][0:n_step]
+    r4[i] = r4[i][0:n_step]
+    r5[i] = r5[i][0:n_step]
+
+r1 = r1[0:len(changing_variable)]
+r2 = r2[0:len(changing_variable)]
+r3 = r3[0:len(changing_variable)]
+r4 = r4[0:len(changing_variable)]
+r5 = r5[0:len(changing_variable)]
+
+
 rewards = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 
 rew_total = [[] for j in range(len(changing_variable))]
@@ -41,6 +55,7 @@ for j in range(len(changing_variable)):
     rew_total[j].append(r5[j])
 
     for i in range(len(r1[0])):
+
         rewards[j][i] = r1[j][i] + r2[j][i] + r3[j][i] + r4[j][i] + r5[j][i]
         rewards[j][i] = rewards[j][i]/5
 

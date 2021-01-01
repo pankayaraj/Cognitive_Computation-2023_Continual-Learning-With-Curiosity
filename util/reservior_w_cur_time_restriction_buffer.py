@@ -54,7 +54,11 @@ class Reservoir_with_Cur_n_Time_Restirction_Replay_Memory():
 
         if t == None:
             t = self.t
-        t += 1
+            tiebreaker = next(self.tiebreaker)
+        else:
+            tiebreaker = t
+        self.t += 1
+
 
         ran = random.uniform(0,1)
         self.time_eligibilty_trace.general_iterate()
@@ -63,7 +67,7 @@ class Reservoir_with_Cur_n_Time_Restirction_Replay_Memory():
             data = (state, action, action_mean, reward, curiosity, next_state, done_mask, t)
             priority = curiosity.item()
 
-            d = (priority, next(self.tiebreaker), data)
+            d = (priority, tiebreaker, data)
 
             if len(self.storage) < self.capacity:
                 heapq.heappush(self.storage, d)

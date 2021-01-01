@@ -110,6 +110,7 @@ class Continuous_Gaussian_Policy(BaseNN):
             state = torch.Tensor(state).to(self.nn_params.device)
         self.batch_size = state.size()[0]
         inp = state
+
         for i, layer in enumerate(self.layers):
             if self.non_lin != None:
                 inp = self.non_lin(layer(inp))

@@ -1,5 +1,6 @@
 import torch
 import numpy as np
+from itertools import count
 
 import argparse
 
@@ -16,8 +17,18 @@ from util.roboschool_util.make_new_env import make_array_env
 parser = argparse.ArgumentParser(description='SAC arguments')
 #"SAC_w_cur_buffer"
 #Half_Reservior_FIFO
+#Half_Reservior_TR_FIFO_Flow_Through
+
+#parser.add_argument("--algo", type=str, default="SAC")
+#parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO")
+#parser.add_argument("--env", type=str, default="Pendulum-v0")
+#parser.add_argument("--env_type", type=str, default="classic_control")
+
+parser.add_argument("--load_from_old", type=bool, default=False)
+parser.add_argument("--load_index", type=int, default=4)
+
 parser.add_argument("--algo", type=str, default="SAC")
-parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO")
+parser.add_argument("--buffer_type", type=str, default="FIFO")
 parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
 parser.add_argument("--policy", type=str, default="gaussian")
@@ -35,12 +46,18 @@ parser.add_argument("--restart_alpha", type=bool, default=False)
 parser.add_argument("--restart_alpha_interval", type=int, default=10000)
 parser.add_argument("--batch_size", type=int, default=256)
 parser.add_argument("--memory_size", type=int, default=50000)
-parser.add_argument("--no_steps", type=int, default=400000)
+#parser.add_argument("--no_steps", type=int, default=200000)
+parser.add_argument("--no_steps", type=int, default=500000)
 parser.add_argument("--max_episodes", type=int, default=1000)
+#parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
 
-change_varaiable_at = [1, 100000, 150000, 350000]
-change_varaiable = [0.75, 1.75, 2.75, 3.75]
+change_varaiable_at = [1, 100000, 150000, 350000, 400000]
+change_varaiable = [0.75, 1.75, 2.75, 3.75, 4.75]
+
+#change_varaiable_at = [1, 30000, 60000, 120000]
+#change_varaiable = [1.0, 1.2, 1.4, 1.6]
+
 c = 0
 
 args = parser.parse_args()
@@ -111,9 +128,21 @@ results = [[] for i in range(len(test_lengths))]
 
 state = A.initalize()
 
-experiment_no = 5
+experiment_no = 2
+inital_step_no = 0
 
-for i in range(args.no_steps):
+if args.load_from_old:
+    c = args.load_index
+    #sav_dir_temp = save_dir + "/e" + experiment_no
+    A.load(save_dir+"/q1", save_dir+"/q2",
+               save_dir+"/q1_target", save_dir+"/q2_target",
+               save_dir+"/policy_target")
+    A.replay_buffer = torch.load(save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
+    A.replay_buffer.tiebreaker = count(change_varaiable_at[c])
+
+    inital_step_no = change_varaiable_at[c]
+
+for i in range(inital_step_no, args.no_steps):
 
     if i%change_varaiable_at[c] == 0:
         torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
@@ -125,8 +154,6 @@ for i in range(args.no_steps):
 
         if c < len(change_varaiable_at)-1:
             c += 1
-
-
 
     if args.restart_alpha:
         if i%args.restart_alpha_interval == 0:
@@ -141,9 +168,10 @@ for i in range(args.no_steps):
         state = A.step(state, random=False)
 
     if i%save_interval==0:
-        A.save(save_dir+"/q1", save_dir+"/q2",
-               save_dir+"/q1_target", save_dir+"/q2_target",
-               save_dir+"/policy_target")
+        save_dir_temp = save_dir + "/e" + str(experiment_no)
+        A.save(save_dir_temp +"/q1", save_dir_temp+"/q2",
+               save_dir_temp+"/q1_target", save_dir_temp+"/q2_target",
+               save_dir_temp+"/policy_target")
 
 
     if i%eval_interval==0:
@@ -186,7 +214,7 @@ for i in range(args.no_steps):
             print("reward at itr " + str(i) + " = " + str(rew_total) +  " for variable: " + str(l))
 
 #saving the final buffer
-torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem_" + str(c+1))
+torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c+1))
 torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_" + str(experiment_no))
 
 if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer":

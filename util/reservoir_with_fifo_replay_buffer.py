@@ -2,7 +2,7 @@ import numpy as np
 from util.replay_buffer import Replay_Memory
 from util.reservoir_replay_buffer import Reservoir_Replay_Memory
 import random
-
+from itertools import count
 
 class Transition_tuple():
 
@@ -26,16 +26,18 @@ class Reservoir_with_FIFO_Replay_Buffer():
         self.fifo_capacity = int(capacity*fifo_fac)
         self.reservior_capacity = capacity - self.fifo_capacity
 
+        self.tiebreaker = count()
+
         self.fifo_buffer = Replay_Memory(capacity=self.fifo_capacity)
         self.reservior_buffer = Reservoir_Replay_Memory(capacity=self.reservior_capacity)
 
     def push(self, state, action, action_mean, reward, next_state, done_mask):
         ran = random.uniform(0,1)
-
+        t = next(self.tiebreaker)
         if ran < self.fifo_frac:
             self.fifo_buffer.push(state, action, action_mean, reward, next_state, done_mask)
         else:
-            self.reservior_buffer.push(state, action, action_mean, reward, next_state, done_mask)
+            self.reservior_buffer.push(state, action, action_mean, reward, next_state, done_mask, tie_breaker=t)
 
     def sample(self, batch_size):
         fifo_indices, reservior_indices = self.get_sample_indices(batch_size)

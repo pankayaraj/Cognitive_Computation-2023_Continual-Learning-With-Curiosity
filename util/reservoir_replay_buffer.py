@@ -24,17 +24,24 @@ class Reservoir_Replay_Memory():
         self.storage = []
         self.tiebreaker = count()
 
-    def push(self, state, action, action_mean, reward, next_state, done_mask):
+    def push(self, state, action, action_mean, reward, next_state, done_mask, tie_breaker=None):
         data = (state, action, action_mean, reward, next_state, done_mask)
         priority = random.uniform(0, 1)
+        self.p = priority
 
+        if tie_breaker == None:
+            tie_breaker = next(self.tiebreaker)
 
-        d = (priority, next(self.tiebreaker), data)
+        d = (priority, tie_breaker, data)
 
         if len(self.storage) < self.capacity:
             heapq.heappush(self.storage, d)
+            return True
         elif priority > self.storage[0][0]:
             heapq.heapreplace(self.storage, d)
+            return True
+        else:
+            return False
 
     def sample(self, batch_size):
         indices = self.get_sample_indices(batch_size)

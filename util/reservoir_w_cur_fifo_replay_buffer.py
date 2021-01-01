@@ -27,6 +27,8 @@ class Half_Reservoir_w_Cur_FIFO_Replay_Buffer():
         self.fifo_capacity = int(capacity*fifo_fac)
         self.reservior_capacity = capacity - self.fifo_capacity
 
+
+
         self.fifo_buffer = Replay_Memory(capacity=self.fifo_capacity)
         self.reservior_buffer = Reservoir_with_Cur_Replay_Memory(capacity=self.reservior_capacity)
 
