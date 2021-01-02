@@ -44,3 +44,7 @@ for i in range(avg_len, len(a_c)):
 
 plt.plot(n_c)
 plt.show()
+
+
+
+
