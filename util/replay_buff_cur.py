@@ -36,7 +36,7 @@ class Replay_Memory_Cur():
         self.storage[self.position] = data
         self.position = (self.position + 1) % self.capacity
 
-        #for MTR
+        #for MTR and Flow through FIFO buffer
         return old_data
 
 

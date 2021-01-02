@@ -1,13 +1,7 @@
-
-import matplotlib.pyplot as plt
-import random
-import matplotlib.pyplot as plt
-import torch
 from util.reservoir_w_cur_replay_buffer import Reservoir_with_Cur_Replay_Memory
-import numpy as np
 
 #from moving_average import n_c, avg_len
-from winer import n_a_c as n_c
+from additional_test.Test_Filters.filter_stuff.winer import n_a_c as n_c
 
 mul = 1000
 change_var_at = [0, 100, 150, 350]

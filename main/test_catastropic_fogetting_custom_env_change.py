@@ -18,6 +18,7 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #"SAC_w_cur_buffer"
 #Half_Reservior_FIFO
 #Half_Reservior_TR_FIFO_Flow_Through
+#"Half_Reservior_FIFO_with_SNR"
 
 #parser.add_argument("--algo", type=str, default="SAC")
 #parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO")
@@ -25,10 +26,10 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #parser.add_argument("--env_type", type=str, default="classic_control")
 
 parser.add_argument("--load_from_old", type=bool, default=False)
-parser.add_argument("--load_index", type=int, default=4)
+parser.add_argument("--load_index", type=int, default=1)
 
-parser.add_argument("--algo", type=str, default="SAC")
-parser.add_argument("--buffer_type", type=str, default="FIFO")
+parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
+parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_SNR")
 parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
 parser.add_argument("--policy", type=str, default="gaussian")
@@ -47,13 +48,13 @@ parser.add_argument("--restart_alpha_interval", type=int, default=10000)
 parser.add_argument("--batch_size", type=int, default=256)
 parser.add_argument("--memory_size", type=int, default=50000)
 #parser.add_argument("--no_steps", type=int, default=200000)
-parser.add_argument("--no_steps", type=int, default=500000)
+parser.add_argument("--no_steps", type=int, default=400000)
 parser.add_argument("--max_episodes", type=int, default=1000)
 #parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
 
-change_varaiable_at = [1, 100000, 150000, 350000, 400000]
-change_varaiable = [0.75, 1.75, 2.75, 3.75, 4.75]
+change_varaiable_at = [1, 100000, 150000, 350000]
+change_varaiable = [0.75, 1.75, 2.75, 3.75]
 
 #change_varaiable_at = [1, 30000, 60000, 120000]
 #change_varaiable = [1.0, 1.2, 1.4, 1.6]
@@ -128,7 +129,7 @@ results = [[] for i in range(len(test_lengths))]
 
 state = A.initalize()
 
-experiment_no = 2
+experiment_no = 3
 inital_step_no = 0
 
 if args.load_from_old:
