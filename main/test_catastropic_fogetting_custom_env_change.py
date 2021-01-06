@@ -29,7 +29,8 @@ parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=1)
 
 parser.add_argument("--algo", type=str, default="SAC")
-parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
+parser.add_argument("--no_curiosity_networks", type=int, default=5)
+parser.add_argument("--buffer_type", type=str, default="FIFO")
 parser.add_argument("--fifo_frac", type=float, default=0.34)
 parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
@@ -116,7 +117,8 @@ elif args.algo == "SAC_w_cur_buffer":
     A = SAC_with_Curiosity_Buffer(ini_env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param,
                            max_episodes=args.max_episodes,
                            memory_capacity=args.memory_size
-                           , batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type, fifo_frac=args.fifo_frac)
+                           , batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type, fifo_frac=args.fifo_frac
+                                  , no_cur_network=args.no_curiosity_networks)
 
 save_interval = args.save_interval
 eval_interval = args.eval_interval

@@ -33,7 +33,7 @@ class SAC_with_Curiosity_Buffer():
 
     def __init__(self, env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes =100, memory_capacity =10000,
                  batch_size=400, save_path = Save_Paths(), load_path= Load_Paths(), action_space = None, alpha_lr=0.0003,
-                 debug=Debug(), buffer_type = "Reservior", update_curiosity_from_fifo = True, fifo_frac=0.34):
+                 debug=Debug(), buffer_type = "Reservior", update_curiosity_from_fifo = True, fifo_frac=0.34, no_cur_network=5):
 
         self.env = env
         self.device = q_nn_param.device
@@ -74,7 +74,7 @@ class SAC_with_Curiosity_Buffer():
         self.icm_next_state_optim = []
         self.icm_action_optim = []
 
-        self.no = 3
+        self.no = no_cur_network
         for i in range(self.no):
             self.icm_next_state.append(ICM_Next_State_NN(icm_nn_param, save_path.icm_n_state_path, load_path.icm_n_state_path))
             self.icm_action.append(ICM_Action_NN(icm_nn_param, save_path.icm_action_path, load_path.icm_action_path))
