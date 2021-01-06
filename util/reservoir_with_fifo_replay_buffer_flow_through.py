@@ -39,7 +39,7 @@ class Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer():
         old_data = self.fifo_buffer.push(state, action, action_mean, reward, next_state, done_mask)
         if old_data != None:
             state, action, action_mean, reward, next_state, done_mask = old_data
-            self.reservior_buffer.push(state, action, action_mean, reward, next_state, done_mask, self.t)
+            self.reservior_buffer.push(state, action, action_mean, reward, next_state, done_mask, None)
 
     def sample(self, batch_size):
         fifo_indices, reservoir_indices = self.get_sample_indices(batch_size)
