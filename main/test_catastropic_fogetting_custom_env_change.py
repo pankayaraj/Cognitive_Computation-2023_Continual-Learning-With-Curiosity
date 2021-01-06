@@ -28,7 +28,7 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=1)
 
-parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
+parser.add_argument("--algo", type=str, default="SAC")
 parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
 parser.add_argument("--fifo_frac", type=float, default=0.34)
 parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
@@ -132,7 +132,7 @@ state = A.initalize()
 
 
 
-experiment_no = 6
+experiment_no = 3
 inital_step_no = 0
 
 if args.load_from_old:
