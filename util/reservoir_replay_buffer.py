@@ -5,7 +5,7 @@ from itertools import count
 
 class Transition_tuple():
 
-    def __init__(self, state, action, action_mean, reward, next_state, done_mask):
+    def __init__(self, state, action, action_mean, reward, next_state, done_mask, t):
         #expects as list of items for each initalization variable
         self.state = np.array(state)
         self.action = np.array(action)
@@ -13,9 +13,10 @@ class Transition_tuple():
         self.reward = np.array(reward)
         self.next_state = np.array(next_state)
         self.done_mask = np.array(done_mask)
+        self.t = np.array(t)
 
     def get_all_attributes(self):
-        return [self.state, self.action,  self.action_mean, self.reward, self.next_state, self.done_mask]
+        return [self.state, self.action,  self.action_mean, self.reward, self.next_state, self.done_mask, self.t]
 
 class Reservoir_Replay_Memory():
 
@@ -47,7 +48,6 @@ class Reservoir_Replay_Memory():
         indices = self.get_sample_indices(batch_size)
         state, action, action_mean, reward, next_state, done_mask =  self.encode_sample(indices=indices)
         return Transition_tuple(state, action, action_mean, reward, next_state, done_mask)
-
 
 
     def encode_sample(self, indices):

@@ -7,7 +7,7 @@ import numpy as np
 
 no_steps = 400000
 n_step = int(no_steps/1000)
-dir_name = "buff_size_50k/fifo"
+dir_name = "buff_size_50k/hrf_snr_ft"
 
 
 changing_variable = [0.75, 1.75, 2.75, 3.75]
@@ -22,7 +22,7 @@ load_dir_5 = "results_length__s_i_1000_5"
 changing_variable_name = "power"
 
 
-legend = [str(i) for i in changing_variable]
+legend = ["p = " + str(i) for i in changing_variable]
 
 r1 = torch.load(dir_name + "/" + load_dir_1)
 r2 = torch.load(dir_name + "/" + load_dir_2)
@@ -63,13 +63,13 @@ rew_total = np.array(rew_total)
 rew_std = np.std(rew_total, axis=1)
 x = [i for i in range(no_steps//1000)]
 
-fig, ax = plt.subplots(1, 1, figsize=(70, 30))
+fig, ax = plt.subplots(1, 1, figsize=(20,10))
 
 for i in range(len(changing_variable)):
     plt.plot(x, rewards[i], linewidth=3)
     plt.fill_between(x, rewards[i] + rew_std[i], rewards[i] - rew_std[i], alpha = 0.1)
 
-plt.legend(legend, prop={'size':30})
+plt.legend(legend, prop={'size':10})
 
 for i in range(len(changing_variable)):
     plt.axvline(changing_variable_at[i], color="black", linewidth=5)

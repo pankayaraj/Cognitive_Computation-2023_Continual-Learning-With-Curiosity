@@ -8,6 +8,8 @@ from parameters import Algo_Param, NN_Paramters, Load_Paths, Save_Paths
 from custom_envs.custom_pendulum import PendulumEnv
 
 import gym  # open ai gym
+
+
 import custom_envs.pybulletgym_custom
 
 
@@ -35,8 +37,13 @@ env = gym.make('HopperPyBulletEnv-v1')
 env_eval = gym.make('HopperPyBulletEnv-v1')
 #env.render() # call this before env.reset, if you want a window showing the environment
 #env.reset()
+"""
+import pybulletgym
 
+env = gym.make("HumanoidMuJoCoEnv-v0")
+env_eval = gym.make("HumanoidMuJoCoEnv-v0")
 
+"""
 
 
 #env = gym.make('HopperPyBulletEnv-v0')

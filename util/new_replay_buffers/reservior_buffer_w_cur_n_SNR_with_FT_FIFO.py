@@ -22,8 +22,9 @@ class Transition_tuple():
 
 class Half_Reservoir_Cur_n_SNR_FIFO_Flow_Through_Replay_Buffer():
 
-    def __init__(self, capacity=10000, fifo_fac = 0.5, avg_len_snr=60, measre_reset_after_threshold=40000,
-                 measure_decrement=1e-4, snr_factor=3,):
+    def __init__(self, capacity=10000, fifo_fac = 0.5, avg_len_snr=400, measre_reset_after_threshold=28000,
+                 measure_decrement=1e-5, snr_factor=5.5):
+        #19e-5
         assert (fifo_fac > 0) and (fifo_fac < 1)
         self.fifo_frac = fifo_fac
         self.fifo_capacity = int(capacity*fifo_fac)
@@ -45,7 +46,7 @@ class Half_Reservoir_Cur_n_SNR_FIFO_Flow_Through_Replay_Buffer():
         old_data = self.fifo_buffer.push(state, action, action_mean, reward, curiosity, next_state, done_mask)
         if old_data != None:
             state, action, action_mean, reward, curiosity, next_state, done_mask = old_data
-            self.reservior_buffer.push(state, action, action_mean, reward, curiosity, next_state, done_mask, self.t)
+            self.reservior_buffer.push(state, action, action_mean, reward, curiosity, next_state, done_mask, None)
 
     def sample(self, batch_size):
         fifo_indices, reservoir_indices = self.get_sample_indices(batch_size)

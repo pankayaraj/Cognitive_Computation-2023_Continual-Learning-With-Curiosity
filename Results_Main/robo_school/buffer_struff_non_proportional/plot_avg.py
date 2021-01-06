@@ -5,7 +5,7 @@ import numpy as np
 
 no_steps = 400000
 n_step = int(no_steps/1000)
-dir_name = "buff_size_50k/fifo"
+dir_name = "buff_size_50k/hrf_snr_ft"
 
 changing_variable = [0.75, 1.75, 2.75, 3.75]
 changing_variable_at = [0, 100, 150, 350]
@@ -19,7 +19,7 @@ load_dir_5 = "results_length__s_i_1000_5"
 changing_variable_name = "power_avg"
 
 
-legend = [str(i) for i in changing_variable]
+legend = ["p = " + str(i) for i in changing_variable]
 
 r1 = torch.load(dir_name + "/" + load_dir_1)
 r2 = torch.load(dir_name + "/" + load_dir_2)
@@ -61,7 +61,7 @@ reward_avg = np.sum(rewards, axis=0)/len(rewards)
 
 
 
-fig, ax = plt.subplots(1, 1, figsize=(70, 30))
+fig, ax = plt.subplots(1, 1, figsize=(20, 10))
 plt.plot(x, reward_avg, linewidth=5)
 plt.fill_between(x, reward_avg + rew_std, reward_avg - rew_std, alpha = 0.1)
 

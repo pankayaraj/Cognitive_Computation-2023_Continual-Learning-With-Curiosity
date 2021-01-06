@@ -23,8 +23,8 @@ class Transition_tuple():
 
 class Reservoir_with_Cur_SNR_Replay_Memory():
 
-    def __init__(self, capacity=10000, avg_len_snr=60, measre_reset_after_threshold=40000,
-                 measure_decrement=1e-4, snr_factor=3, ):
+    def __init__(self, capacity=10000, avg_len_snr=60, measre_reset_after_threshold=30000,
+                 measure_decrement=15e-6, snr_factor=3, ):
         self.capacity = capacity
         self.storage = []
         self.tiebreaker = count() #this also keeps the count of the time step the algorithm is currently at
@@ -44,13 +44,21 @@ class Reservoir_with_Cur_SNR_Replay_Memory():
 
         self.t = 0
 
+        #debug stuff
         self.PUSH = []
         self.SNR = []
         self.MEAN = []
         self.MEASURE = []
+        self.BOOL = []
+        self.max = 0
 
     def push(self, state, action, action_mean, reward, curiosity, next_state, done_mask, global_time=None):
         time = next(self.tiebreaker) #both tiebreaker and timing is solved
+
+
+        if time >= 350000:
+            if self.last_push_since >= self.max:
+                self.max = self.last_push_since
 
         if global_time == None:
             self.t = time
@@ -74,24 +82,32 @@ class Reservoir_with_Cur_SNR_Replay_Memory():
 
             #setting the idling threshold
             if SNR < self.snr_factor*mean:
+                self.BOOL.append(1.0)
+
+
+                if self.last_push_since > self.measure_reset_after_threshold:
+                    #if self.t >= 300000:
+                    #    print(self.last_push_since)
+                    self.measure_threshold = 1.0
                 self.last_push_since = 0
             else:
+                self.BOOL.append(0.0)
                 self.last_push_since += 1
 
             #setting the measure threshold
-            if self.last_push_since > self.measure_reset_after_threshold:
-                self.measure_threshold = 1.0
-            else:
-                self.measure_threshold -= self.measure_decrement
+
+            self.measure_threshold -= self.measure_decrement
 
             if self.measure_threshold > 0.5:
+                #if self.t > 350000:
+                 #   print(self.t)
                 pushed = self.internal_push(state, action, action_mean, reward, curiosity, next_state, done_mask, tiebreaker=self.t)
             else:
                 pushed = False
 
             #for debugging
 
-            """
+
             if pushed:
                 self.PUSH.append(1.0)
             else:
@@ -101,13 +117,13 @@ class Reservoir_with_Cur_SNR_Replay_Memory():
             self.SNR.append(SNR)
             self.MEAN.append(mean)
             self.MEASURE.append(self.measure_threshold)
-            """
+
 
             return pushed
 
     def internal_push(self, state, action, action_mean, reward, curiosity, next_state, done_mask, tiebreaker):
 
-        data = (state, action, action_mean, reward, curiosity, next_state, done_mask)
+        data = (state, action, action_mean, reward, curiosity, next_state, done_mask, tiebreaker)
         priority = curiosity.item()
 
         d = (priority, tiebreaker, data)

@@ -19,9 +19,9 @@ dir = ""
 M1 = []
 M2 = []
 
-for i in range(1,6):
-    M1.append(torch.load(dir + "hrf_" + m_s + "/" + "replay_mem" + str(i)))
-    M2.append(torch.load(dir + "hrf_cur_" + m_s + "/" + "replay_mem" + str(i)))
+for i in range(1,5):
+    M1.append(torch.load(dir + "hrf_ft_" + m_s + "/" + "replay_mem" + str(i)))
+    M2.append(torch.load(dir + "hrf_snr_ft_" + m_s + "/" + "replay_mem" + str(i)))
 
 ratio1 = []
 ratio2 = []
@@ -37,7 +37,7 @@ for j in range(len(M1)):
 
     a = M1[j].reservior_buffer.storage
     #a = M1[j].storage
-    print(a[0][0])
+
 
     for i in range(len(a)):
         
@@ -51,7 +51,7 @@ for j in range(len(M1)):
             x4 += 1
         elif a[i][1] >= change_var_at[4]:
             x5 += 1
-
+    print("M1")
     print(x1, x2, x3, x4, x5)
     size = len(a)
     ratio1.append([x1/size, x2/size, x3/size, x4/size, x5/size])
@@ -81,8 +81,19 @@ for j in range(len(M1)):
             x5 += 1
     size = len(a)
     ratio2.append([x1 / size, x2 / size, x3 / size, x4 / size, x5/size])
+
+    print("M2")
     print(x1, x2, x3, x4, x5)
+
+
 labels = ["p = 0.75", "p = 1.75", "p = 2.75", "p = 3.75",  "p = 4.75"]
+
+labels = labels[0:4]
+for i in range(len(M1)):
+    ratio1[i] = ratio1[i][0:4]
+    ratio2[i] = ratio2[i][0:4]
+
+print(len(ratio1), len(ratio2), len(labels))
 
 x = np.arange(len(labels))  # the label locations
 width = 0.35  # the width of the bars
@@ -90,8 +101,8 @@ width = 0.35  # the width of the bars
 for i in range(len(ratio1)):
 
     fig, ax = plt.subplots()
-    rects1 = ax.bar(x - width/2, ratio1[i], width, label='HRF')
-    rects2 = ax.bar(x + width/2, ratio2[i], width, label="HRF with curisoity")
+    rects1 = ax.bar(x - width/2, ratio1[i], width, label='HRF with flow through')
+    rects2 = ax.bar(x + width/2, ratio2[i], width, label="HRF with curisoity and flow through")
 
     ax.set_ylabel('Precentage of data')
     ax.set_xlabel('l value')

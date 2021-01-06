@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #"SAC_w_cur_buffer"
 #Half_Reservior_FIFO
 #Half_Reservior_TR_FIFO_Flow_Through
-#"Half_Reservior_FIFO_with_SNR"
+#"Half_Reservior_FIFO_with_FT"
 
 #parser.add_argument("--algo", type=str, default="SAC")
 #parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO")
@@ -29,7 +29,8 @@ parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=1)
 
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
-parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_SNR")
+parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
+parser.add_argument("--fifo_frac", type=float, default=0.34)
 parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
 parser.add_argument("--policy", type=str, default="gaussian")
@@ -102,7 +103,7 @@ buffer_type = args.buffer_type
 if args.algo == "SAC":
     A = SAC(ini_env, q_nn_param, policy_nn_param, algo_nn_param,
         max_episodes=args.max_episodes, memory_capacity=args.memory_size,
-        batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type)
+        batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type, fifo_frac=args.fifo_frac)
 elif args.algo == "SAC_w_cur":
     A = SAC_with_Curiosity(ini_env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes=args.max_episodes,
                            memory_capacity=args.memory_size
@@ -115,7 +116,7 @@ elif args.algo == "SAC_w_cur_buffer":
     A = SAC_with_Curiosity_Buffer(ini_env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param,
                            max_episodes=args.max_episodes,
                            memory_capacity=args.memory_size
-                           , batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type)
+                           , batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type, fifo_frac=args.fifo_frac)
 
 save_interval = args.save_interval
 eval_interval = args.eval_interval
@@ -129,21 +130,36 @@ results = [[] for i in range(len(test_lengths))]
 
 state = A.initalize()
 
-experiment_no = 3
+
+
+experiment_no = 6
 inital_step_no = 0
 
 if args.load_from_old:
     c = args.load_index
     #sav_dir_temp = save_dir + "/e" + experiment_no
-    A.load(save_dir+"/q1", save_dir+"/q2",
-               save_dir+"/q1_target", save_dir+"/q2_target",
-               save_dir+"/policy_target")
+
+    if args.algo == "SAC_w_cur_buffer":
+        A.load(save_dir+"/q1", save_dir+"/q2",
+                   save_dir+"/q1_target", save_dir+"/q2_target",
+                   save_dir+"/policy_target", icm_state_path=save_dir+"/icm_state", icm_action_path=save_dir+"/icm_action")
+    else:
+        A.load(save_dir + "/q1", save_dir + "/q2",
+               save_dir + "/q1_target", save_dir + "/q2_target",
+               save_dir + "/policy_target")
+
+
     A.replay_buffer = torch.load(save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
     A.replay_buffer.tiebreaker = count(change_varaiable_at[c])
+
+    results = torch.load( "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(
+                    args.save_interval) + "_" + str(experiment_no))
 
     inital_step_no = change_varaiable_at[c]
 
 for i in range(inital_step_no, args.no_steps):
+
+
 
     if i%change_varaiable_at[c] == 0:
         torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
@@ -170,9 +186,15 @@ for i in range(inital_step_no, args.no_steps):
 
     if i%save_interval==0:
         save_dir_temp = save_dir + "/e" + str(experiment_no)
-        A.save(save_dir_temp +"/q1", save_dir_temp+"/q2",
-               save_dir_temp+"/q1_target", save_dir_temp+"/q2_target",
-               save_dir_temp+"/policy_target")
+
+        if  args.algo == "SAC_w_cur_buffer":
+            A.save(save_dir_temp +"/q1", save_dir_temp+"/q2",
+                   save_dir_temp+"/q1_target", save_dir_temp+"/q2_target",
+                   save_dir_temp+"/policy_target",icm_state_path=save_dir+"/icm_state", icm_action_path=save_dir+"/icm_action")
+        else:
+            A.save(save_dir_temp + "/q1", save_dir_temp + "/q2",
+                   save_dir_temp + "/q1_target", save_dir_temp + "/q2_target",
+                   save_dir_temp + "/policy_target")
 
 
     if i%eval_interval==0:
@@ -210,7 +232,9 @@ for i in range(inital_step_no, args.no_steps):
             if args.algo == "SAC_w_cur" or args.algo == "SAC_w_r_cur":
                 pass
 
-
+            if i%20000:
+                torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(
+                    args.save_interval) + "_" + str(experiment_no))
             #print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
             print("reward at itr " + str(i) + " = " + str(rew_total) +  " for variable: " + str(l))
 
@@ -219,5 +243,6 @@ torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem"
 torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_" + str(experiment_no))
 
 if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer":
-    torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity")
-    torch.save(A.icm_f_r, "results/native_SAC_catastrophic_forgetting/forward_curiosity")
+    torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity" + str(experiment_no))
+    torch.save(A.icm_f_r, "results/native_SAC_catastrophic_forgetting/forward_curiosity" + str(experiment_no))
+    #torch.save(A.icm_r_r, "results/native_SAC_catastrophic_forgetting/reward_curiosity" + str(experiment_no))

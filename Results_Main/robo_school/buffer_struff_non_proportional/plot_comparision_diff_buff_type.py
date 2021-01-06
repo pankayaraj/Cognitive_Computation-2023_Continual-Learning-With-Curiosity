@@ -9,10 +9,10 @@ n_step = int(no_steps/1000)
 m_s = "50k"
 
 dir_name_r_fifo = "buff_size_" + m_s +"/fifo"
-dir_name_r_hrf = "buff_size_" + m_s + "/hrf"
+dir_name_r_hrf = "buff_size_" + m_s + "/hrf_ft"
 #dir_name_r_res = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_Res"
 #dir_name_r_res_cur = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_Res_Cur"
-dir_name_r_hrf_cur =  "buff_size_" + m_s + "/hrf_cur_tr_ft"
+dir_name_r_hrf_cur =  "buff_size_" + m_s + "/hrf_snr_ft"
 
 changing_variable = [0.75, 1.75, 2.75, 3.75]
 changing_variable_at = [0, 100, 150, 350]
@@ -25,7 +25,7 @@ load_dir_5 = "results_length__s_i_1000_5"
 
 changing_variable_name = "diff_buffer_type_comparision"
 
-legend = ["FIFO", "HRF", "Curious HRF"]
+legend = ["FIFO", "HRF Flow Through", "Curious HRF Flow Through"]
 
 
 #HRF
@@ -248,7 +248,7 @@ rewards_r_hrf_cur_avg = np.sum(rewards_r_hrf_cur, axis=0)/len(rewards_r_hrf_cur)
 
 x = [i for i in range(no_steps//1000)]
 
-fig, ax = plt.subplots(1, 1, figsize=(70, 30))
+fig, ax = plt.subplots(1, 1, figsize=(20, 10))
 plt.plot(rewards_r_fifo_avg, linewidth=5)
 plt.fill_between(x, rewards_r_fifo_avg + rew_fifo_ind_std, rewards_r_fifo_avg - rew_fifo_ind_std, alpha = 0.1)
 
@@ -276,7 +276,7 @@ plt.savefig(name)
 plt.close(fig)
 
 for i in range(len(changing_variable)):
-    fig, ax = plt.subplots(1, 1, figsize=(70, 30))
+    fig, ax = plt.subplots(1, 1, figsize=(20, 10))
     plt.plot(rewards_r_fifo[i], linewidth=5)
     plt.fill_between(x, rewards_r_fifo[i] + rew_fifo_std[i], rewards_r_fifo[i] - rew_fifo_std[i], alpha=0.1)
 

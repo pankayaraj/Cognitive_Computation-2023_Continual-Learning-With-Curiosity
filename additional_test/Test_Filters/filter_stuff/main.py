@@ -2,9 +2,11 @@ import random
 import matplotlib.pyplot as plt
 import torch
 from util.reservoir_w_cur_replay_buffer import Reservoir_with_Cur_Replay_Memory
+
 import numpy as np
 s_c = torch.load("forward_curiosity")
 a_c = torch.load("inverse_curiosity")
+
 
 mul = 1000
 change_var_at = [0, 100, 150, 350]
@@ -19,7 +21,7 @@ measure = 1.0
 last_bool = 0
 measure_increase_threshold = 40000
 
-reduce = 10e-5
+reduce = 15e-6
 
 t = 0
 a = 0
