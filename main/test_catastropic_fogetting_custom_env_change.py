@@ -19,21 +19,28 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #Half_Reservior_FIFO
 #Half_Reservior_TR_FIFO_Flow_Through
 #"Half_Reservior_FIFO_with_FT"
+#"HopperPyBulletEnv-v0"
+#"Walker2DPyBulletEnv-v0"
 
-#parser.add_argument("--algo", type=str, default="SAC")
-#parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO")
+parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
+parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
+parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
+parser.add_argument("--env_type", type=str, default="roboschool")
+
+parser.add_argument("--load_from_old", type=bool, default=False)
+parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
+parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
+
+parser.add_argument("--experiment_no", type=int, default=4)
+
+#parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
+#parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
 #parser.add_argument("--env", type=str, default="Pendulum-v0")
 #parser.add_argument("--env_type", type=str, default="classic_control")
 
-parser.add_argument("--load_from_old", type=bool, default=False)
-parser.add_argument("--load_index", type=int, default=1)
-
-parser.add_argument("--algo", type=str, default="SAC")
-parser.add_argument("--no_curiosity_networks", type=int, default=5)
-parser.add_argument("--buffer_type", type=str, default="FIFO")
 parser.add_argument("--fifo_frac", type=float, default=0.34)
-parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
-parser.add_argument("--env_type", type=str, default="roboschool")
+parser.add_argument("--no_curiosity_networks", type=int, default=3)
+
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
 parser.add_argument("--lr", type=float, default=0.0003)
@@ -43,23 +50,31 @@ parser.add_argument("--cuda", type=bool, default=True)
 parser.add_argument("--tau", type=float, default=0.005)
 parser.add_argument("--automatic_entropy_tuning", type=bool, default=True)
 parser.add_argument("--target_update_interval", type=int, default=1)
-parser.add_argument("--save_interval", type=int, default=1000)
+parser.add_argument("--save_interval", type=int, default=40000)
 parser.add_argument("--eval-interval", type=int, default=1000)
 parser.add_argument("--restart_alpha", type=bool, default=False)
 parser.add_argument("--restart_alpha_interval", type=int, default=10000)
 parser.add_argument("--batch_size", type=int, default=256)
 parser.add_argument("--memory_size", type=int, default=50000)
-#parser.add_argument("--no_steps", type=int, default=200000)
+#parser.add_argument("--memory_size", type=int, default=8000)
+#parser.add_argument("--no_steps", type=int, default=250000)
 parser.add_argument("--no_steps", type=int, default=400000)
 parser.add_argument("--max_episodes", type=int, default=1000)
 #parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
 
+#hopper
 change_varaiable_at = [1, 100000, 150000, 350000]
 change_varaiable = [0.75, 1.75, 2.75, 3.75]
 
-#change_varaiable_at = [1, 30000, 60000, 120000]
-#change_varaiable = [1.0, 1.2, 1.4, 1.6]
+#pendulum
+#change_varaiable_at = [1, 30000, 60000, 120000, 200000]
+#change_varaiable = [1.0, 1.2, 1.4, 1.6, 1.8]
+
+#walker2D
+#change_varaiable_at = [1, 100000, 150000, 350000, 400000]
+#change_varaiable = [0.40, 1.40, 2.40, 3.40, 4.40]
+
 
 c = 0
 
@@ -134,21 +149,24 @@ state = A.initalize()
 
 
 
-experiment_no = 3
+experiment_no = args.experiment_no
 inital_step_no = 0
+
+print("experiment_no = " + str(experiment_no))
 
 if args.load_from_old:
     c = args.load_index
-    #sav_dir_temp = save_dir + "/e" + experiment_no
+    save_dir_temp = save_dir + "/e" + str(experiment_no)
+
 
     if args.algo == "SAC_w_cur_buffer":
         A.load(save_dir+"/q1", save_dir+"/q2",
-                   save_dir+"/q1_target", save_dir+"/q2_target",
-                   save_dir+"/policy_target", icm_state_path=save_dir+"/icm_state", icm_action_path=save_dir+"/icm_action")
+                   save_dir_temp+"/q1_target", save_dir_temp+"/q2_target",
+                   save_dir_temp+"/policy_target", icm_state_path=save_dir_temp+"/icm_state", icm_action_path=save_dir_temp+"/icm_action")
     else:
-        A.load(save_dir + "/q1", save_dir + "/q2",
-               save_dir + "/q1_target", save_dir + "/q2_target",
-               save_dir + "/policy_target")
+        A.load(save_dir_temp + "/q1", save_dir_temp + "/q2",
+               save_dir_temp + "/q1_target", save_dir_temp + "/q2_target",
+               save_dir_temp + "/policy_target")
 
 
     A.replay_buffer = torch.load(save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
@@ -161,10 +179,10 @@ if args.load_from_old:
 
 for i in range(inital_step_no, args.no_steps):
 
-
+    if i%1000==0:
+        print(i)
 
     if i%change_varaiable_at[c] == 0:
-        torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
 
         if args.env_type == "classic_control":
             A.env.set_length(length=change_varaiable[c])
@@ -186,17 +204,23 @@ for i in range(inital_step_no, args.no_steps):
     else:
         state = A.step(state, random=False)
 
-    if i%save_interval==0:
+
+    if i%save_interval == 0:
+        torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
+        torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(
+            args.save_interval) + "_" + str(experiment_no))
         save_dir_temp = save_dir + "/e" + str(experiment_no)
 
-        if  args.algo == "SAC_w_cur_buffer":
-            A.save(save_dir_temp +"/q1", save_dir_temp+"/q2",
-                   save_dir_temp+"/q1_target", save_dir_temp+"/q2_target",
-                   save_dir_temp+"/policy_target",icm_state_path=save_dir+"/icm_state", icm_action_path=save_dir+"/icm_action")
+        if args.algo == "SAC_w_cur_buffer":
+            A.save(save_dir_temp + "/q1", save_dir_temp + "/q2",
+                   save_dir_temp + "/q1_target", save_dir_temp + "/q2_target",
+                   save_dir_temp + "/policy_target", icm_state_path=save_dir_temp + "/icm_state",
+                   icm_action_path=save_dir_temp + "/icm_action")
         else:
             A.save(save_dir_temp + "/q1", save_dir_temp + "/q2",
                    save_dir_temp + "/q1_target", save_dir_temp + "/q2_target",
                    save_dir_temp + "/policy_target")
+
 
 
     if i%eval_interval==0:
@@ -234,9 +258,7 @@ for i in range(inital_step_no, args.no_steps):
             if args.algo == "SAC_w_cur" or args.algo == "SAC_w_r_cur":
                 pass
 
-            if i%20000:
-                torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(
-                    args.save_interval) + "_" + str(experiment_no))
+
             #print("reward at itr " + str(i) + " = " + str(rew_total) + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) + " for length: " + str(l))
             print("reward at itr " + str(i) + " = " + str(rew_total) +  " for variable: " + str(l))
 

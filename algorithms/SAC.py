@@ -207,7 +207,7 @@ class SAC():
 
         self.critic_1.save(critic_1_path)
         self.critic_2.save(critic_2_path)
-        self.critic_target_1.save(critic_2_target_path)
+        self.critic_target_1.save(critic_1_target_path)
         self.critic_target_2.save(critic_2_target_path)
         self.policy.save(policy_path)
 
@@ -217,6 +217,6 @@ class SAC():
 
         self.critic_1.load(critic_1_path)
         self.critic_2.load(critic_2_path)
-        self.critic_target_1.load(critic_2_target_path)
+        self.critic_target_1.load(critic_1_target_path)
         self.critic_target_2.load(critic_2_target_path)
         self.policy.load(policy_path)

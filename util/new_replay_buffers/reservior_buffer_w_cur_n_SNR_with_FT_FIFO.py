@@ -22,8 +22,8 @@ class Transition_tuple():
 
 class Half_Reservoir_Cur_n_SNR_FIFO_Flow_Through_Replay_Buffer():
 
-    def __init__(self, capacity=10000, fifo_fac = 0.5, avg_len_snr=400, measre_reset_after_threshold=28000,
-                 measure_decrement=1e-5, snr_factor=5.5):
+    def __init__(self, capacity=10000, fifo_fac = 0.5, avg_len_snr=250, measre_reset_after_threshold=20000,
+                 measure_decrement=1e-5, snr_factor=3.5):
         #19e-5
         assert (fifo_fac > 0) and (fifo_fac < 1)
         self.fifo_frac = fifo_fac

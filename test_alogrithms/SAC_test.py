@@ -26,15 +26,15 @@ import custom_envs.pybulletgym_custom
 from gym.envs.registration import register
 
 register(
-	id='HopperPyBulletEnv-v1',
-	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
-    kwargs={'power': 0.75},
+	id='Walker2DPyBulletEnv-v1',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
+    kwargs={'power': 0.40},
 	max_episode_steps=1000,
 	reward_threshold=2500.0
 	)
 
-env = gym.make('HopperPyBulletEnv-v1')
-env_eval = gym.make('HopperPyBulletEnv-v1')
+env = gym.make('Walker2DPyBulletEnv-v1')
+env_eval = gym.make('Walker2DPyBulletEnv-v1')
 #env.render() # call this before env.reset, if you want a window showing the environment
 #env.reset()
 """
@@ -77,12 +77,12 @@ A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=4000, memo
         ,batch_size=256, alpha_lr=0.0003)
 #A.load("q1", "q2", "q1", "q2", "policy_target")
 
-save_interval = 1000
-eval_interval = 1000
+save_interval = 10000
+eval_interval = 10000
 
 state = A.initalize()
 
-for i in range(500000):
+for i in range(1000000):
 
     A.update()
 
@@ -91,7 +91,7 @@ for i in range(500000):
     else:
         state = A.step(state, random=False)
     if i%save_interval==0:
-        #A.save("q1", "q2", "q1_target", "q2_target", "policy_target")
+        A.save("q1", "q2", "q1_target", "q2_target", "policy_target")
         pass
     if i%eval_interval==0:
 

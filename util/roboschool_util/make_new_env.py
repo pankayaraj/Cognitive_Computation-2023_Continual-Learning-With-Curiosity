@@ -6,6 +6,7 @@ def make_array_env(change_variable, name):
     env, env_eval = [], []
 
     for i in range(len(change_variable)):
+
         if name == "HopperPyBulletEnv-v0":
             register(
                 id='HopperPyBulletEnv-v' + str(i+1),
@@ -17,6 +18,22 @@ def make_array_env(change_variable, name):
 
             env.append(gym.make('HopperPyBulletEnv-v' + str(i+1)))
             env_eval.append(gym.make('HopperPyBulletEnv-v' + str(i+1)))
+
+            env[i].reset()
+            env_eval[i].reset()
+
+        elif name == "Walker2DPyBulletEnv-v0":
+
+            register(
+                id='Walker2DPyBulletEnv-v' + str(i+1),
+                entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
+                kwargs={'power': change_variable[i]},
+                max_episode_steps=1000,
+                reward_threshold=2500.0
+            )
+
+            env.append(gym.make('Walker2DPyBulletEnv-v' + str(i+1)))
+            env_eval.append(gym.make('Walker2DPyBulletEnv-v' + str(i+1)))
 
             env[i].reset()
             env_eval[i].reset()

@@ -32,21 +32,21 @@ legend = ["FIFO", "HRF Flow Through", "Curious HRF Flow Through"]
 r1 = torch.load(dir_name_r_hrf + "/" + load_dir_1)
 r2 = torch.load(dir_name_r_hrf + "/" + load_dir_2)
 r3 = torch.load(dir_name_r_hrf + "/" + load_dir_3)
-r4 = torch.load(dir_name_r_hrf + "/" + load_dir_4)
-r5 = torch.load(dir_name_r_hrf + "/" + load_dir_5)
+#r4 = torch.load(dir_name_r_hrf + "/" + load_dir_4)
+#r5 = torch.load(dir_name_r_hrf + "/" + load_dir_5)
 
 for i in range(len(changing_variable)):
     r1[i] = r1[i][0:n_step]
     r2[i] = r2[i][0:n_step]
     r3[i] = r3[i][0:n_step]
-    r4[i] = r4[i][0:n_step]
-    r5[i] = r5[i][0:n_step]
+#    r4[i] = r4[i][0:n_step]
+#    r5[i] = r5[i][0:n_step]
 
 r1 = r1[0:len(changing_variable)]
 r2 = r2[0:len(changing_variable)]
 r3 = r3[0:len(changing_variable)]
-r4 = r4[0:len(changing_variable)]
-r5 = r5[0:len(changing_variable)]
+#r4 = r4[0:len(changing_variable)]
+#r5 = r5[0:len(changing_variable)]
 
 rewards_r_hrf = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 rew_hrf_total = [[] for j in range(len(changing_variable))]
@@ -56,15 +56,16 @@ for j in range(len(changing_variable)):
     rew_hrf_total[j].append(r1[j])
     rew_hrf_total[j].append(r2[j])
     rew_hrf_total[j].append(r3[j])
-    rew_hrf_total[j].append(r4[j])
-    rew_hrf_total[j].append(r5[j])
+#    rew_hrf_total[j].append(r4[j])
+#    rew_hrf_total[j].append(r5[j])
     for i in range(len(r1[0])):
-        rewards_r_hrf[j][i] = r1[j][i] + r2[j][i] + r3[j][i] + r4[j][i] + r5[j][i]
-        rewards_r_hrf[j][i] = rewards_r_hrf[j][i]/5
+        rewards_r_hrf[j][i] = r1[j][i] + r2[j][i] + r3[j][i]# + r4[j][i] + r5[j][i]
+        rewards_r_hrf[j][i] = rewards_r_hrf[j][i]/3#5
 
 rew_hrf_std = np.std(rew_hrf_total, axis=1)
 
-rew_hrf_ind_total = np.array([r1, r2, r3, r4, r5])
+#rew_hrf_ind_total = np.array([r1, r2, r3, r4, r5])
+rew_hrf_ind_total = np.array([r1, r2, r3])
 rew_hrf_ind_avg = np.sum(rew_hrf_ind_total, axis=1)/len(rewards_r_hrf)
 rew_hrf_ind_std = np.std(rew_hrf_ind_avg, axis=0)
 
@@ -73,21 +74,21 @@ rew_hrf_ind_std = np.std(rew_hrf_ind_avg, axis=0)
 r1 = torch.load(dir_name_r_fifo + "/" + load_dir_1)
 r2 = torch.load(dir_name_r_fifo + "/" + load_dir_2)
 r3 = torch.load(dir_name_r_fifo + "/" + load_dir_3)
-r4 = torch.load(dir_name_r_fifo + "/" + load_dir_4)
-r5 = torch.load(dir_name_r_fifo + "/" + load_dir_5)
+#r4 = torch.load(dir_name_r_fifo + "/" + load_dir_4)
+#r5 = torch.load(dir_name_r_fifo + "/" + load_dir_5)
 
 for i in range(len(changing_variable)):
     r1[i] = r1[i][0:n_step]
     r2[i] = r2[i][0:n_step]
     r3[i] = r3[i][0:n_step]
-    r4[i] = r4[i][0:n_step]
-    r5[i] = r5[i][0:n_step]
+#    r4[i] = r4[i][0:n_step]
+#    r5[i] = r5[i][0:n_step]
 
 r1 = r1[0:len(changing_variable)]
 r2 = r2[0:len(changing_variable)]
 r3 = r3[0:len(changing_variable)]
-r4 = r4[0:len(changing_variable)]
-r5 = r5[0:len(changing_variable)]
+#r4 = r4[0:len(changing_variable)]
+#r5 = r5[0:len(changing_variable)]
 
 rewards_r_fifo = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 rew_fifo_total = [[] for j in range(len(changing_variable))]
@@ -98,15 +99,16 @@ for j in range(len(changing_variable)):
     rew_fifo_total[j].append(r1[j])
     rew_fifo_total[j].append(r2[j])
     rew_fifo_total[j].append(r3[j])
-    rew_fifo_total[j].append(r4[j])
-    rew_fifo_total[j].append(r5[j])
+#    rew_fifo_total[j].append(r4[j])
+#    rew_fifo_total[j].append(r5[j])
 
     for i in range(len(r1[0])):
-        rewards_r_fifo[j][i] = r1[j][i] + r2[j][i] + r3[j][i] + r4[j][i] + r5[j][i]
-        rewards_r_fifo[j][i] = rewards_r_fifo[j][i]/5
+        rewards_r_fifo[j][i] = r1[j][i] + r2[j][i] + r3[j][i]# + r4[j][i] + r5[j][i]
+        rewards_r_fifo[j][i] = rewards_r_fifo[j][i]/3#5
 rew_fifo_std = np.std(rew_fifo_total, axis=1)
 
-rew_fifo_ind_total = np.array([r1, r2, r3, r4, r5])
+#rew_fifo_ind_total = np.array([r1, r2, r3, r4, r5])
+rew_fifo_ind_total = np.array([r1, r2, r3])
 rew_fifo_ind_avg = np.sum(rew_fifo_ind_total, axis=1)/len(rewards_r_fifo)
 rew_fifo_ind_std = np.std(rew_fifo_ind_avg, axis=0)
 
@@ -202,21 +204,21 @@ rew_res_cur_ind_std = np.std(rew_res_cur_ind_avg, axis=0)
 r1 = torch.load(dir_name_r_hrf_cur+ "/" + load_dir_1)
 r2 = torch.load(dir_name_r_hrf_cur + "/" + load_dir_2)
 r3 = torch.load(dir_name_r_hrf_cur + "/" + load_dir_3)
-r4 = torch.load(dir_name_r_hrf_cur + "/" + load_dir_4)
-r5 = torch.load(dir_name_r_hrf_cur + "/" + load_dir_5)
+#r4 = torch.load(dir_name_r_hrf_cur + "/" + load_dir_4)
+#r5 = torch.load(dir_name_r_hrf_cur + "/" + load_dir_5)
 
 for i in range(len(changing_variable)):
     r1[i] = r1[i][0:n_step]
     r2[i] = r2[i][0:n_step]
     r3[i] = r3[i][0:n_step]
-    r4[i] = r4[i][0:n_step]
-    r5[i] = r5[i][0:n_step]
+#    r4[i] = r4[i][0:n_step]
+#    r5[i] = r5[i][0:n_step]
 
 r1 = r1[0:len(changing_variable)]
 r2 = r2[0:len(changing_variable)]
 r3 = r3[0:len(changing_variable)]
-r4 = r4[0:len(changing_variable)]
-r5 = r5[0:len(changing_variable)]
+#r4 = r4[0:len(changing_variable)]
+#r5 = r5[0:len(changing_variable)]
 
 rewards_r_hrf_cur = [[0. for j in range(len(r1[0]))] for i in range(len(r1))]
 rew_hrf_cur_total = [[] for j in range(len(changing_variable))]
@@ -226,16 +228,17 @@ for j in range(len(changing_variable)):
     rew_hrf_cur_total[j].append(r1[j])
     rew_hrf_cur_total[j].append(r2[j])
     rew_hrf_cur_total[j].append(r3[j])
-    rew_hrf_cur_total[j].append(r4[j])
-    rew_hrf_cur_total[j].append(r5[j])
+#    rew_hrf_cur_total[j].append(r4[j])
+#    rew_hrf_cur_total[j].append(r5[j])
 
     for i in range(len(r1[0])):
-        rewards_r_hrf_cur[j][i] = r1[j][i] + r2[j][i] + r3[j][i] + r4[j][i] + r5[j][i]
-        rewards_r_hrf_cur[j][i] = rewards_r_hrf_cur[j][i]/5
+        rewards_r_hrf_cur[j][i] = r1[j][i] + r2[j][i] + r3[j][i] #+ r4[j][i] + r5[j][i]
+        rewards_r_hrf_cur[j][i] = rewards_r_hrf_cur[j][i]/3#5
 
 rew_hrf_cur_std = np.std(rew_hrf_cur_total, axis=1)
 
-rew_hrf_cur_ind_total = np.array([r1, r2, r3, r4, r5])
+#rew_hrf_cur_ind_total = np.array([r1, r2, r3, r4, r5])
+rew_hrf_cur_ind_total = np.array([r1, r2, r3])
 rew_hrf_cur_ind_avg = np.sum(rew_hrf_cur_ind_total, axis=1)/len(rewards_r_hrf_cur)
 rew_hrf_cur_ind_std = np.std(rew_hrf_cur_ind_avg, axis=0)
 

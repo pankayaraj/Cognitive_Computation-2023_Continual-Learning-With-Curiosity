@@ -10,7 +10,7 @@ update_on_interval = False
 no_steps = 200000
 
 l_i = length_interval//1000
-m_s = 2000
+m_s = 8000
 
 dir_name_r_fifo = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_FIFO"
 dir_name_r_hrf = "buff_size_"+ str(m_s) + "/linear_False_m_s_"+ str(m_s) + "__restart_alpha_False_Buffer_HRF"

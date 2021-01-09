@@ -5,8 +5,8 @@ from custom_envs.pybulletgym_custom.envs.roboschool.robots.robot_bases import MJ
 class Walker2D(WalkerBase, MJCFBasedRobot):
     foot_list = ["foot", "foot_left"]
 
-    def __init__(self):
-        WalkerBase.__init__(self, power=0.40)
+    def __init__(self, power=0.40):
+        WalkerBase.__init__(self, power=power)
         MJCFBasedRobot.__init__(self, "walker2d.xml", "torso", action_dim=6, obs_dim=22)
 
     def alive_bonus(self, z, pitch):
