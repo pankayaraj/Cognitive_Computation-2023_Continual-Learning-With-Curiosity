@@ -22,7 +22,7 @@ class Transition_tuple():
 
 class Half_Reservoir_Flow_Through_w_Cur():
 
-    def __init__(self, capacity=10000, fifo_fac = 0.5, avg_len_snr=400, repetition_threshold=28000, snr_factor=5.5):
+    def __init__(self, capacity=10000, fifo_fac = 0.5, avg_len_snr=4000, repetition_threshold=30000, snr_factor=2.5):
         assert (fifo_fac > 0) and (fifo_fac < 1)
         self.fifo_frac = fifo_fac
         self.fifo_capacity = int(capacity*fifo_fac)

@@ -23,7 +23,7 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #"Walker2DPyBulletEnv-v0"
 
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
-parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
+parser.add_argument("--buffer_type", type=str, default="FIFO_FT")
 parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
 
@@ -31,14 +31,15 @@ parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=4)
+parser.add_argument("--experiment_no", type=int, default=5)
 
 #parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 #parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
 #parser.add_argument("--env", type=str, default="Pendulum-v0")
 #parser.add_argument("--env_type", type=str, default="classic_control")
 
-parser.add_argument("--fifo_frac", type=float, default=0.34)
+#parser.add_argument("--fifo_frac", type=float, default=0.34)
+parser.add_argument("--fifo_frac", type=float, default=0.05)
 parser.add_argument("--no_curiosity_networks", type=int, default=3)
 
 parser.add_argument("--policy", type=str, default="gaussian")
@@ -51,10 +52,10 @@ parser.add_argument("--tau", type=float, default=0.005)
 parser.add_argument("--automatic_entropy_tuning", type=bool, default=True)
 parser.add_argument("--target_update_interval", type=int, default=1)
 parser.add_argument("--save_interval", type=int, default=40000)
-parser.add_argument("--eval-interval", type=int, default=1000)
+parser.add_argument("--eval-interval", type=int, default=2000)
 parser.add_argument("--restart_alpha", type=bool, default=False)
-parser.add_argument("--restart_alpha_interval", type=int, default=10000)
-parser.add_argument("--batch_size", type=int, default=256)
+parser.add_argument("--restart_alpha_interval", type=int, default=50000)
+parser.add_argument("--batch_size", type=int, default=512)
 parser.add_argument("--memory_size", type=int, default=50000)
 #parser.add_argument("--memory_size", type=int, default=8000)
 #parser.add_argument("--no_steps", type=int, default=250000)
@@ -64,9 +65,16 @@ parser.add_argument("--max_episodes", type=int, default=1000)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
 
 #hopper
-change_varaiable_at = [1, 100000, 150000, 350000]
-change_varaiable = [0.75, 1.75, 2.75, 3.75]
+#change_varaiable_at = [1, 100000, 150000, 350000] #v1
+#change_varaiable = [0.75, 1.75, 2.75, 3.75]
 
+#change_varaiable_at = [1, 50000, 250000, 300000, 350000] #v2
+#change_varaiable = [0.75, 2.75, 4.75,  6.75, 8.75]
+
+change_varaiable_at = [1, 50000, 350000] #v3
+#change_varaiable_at = [1, 100000, 500000, 600000, 700000]
+#change_varaiable = [0.75, 4.75, 8.75,  2.75, 6.75]
+change_varaiable = [0.75, 4.75, 8.75]
 #pendulum
 #change_varaiable_at = [1, 30000, 60000, 120000, 200000]
 #change_varaiable = [1.0, 1.2, 1.4, 1.6, 1.8]
@@ -208,7 +216,7 @@ for i in range(inital_step_no, args.no_steps):
     if i%save_interval == 0:
         torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
         torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(
-            args.save_interval) + "_" + str(experiment_no))
+            args.eval_interval) + "_" + str(experiment_no))
         save_dir_temp = save_dir + "/e" + str(experiment_no)
 
         if args.algo == "SAC_w_cur_buffer":
@@ -264,7 +272,7 @@ for i in range(inital_step_no, args.no_steps):
 
 #saving the final buffer
 torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c+1))
-torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.save_interval) + "_" + str(experiment_no))
+torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.eval_interval) + "_" + str(experiment_no))
 
 if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer":
     torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity" + str(experiment_no))

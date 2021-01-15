@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 
-load_dir = "results_length__s_i_1000_4"
+load_dir = "results_length__s_i_1000_5"
 
 
 rewards = torch.load(load_dir)

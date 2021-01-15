@@ -53,7 +53,6 @@ class Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer():
         s1, a1, a_m1, r1, n_s1, d1 = self.fifo_buffer.encode_sample(fifo_indices)
         s2, a2, a_m2, r2, n_s2, d2= self.reservior_buffer.encode_sample(reservior_indices)
 
-
         state = state + s1 + s2
         action = action + a1 + a2
         action_mean = action_mean + a_m1 + a_m2
@@ -64,7 +63,6 @@ class Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer():
         return state, action, action_mean, reward, next_state, done_mask
 
     def get_sample_indices(self, batch_size):
-
 
         fifo_batch_size = int(batch_size * self.fifo_frac)
         reservoir_batch_size = batch_size - fifo_batch_size

@@ -13,6 +13,8 @@ from util.reservior_w_cur_time_restriction_buffer_n_FIFO_flow_through import Hal
 
 from util.new_replay_buffers.reservior_buffer_w_cur_n_SNR_with_FT_FIFO import Half_Reservoir_Cur_n_SNR_FIFO_Flow_Through_Replay_Buffer
 from util.new_replay_buffers.half_res_w_cur_ft_fifo import Half_Reservoir_Flow_Through_w_Cur
+from util.new_replay_buffers.gradual.half_res_w_cur_ft_fifo_gradual import Half_Reservoir_Flow_Through_w_Cur_Gradual
+from util.new_replay_buffers.gradual.ft_fifo_gradual_w_cur import FIFO_w_Cur_Gradual
 
 class Debug():
     def __init__(self):
@@ -134,7 +136,12 @@ class SAC_with_Curiosity_Buffer():
                                                                                      fifo_fac = fifo_frac, lambda_v=0.5, r=1, slope=3, shift=5)
         elif buffer_type == "Half_Reservior_FIFO_with_FT":
             #self.replay_buffer = Half_Reservoir_Cur_n_SNR_FIFO_Flow_Through_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
-            self.replay_buffer = Half_Reservoir_Flow_Through_w_Cur(capacity=memory_capacity,fifo_fac=0.34)
+            #self.replay_buffer = Half_Reservoir_Flow_Through_w_Cur(capacity=memory_capacity,fifo_fac=fifo_frac)
+            self.replay_buffer = Half_Reservoir_Flow_Through_w_Cur_Gradual(capacity=memory_capacity, curisoity_buff_frac=0.34, seperate_cur_buffer=True,
+                                                                          fifo_fac=fifo_frac)
+        elif buffer_type == "FIFO_FT":
+            self.replay_buffer = FIFO_w_Cur_Gradual(capacity=memory_capacity, fifo_fac=fifo_frac)
+
         self.debug = debug
 
 
@@ -216,6 +223,7 @@ class SAC_with_Curiosity_Buffer():
         if self.replay_buffer_type == "FIFO" or self.replay_buffer_type == "Reservior_TR" or self.replay_buffer_type == "Reservior":
             for i in range(self.no):
                 cur_batch = self.replay_buffer.sample(self.batch_size)
+
                 self.update_curiosity(cur_batch, index=i)
         else:
             if self.update_curiosity_from_fifo == False:
@@ -224,7 +232,11 @@ class SAC_with_Curiosity_Buffer():
                     self.update_curiosity(cur_batch, index=i)
             else:
                 for i in range(self.no):
-                    fifo_batch = self.replay_buffer.fifo_buffer.sample(batch_size=batch_size)
+
+                    if self.replay_buffer.seperate_cur_buffer == True:
+                        fifo_batch = self.replay_buffer.curiosity_buffer.sample(batch_size=batch_size)
+                    else:
+                        fifo_batch = self.replay_buffer.fifo_buffer.sample(batch_size=batch_size)
                     self.update_curiosity(fifo_batch, index=i)
 
 

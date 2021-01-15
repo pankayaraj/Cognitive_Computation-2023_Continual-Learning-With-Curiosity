@@ -52,6 +52,11 @@ class Reservoir_Task_Seperation_Replay_Memory():
         self.max = 0
 
     def task_change(self):
+        l = []
+        for  b in self.storage:
+            l.append(len(b))
+
+        print(self.time, l)
         self.current_index += 1
         self.no_tasks += 1
         self.individual_buffer_capacity = self.capacity//self.no_tasks
@@ -100,7 +105,7 @@ class Reservoir_Task_Seperation_Replay_Memory():
         self.check_for_task_change(curiosity=curiosity)
         data = (state, action, action_mean, reward, curiosity, next_state, done_mask, tiebreaker)
         priority = random.uniform(0, 1)
-
+        #priority = curiosity.item()
         if tiebreaker == None:
             tiebreaker = self.time
 

@@ -47,7 +47,7 @@ class Reservoir_Replay_Memory():
     def sample(self, batch_size):
         indices = self.get_sample_indices(batch_size)
         state, action, action_mean, reward, next_state, done_mask =  self.encode_sample(indices=indices)
-        return Transition_tuple(state, action, action_mean, reward, next_state, done_mask)
+        return Transition_tuple(state, action, action_mean, reward, next_state, done_mask, None)
 
 
     def encode_sample(self, indices):
