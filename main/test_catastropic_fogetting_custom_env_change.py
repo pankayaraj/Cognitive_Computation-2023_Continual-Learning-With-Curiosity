@@ -23,7 +23,7 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #"Walker2DPyBulletEnv-v0"
 
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
-parser.add_argument("--buffer_type", type=str, default="FIFO_FT")
+parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
 parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
 
@@ -191,6 +191,8 @@ for i in range(inital_step_no, args.no_steps):
         print(i)
 
     if i%change_varaiable_at[c] == 0:
+        #save_the_buffer
+        torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
 
         if args.env_type == "classic_control":
             A.env.set_length(length=change_varaiable[c])
@@ -214,7 +216,7 @@ for i in range(inital_step_no, args.no_steps):
 
 
     if i%save_interval == 0:
-        torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
+
         torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(
             args.eval_interval) + "_" + str(experiment_no))
         save_dir_temp = save_dir + "/e" + str(experiment_no)
