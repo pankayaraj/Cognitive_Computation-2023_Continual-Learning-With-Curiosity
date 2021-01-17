@@ -31,7 +31,7 @@ parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=5)
+parser.add_argument("--experiment_no", type=int, default=6)
 
 #parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 #parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
@@ -191,7 +191,7 @@ for i in range(inital_step_no, args.no_steps):
         print(i)
 
     if i%change_varaiable_at[c] == 0:
-        #save_the_buffer
+        # save_the_buffer
         torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
 
         if args.env_type == "classic_control":
@@ -201,6 +201,8 @@ for i in range(inital_step_no, args.no_steps):
 
         if c < len(change_varaiable_at)-1:
             c += 1
+
+
 
     if args.restart_alpha:
         if i%args.restart_alpha_interval == 0:
