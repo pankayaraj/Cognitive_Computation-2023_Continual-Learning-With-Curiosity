@@ -20,7 +20,7 @@ a_c = torch.load("inverse_curiosity")[0:400000]
 
 
 #s_c = torch.load("forward_curiosity5")
-a_c = torch.load("V2/inverse_curiosity2")
+a_c = torch.load("V4/inverse_curiosity7")
 #r_c =""" torch.load("reward_curiosity")
 """"""
 
@@ -74,7 +74,7 @@ change_var_at = [change_var_at[i]*mul for i in range(len(change_var_at))]
 #M = Reservoir_with_Cur_Replay_Memory(capacity=33000)
 #M = Half_Reservoir_Flow_Through_w_Cur(50000, fifo_fac=0.05)
 #M = Half_Reservoir_Flow_Through_w_Cur_Gradual(50000, fifo_fac=0.05)
-M = FIFO_w_Cur_Gradual(50000, fifo_fac=0.05)
+#M = FIFO_w_Cur_Gradual(50000, fifo_fac=0.05)
 M = Half_Reservoir_Flow_Through_w_Cur_Gradual(50000, fifo_fac=0.05)
 #M = Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer(50000, fifo_fac=0.05)
 #M = Half_Reservoir_Cur_n_SNR_FIFO_Flow_Through_Replay_Buffer(capacity=50000, fifo_fac=0.34)
@@ -87,8 +87,8 @@ for i in range(len(M.reservior_buffer)):
 for c in a_c:
 
 
-    #if t == change_var_at[1] or t == change_var_at[2] or t == change_var_at[3] :
-    if t==200000:
+    if t == change_var_at[1] or t == change_var_at[2] or t == change_var_at[3] :
+    #if t==200000:
 
 
         x1 = 0
@@ -98,8 +98,8 @@ for c in a_c:
         x5 = 0
         #a = M.reservior_buffer.storage
 
-        #a = M.reservior_buffer.get_total_buffer_data()
-        a = M.sample(512)
+        a = M.reservior_buffer.get_total_buffer_data()
+        #a = M.sample(512)
         for i in range(len(a)):
 
             if a[i][1] >= change_var_at[0] and a[i][1] < change_var_at[1]:

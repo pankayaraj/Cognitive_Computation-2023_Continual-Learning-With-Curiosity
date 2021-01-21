@@ -24,14 +24,14 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
-parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
+parser.add_argument("--env", type=str, default="Walker2DPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
 
 parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=6)
+parser.add_argument("--experiment_no", type=int, default=7)
 
 #parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 #parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
@@ -40,7 +40,7 @@ parser.add_argument("--experiment_no", type=int, default=6)
 
 #parser.add_argument("--fifo_frac", type=float, default=0.34)
 parser.add_argument("--fifo_frac", type=float, default=0.05)
-parser.add_argument("--no_curiosity_networks", type=int, default=3)
+parser.add_argument("--no_curiosity_networks", type=int, default=1)
 
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
@@ -64,17 +64,14 @@ parser.add_argument("--max_episodes", type=int, default=1000)
 #parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
 
-#hopper
-#change_varaiable_at = [1, 100000, 150000, 350000] #v1
-#change_varaiable = [0.75, 1.75, 2.75, 3.75]
 
-#change_varaiable_at = [1, 50000, 250000, 300000, 350000] #v2
-#change_varaiable = [0.75, 2.75, 4.75,  6.75, 8.75]
 
+#Hopper
 change_varaiable_at = [1, 50000, 350000] #v3
 #change_varaiable_at = [1, 100000, 500000, 600000, 700000]
-#change_varaiable = [0.75, 4.75, 8.75,  2.75, 6.75]
-change_varaiable = [0.75, 4.75, 8.75]
+#change_varaiable = [0.75, 4.75, 8.75,  12.75, 16.75]
+#change_varaiable = [0.75, 4.75, 8.75]
+
 #pendulum
 #change_varaiable_at = [1, 30000, 60000, 120000, 200000]
 #change_varaiable = [1.0, 1.2, 1.4, 1.6, 1.8]
@@ -83,7 +80,10 @@ change_varaiable = [0.75, 4.75, 8.75]
 #change_varaiable_at = [1, 100000, 150000, 350000, 400000]
 #change_varaiable = [0.40, 1.40, 2.40, 3.40, 4.40]
 
-
+change_varaiable_at = [1, 50000, 350000]
+#change_varaiable = [0.40, 1.40, 2.40]
+change_varaiable = [0.40, 1.15, 1.90]
+#change_varaiable = [0.40, 0.90, 1.40]
 c = 0
 
 args = parser.parse_args()

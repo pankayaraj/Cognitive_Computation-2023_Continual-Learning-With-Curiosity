@@ -2,13 +2,13 @@ import torch
 import matplotlib.pyplot as plt
 
 
-s_c = torch.load("forward_curiosity")
-a_c = torch.load("inverse_curiosity")
+#s_c = torch.load("forward_curiosity")
+#a_c = torch.load("inverse_curiosity")
 #r_c = torch.load("reward_curiosity")
-
+a_c = torch.load("V4/inverse_curiosity5")
 c = []
 for i in range(len(a_c)):
-    c.append(a_c[i] + 0.5*s_c[i])
+    c.append(a_c[i])
 
 plt.plot(c)
 plt.show()

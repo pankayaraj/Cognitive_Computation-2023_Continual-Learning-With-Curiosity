@@ -112,8 +112,8 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
     def push(self, state, action, action_mean, reward, curiosity, next_state, done_mask, tiebreaker):
         self.check_for_task_change(curiosity=curiosity)
         data = (state, action, action_mean, reward, curiosity, next_state, done_mask, tiebreaker)
-        #priority = random.uniform(0, 1)
-        priority = curiosity.item()
+        priority = random.uniform(0, 1)
+        #priority = curiosity.item()
         if tiebreaker == None:
             tiebreaker = self.time
 
