@@ -68,9 +68,12 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         self.residual_buffer = []
 
         for (i, buff) in enumerate(self.storage):
+            x_new = min(x, len(buff)-self.individual_buffer_capacity)
+            print("x_new " + str(x_new))
             if len(buff) > self.individual_buffer_capacity:
-                self.storage[i] = buff[x:]
-                self.residual_buffer += buff[:x-1]
+                self.storage[i] = buff[x_new:]
+                self.residual_buffer += buff[:x_new-1]
+
 
 
         self.storage.append([])

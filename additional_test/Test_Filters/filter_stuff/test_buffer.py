@@ -20,7 +20,7 @@ a_c = torch.load("inverse_curiosity")[0:400000]
 
 
 #s_c = torch.load("forward_curiosity5")
-a_c = torch.load("V4/inverse_curiosity7")
+a_c = torch.load("Walker/inverse_curiosity7")
 #r_c =""" torch.load("reward_curiosity")
 """"""
 
@@ -67,6 +67,7 @@ plt.show()
 """
 mul = 1000
 change_var_at = [1, 50, 350, 400]
+#change_var_at = [1, 20, 120, 150]
 #change_var_at = [1, 50, 350, 400, 450]
 #change_var_at = [0, 30, 60, 120, 200]
 #change_var_at = [0, 100, 150, 350, 400]
@@ -75,7 +76,7 @@ change_var_at = [change_var_at[i]*mul for i in range(len(change_var_at))]
 #M = Half_Reservoir_Flow_Through_w_Cur(50000, fifo_fac=0.05)
 #M = Half_Reservoir_Flow_Through_w_Cur_Gradual(50000, fifo_fac=0.05)
 #M = FIFO_w_Cur_Gradual(50000, fifo_fac=0.05)
-M = Half_Reservoir_Flow_Through_w_Cur_Gradual(50000, fifo_fac=0.05)
+M = Half_Reservoir_Flow_Through_w_Cur_Gradual(100000, fifo_fac=0.05)
 #M = Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer(50000, fifo_fac=0.05)
 #M = Half_Reservoir_Cur_n_SNR_FIFO_Flow_Through_Replay_Buffer(capacity=50000, fifo_fac=0.34)
 t = 0
@@ -97,7 +98,8 @@ for c in a_c:
         x4 = 0
         x5 = 0
         #a = M.reservior_buffer.storage
-
+        #for b in M.reservior_buffer.storage:
+        #    print(len(b))
         a = M.reservior_buffer.get_total_buffer_data()
         #a = M.sample(512)
         for i in range(len(a)):
@@ -135,7 +137,7 @@ plt.ylim(0,2)
 plt.title("Using Curisioty for task seperation")
 plt.xlabel("Time")
 plt.legend(["SNR", "MEAN", "Task Seperation"])
-#plt.savefig("TS_3")
+#plt.savefig("TS")
 plt.show()
 
 x1 = 0

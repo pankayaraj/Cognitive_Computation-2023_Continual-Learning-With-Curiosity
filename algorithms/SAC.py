@@ -9,11 +9,12 @@ from util.reservoir_replay_buffer import Reservoir_Replay_Memory
 from util.reservoir_with_fifo_replay_buffer import Reservoir_with_FIFO_Replay_Buffer
 from util.multi_time_scale_buffer import Multi_time_Scale_Buffer
 from util.reservoir_with_fifo_replay_buffer_flow_through import Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer
+from util.new_replay_buffers.gradual.custom_hrf import Custom_HRF
 class SAC():
 
     def __init__(self, env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes =100, memory_capacity =10000,
                  batch_size=400, save_path = Save_Paths(), load_path= Load_Paths(), action_space = None, alpha_lr=0.0003,
-                 buffer_type= "FIFO", fifo_frac=0.34):
+                 buffer_type= "FIFO", fifo_frac=0.34, change_at = [100000, 350000]):
 
         self.env = env
         self.device = q_nn_param.device
@@ -68,6 +69,8 @@ class SAC():
             self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=5)
         elif buffer_type == "Half_Reservior_FIFO_with_FT":
             self.replay_buffer = Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
+        elif buffer_type == "Custom":
+            self.replay_buffer = Custom_HRF(capacity=memory_capacity, fifo_fac=fifo_frac, change_at = change_at)
 
     def get_action(self, state, evaluate=False):
 

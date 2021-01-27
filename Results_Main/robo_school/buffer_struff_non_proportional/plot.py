@@ -5,19 +5,19 @@ import numpy as np
 
 
 
-no_steps = 400000
-n_step = int(no_steps/1000)
-dir_name = "buff_size_50k/hrf_snr_ft"
+no_steps = 150000
+n_step = int(no_steps/2000)
+dir_name = "buff_size_50k/hrf_ft"
 
 
-changing_variable = [0.75, 1.75, 2.75, 3.75]
-changing_variable_at = [0, 100, 150, 350]
+changing_variable = [1.0, 1.4, 1.8]
+changing_variable_at = [0, 20, 120, 150]
 
 load_dir_1 = "results_length__s_i_1000_1"
 load_dir_2 = "results_length__s_i_1000_2"
 load_dir_3 = "results_length__s_i_1000_3"
-#load_dir_4 = "results_length__s_i_1000_4"
-#load_dir_5 = "results_length__s_i_1000_5"
+load_dir_4 = "results_length__s_i_1000_4"
+load_dir_5 = "results_length__s_i_1000_5"
 
 changing_variable_name = "power"
 

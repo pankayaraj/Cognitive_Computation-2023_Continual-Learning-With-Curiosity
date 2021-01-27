@@ -22,8 +22,8 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #"HopperPyBulletEnv-v0"
 #"Walker2DPyBulletEnv-v0"
 
-parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
-parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
+parser.add_argument("--algo", type=str, default="SAC")
+parser.add_argument("--buffer_type", type=str, default="Custom")
 parser.add_argument("--env", type=str, default="Walker2DPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
 
@@ -31,16 +31,17 @@ parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=7)
-
-#parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
-#parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
-#parser.add_argument("--env", type=str, default="Pendulum-v0")
-#parser.add_argument("--env_type", type=str, default="classic_control")
+parser.add_argument("--experiment_no", type=int, default=2)
+"""
+parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
+parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
+parser.add_argument("--env", type=str, default="Pendulum-v0")
+parser.add_argument("--env_type", type=str, default="classic_control")
+"""
 
 #parser.add_argument("--fifo_frac", type=float, default=0.34)
 parser.add_argument("--fifo_frac", type=float, default=0.05)
-parser.add_argument("--no_curiosity_networks", type=int, default=1)
+parser.add_argument("--no_curiosity_networks", type=int, default=3)
 
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
@@ -56,9 +57,9 @@ parser.add_argument("--eval-interval", type=int, default=2000)
 parser.add_argument("--restart_alpha", type=bool, default=False)
 parser.add_argument("--restart_alpha_interval", type=int, default=50000)
 parser.add_argument("--batch_size", type=int, default=512)
-parser.add_argument("--memory_size", type=int, default=50000)
-#parser.add_argument("--memory_size", type=int, default=8000)
-#parser.add_argument("--no_steps", type=int, default=250000)
+parser.add_argument("--memory_size", type=int, default=100000)
+#parser.add_argument("--memory_size", type=int, default=20000)
+#parser.add_argument("--no_steps", type=int, default=150000)
 parser.add_argument("--no_steps", type=int, default=400000)
 parser.add_argument("--max_episodes", type=int, default=1000)
 #parser.add_argument("--max_episodes", type=int, default=200)
@@ -67,12 +68,14 @@ parser.add_argument("--save_directory", type=str, default="models/native_SAC_cat
 
 
 #Hopper
-change_varaiable_at = [1, 50000, 350000] #v3
+#change_varaiable_at = [1, 50000, 350000] #v3
 #change_varaiable_at = [1, 100000, 500000, 600000, 700000]
 #change_varaiable = [0.75, 4.75, 8.75,  12.75, 16.75]
 #change_varaiable = [0.75, 4.75, 8.75]
 
 #pendulum
+#change_varaiable_at = [1, 20000, 120000]
+#change_varaiable = [1.0, 1.4, 1.8]
 #change_varaiable_at = [1, 30000, 60000, 120000, 200000]
 #change_varaiable = [1.0, 1.2, 1.4, 1.6, 1.8]
 
@@ -81,9 +84,20 @@ change_varaiable_at = [1, 50000, 350000] #v3
 #change_varaiable = [0.40, 1.40, 2.40, 3.40, 4.40]
 
 change_varaiable_at = [1, 50000, 350000]
-#change_varaiable = [0.40, 1.40, 2.40]
-change_varaiable = [0.40, 1.15, 1.90]
-#change_varaiable = [0.40, 0.90, 1.40]
+
+
+#change_varaiable = [0.40, 4.40, 8.40] #V6
+
+
+#change_varaiable = [0.40, 2.40, 4.40] #v5
+#change_varaiable = [1.40, 3.40, 5.40] #v5_2
+#change_varaiable = [1.40, 2.15, 2.9] #v5_3
+#change_varaiable = [1.40, 5.40, 9.40] #v5_4
+change_varaiable = [1.40, 7.40, 13.40] #v5_5
+
+#change_varaiable = [0.40, 1.15, 1.90] #v4
+#change_varaiable = [0.40, 0.90, 1.40]  #v3
+
 c = 0
 
 args = parser.parse_args()
@@ -127,7 +141,8 @@ buffer_type = args.buffer_type
 if args.algo == "SAC":
     A = SAC(ini_env, q_nn_param, policy_nn_param, algo_nn_param,
         max_episodes=args.max_episodes, memory_capacity=args.memory_size,
-        batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type, fifo_frac=args.fifo_frac)
+        batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type, fifo_frac=args.fifo_frac,
+            change_at=change_varaiable_at[1:] )
 elif args.algo == "SAC_w_cur":
     A = SAC_with_Curiosity(ini_env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes=args.max_episodes,
                            memory_capacity=args.memory_size
@@ -161,6 +176,7 @@ experiment_no = args.experiment_no
 inital_step_no = 0
 
 print("experiment_no = " + str(experiment_no))
+print(args.env)
 
 if args.load_from_old:
     c = args.load_index
