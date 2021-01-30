@@ -15,6 +15,12 @@ register(
 	reward_threshold=2500.0
 	)
 
+register(
+	id='AntPyBulletEnv-v0',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.ant_env:AntBulletEnv',
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
 
 """
 # roboschool envs

@@ -2,7 +2,7 @@ import torch
 class PendulumV0():
     def __init__(self):
 
-        self.batch_size = 50000
+        self.buff_size = 20000
         self.fifo_frac = 0.05
         self.curisoity_buff_frac = 0.34
         self.avg_len = 600
@@ -18,7 +18,7 @@ class PendulumV0():
 class Hopper():
     def __init__(self):
 
-        self.batch_size = 50000
+        self.buff_size = 50000
         self.fifo_frac = 0.05
         self.curisoity_buff_frac = 0.34
         self.avg_len = 500
@@ -34,7 +34,7 @@ class Hopper():
 
 class Walker2D_1():  #[0.4, 0.90, 1.40] , [0, 50k, 350k, 400k]
     def __init__(self):
-        self.batch_size = 50000
+        self.buff_size = 50000
         self.fifo_frac = 0.05
         self.curisoity_buff_frac = 0.34
         self.avg_len = 600

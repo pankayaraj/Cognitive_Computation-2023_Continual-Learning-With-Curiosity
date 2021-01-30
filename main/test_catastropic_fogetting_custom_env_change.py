@@ -8,6 +8,7 @@ from algorithms.SAC import SAC
 from algorithms.SAC_w_Curiosity import SAC_with_Curiosity
 from algorithms.SAC_w_Reward_based_Curiosity import SAC_with_reward_based_Curiosity
 from algorithms.SAC_w_Cur_Buffer import SAC_with_Curiosity_Buffer
+from algorithms.SAC_test import SAC_Test
 
 from parameters import Algo_Param, NN_Paramters, Save_Paths, Load_Paths
 
@@ -21,8 +22,8 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #"Half_Reservior_FIFO_with_FT"
 #"HopperPyBulletEnv-v0"
 #"Walker2DPyBulletEnv-v0"
-
-parser.add_argument("--algo", type=str, default="SAC")
+#"AntPyBulletEnv-v0"
+parser.add_argument("--algo", type=str, default="SAC_test")
 parser.add_argument("--buffer_type", type=str, default="Custom")
 parser.add_argument("--env", type=str, default="Walker2DPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
@@ -31,7 +32,7 @@ parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=2)
+parser.add_argument("--experiment_no", type=int, default=1)
 """
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
@@ -41,7 +42,7 @@ parser.add_argument("--env_type", type=str, default="classic_control")
 
 #parser.add_argument("--fifo_frac", type=float, default=0.34)
 parser.add_argument("--fifo_frac", type=float, default=0.05)
-parser.add_argument("--no_curiosity_networks", type=int, default=3)
+parser.add_argument("--no_curiosity_networks", type=int, default=1)
 
 parser.add_argument("--policy", type=str, default="gaussian")
 parser.add_argument("--hidden_layers", type=list, default=[256, 256])
@@ -84,6 +85,7 @@ parser.add_argument("--save_directory", type=str, default="models/native_SAC_cat
 #change_varaiable = [0.40, 1.40, 2.40, 3.40, 4.40]
 
 change_varaiable_at = [1, 50000, 350000]
+#change_varaiable_at = [1, 40000, 70000]
 
 
 #change_varaiable = [0.40, 4.40, 8.40] #V6
@@ -93,10 +95,17 @@ change_varaiable_at = [1, 50000, 350000]
 #change_varaiable = [1.40, 3.40, 5.40] #v5_2
 #change_varaiable = [1.40, 2.15, 2.9] #v5_3
 #change_varaiable = [1.40, 5.40, 9.40] #v5_4
-change_varaiable = [1.40, 7.40, 13.40] #v5_5
-
+change_varaiable = [1.40, 7.40, 3.40] #v5_5
 #change_varaiable = [0.40, 1.15, 1.90] #v4
 #change_varaiable = [0.40, 0.90, 1.40]  #v3
+
+#change_varaiable = [1.40, 7.40, 40.40] #v5_5
+#ant
+
+#change_varaiable_at = [1, 50000, 350000]
+#change_varaiable = [0.5, 4.5, 8.5]
+#change_varaiable = [0.5, 2.5, 4.5]
+
 
 c = 0
 
@@ -157,6 +166,14 @@ elif args.algo == "SAC_w_cur_buffer":
                            memory_capacity=args.memory_size
                            , batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type, fifo_frac=args.fifo_frac
                                   , no_cur_network=args.no_curiosity_networks)
+elif args.algo == "SAC_test":
+    A = SAC_Test(ini_env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param,
+                           max_episodes=args.max_episodes,
+                           memory_capacity=args.memory_size
+                           , batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type, fifo_frac=args.fifo_frac
+                                  , no_cur_network=args.no_curiosity_networks,
+                            change_at=change_varaiable_at[1:])
+
 
 save_interval = args.save_interval
 eval_interval = args.eval_interval
@@ -183,7 +200,7 @@ if args.load_from_old:
     save_dir_temp = save_dir + "/e" + str(experiment_no)
 
 
-    if args.algo == "SAC_w_cur_buffer":
+    if args.algo == "SAC_w_cur_buffer" or args.algo == "SAC_test":
         A.load(save_dir+"/q1", save_dir+"/q2",
                    save_dir_temp+"/q1_target", save_dir_temp+"/q2_target",
                    save_dir_temp+"/policy_target", icm_state_path=save_dir_temp+"/icm_state", icm_action_path=save_dir_temp+"/icm_action")
@@ -218,7 +235,9 @@ for i in range(inital_step_no, args.no_steps):
         if c < len(change_varaiable_at)-1:
             c += 1
 
-
+        if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer" or args.algo == "SAC_test":
+            torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity" + str(experiment_no))
+            torch.save(A.icm_f_r, "results/native_SAC_catastrophic_forgetting/forward_curiosity" + str(experiment_no))
 
     if args.restart_alpha:
         if i%args.restart_alpha_interval == 0:
@@ -294,7 +313,7 @@ for i in range(inital_step_no, args.no_steps):
 torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c+1))
 torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.eval_interval) + "_" + str(experiment_no))
 
-if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer":
+if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer" or args.algo == "SAC_test":
     torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity" + str(experiment_no))
     torch.save(A.icm_f_r, "results/native_SAC_catastrophic_forgetting/forward_curiosity" + str(experiment_no))
     #torch.save(A.icm_r_r, "results/native_SAC_catastrophic_forgetting/reward_curiosity" + str(experiment_no))

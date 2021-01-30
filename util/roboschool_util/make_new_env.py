@@ -38,6 +38,22 @@ def make_array_env(change_variable, name):
             env[i].reset()
             env_eval[i].reset()
 
+        elif name == "AntPyBulletEnv-v0":
+            register(
+                id='AntPyBulletEnv-v' + str(i+1),
+                entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.ant_env:AntBulletEnv',
+                kwargs={'power': change_variable[i]},
+                max_episode_steps=1000,
+                reward_threshold=2500.0
+            )
+
+            env.append(gym.make('AntPyBulletEnv-v' + str(i+1)))
+            env_eval.append(gym.make('AntPyBulletEnv-v' + str(i+1)))
+
+            env[i].reset()
+            env_eval[i].reset()
+
+
     return  env, env_eval
 
 

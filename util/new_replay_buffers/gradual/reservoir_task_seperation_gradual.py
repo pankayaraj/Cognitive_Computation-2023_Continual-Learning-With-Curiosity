@@ -57,6 +57,7 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         for  b in self.storage:
             l.append(len(b))
         l.append(len(self.residual_buffer))
+        print("task_change")
         print(self.time, l)
 
         self.current_index += 1
@@ -88,7 +89,6 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
 
         if self.time < self.avg_len_snr:
             self.curisoity_time_frame[self.time] = cur
-
         else:
             self.curisoity_time_frame.pop(0)
             self.curisoity_time_frame.append(cur)
@@ -99,12 +99,14 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
 
             # setting the idling threshold
             if SNR < self.snr_factor * mean:
+
                 self.BOOL.append(1.0)
 
                 if self.last_spike_since > self.repetition_threshold:
                     self.task_change()
                 self.last_spike_since = 0
             else:
+
                 self.BOOL.append(0.0)
                 self.last_spike_since += 1
 

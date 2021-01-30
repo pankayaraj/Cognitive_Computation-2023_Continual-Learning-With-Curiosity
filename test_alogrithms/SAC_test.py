@@ -24,7 +24,7 @@ import custom_envs.pybulletgym_custom
 #env_eval = HopperBulletEnv()
 
 from gym.envs.registration import register
-
+"""
 register(
 	id='Walker2DPyBulletEnv-v1',
 	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
@@ -35,6 +35,19 @@ register(
 
 env = gym.make('Walker2DPyBulletEnv-v1')
 env_eval = gym.make('Walker2DPyBulletEnv-v1')
+
+"""
+
+register(
+	id='AntPyBulletEnv-v1',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.ant_env:AntBulletEnv',
+    kwargs={'power': 3.5},
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+env = gym.make('AntPyBulletEnv-v1')
+env_eval = gym.make('AntPyBulletEnv-v1')
 #env.render() # call this before env.reset, if you want a window showing the environment
 #env.reset()
 """

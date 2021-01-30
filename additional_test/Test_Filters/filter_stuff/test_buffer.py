@@ -20,7 +20,7 @@ a_c = torch.load("inverse_curiosity")[0:400000]
 
 
 #s_c = torch.load("forward_curiosity5")
-a_c = torch.load("Walker/inverse_curiosity7")
+a_c = torch.load("Walker/3/inverse_curiosity7")
 #r_c =""" torch.load("reward_curiosity")
 """"""
 
@@ -38,7 +38,6 @@ for j in range(len(a_c[0])):
     std = np.std(c_)
     a.append(c/len(a_c))
 print(len(a_c))
-
 
 """
 a =[]
@@ -67,7 +66,7 @@ plt.show()
 """
 mul = 1000
 change_var_at = [1, 50, 350, 400]
-#change_var_at = [1, 20, 120, 150]
+#change_var_at = [1, 30, 60, 90]
 #change_var_at = [1, 50, 350, 400, 450]
 #change_var_at = [0, 30, 60, 120, 200]
 #change_var_at = [0, 100, 150, 350, 400]
