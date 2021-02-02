@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 load_dir = "results_length__s_i_1000_1"
-a_c = torch.load("inverse_curiosity7")
+a_c = torch.load("inverse_curiosity1")
 
 plt.plot(a_c[0])
 plt.show()

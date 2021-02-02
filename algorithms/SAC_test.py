@@ -67,23 +67,28 @@ class SAC_Test():
 
         self.icm_action = []
         self.icm_next_state = []
+        self.icm_reward = []
+
         self.icm_next_state_optim = []
         self.icm_action_optim = []
+        self.icm_reward_optim = []
 
         self.no = no_cur_network
         for i in range(self.no):
             self.icm_next_state.append(
                 ICM_Next_State_NN(icm_nn_param, save_path.icm_n_state_path, load_path.icm_n_state_path))
             self.icm_action.append(ICM_Action_NN(icm_nn_param, save_path.icm_action_path, load_path.icm_action_path))
+            self.icm_reward.append(ICM_Reward_NN(icm_nn_param, save_path.icm_action_path, load_path.icm_action_path))
 
         for i in range(self.no):
             self.icm_next_state_optim.append(
                 torch.optim.Adam(self.icm_next_state[i].parameters(), self.icm_nn_param.l_r))
             self.icm_action_optim.append(torch.optim.Adam(self.icm_action[i].parameters(), self.icm_nn_param.l_r))
+            self.icm_reward_optim.append(torch.optim.Adam(self.icm_reward[i].parameters(), self.icm_nn_param.l_r))
 
         self.icm_i_r = [[] for i in range(self.no)]
         self.icm_f_r = [[] for i in range(self.no)]
-
+        self.icm_r = [[] for i in range(self.no)]
 
         self.policy = Continuous_Gaussian_Policy(policy_nn_param, save_path=save_path.policy_path,
                                                  load_path=load_path.policy_path, action_space=action_space)
@@ -130,7 +135,7 @@ class SAC_Test():
             state = self.step(state)
         return state
 
-    def update(self, batch_size=None):
+    def update(self, batch_size=None, factor=0.7):
 
         if batch_size == None:
             batch_size = self.batch_size
@@ -175,7 +180,7 @@ class SAC_Test():
             if len(self.replay_buffer.reservior_buffer) == 0:
                 fifo_batchs = [self.replay_buffer.fifo_buffer.sample(batch_size)]
             else:
-                fifo_batchs = self.replay_buffer.reservior_buffer.sample_individual(batch_size=batch_size)
+                fifo_batchs = self.replay_buffer.sample_individual(batch_size=batch_size, factor=factor)
             self.update_curiosity(fifo_batchs, index=i)
 
         # policy update
@@ -219,52 +224,61 @@ class SAC_Test():
 
             pred_next_state = self.icm_next_state[index].get_next_state(state_batch, action_batch, format="torch")
             pred_action = self.icm_action[index].get_action(state_batch, next_state_batch, format="torch")
+            pred_reward = self.icm_reward[index].get_reward(state_batch, action_batch, format="torch")
+
+            factor =1e-4
 
 
-            factor =1e-3
-
-
-            if ind < len(batchs)-1:
+            if ind < len(batchs) - 1:
                 if ind == 0:
-                    icm_next_state_loss = -factor*0.5 * torch.nn.functional.mse_loss(pred_next_state,
-                                                                                torch.FloatTensor(next_state_batch).to(
-                                                                                    self.icm_nn_param.device))
-                    icm_action_loss = -factor*0.5 * torch.nn.functional.mse_loss(pred_action,
-                                                                            torch.FloatTensor(action_batch).to(
-                                                                                self.icm_nn_param.device))
+
+                    #loss = torch.nn.functional.mse_loss(pred_action, torch.FloatTensor(action_batch).to(
+                    #    self.icm_nn_param.device))
+
+                    loss = 0.5 * torch.nn.functional.mse_loss(pred_reward, reward_batch).to(self.icm_nn_param.device)
+
+                    #icm_action_loss = -factor * 0.5 * torch.sigmoid_(loss)
+                    icm_reward_loss = -factor * 0.5 * torch.sigmoid_(loss)
+
+
                 else:
 
-                    icm_next_state_loss += -factor*0.5 * torch.nn.functional.mse_loss(pred_next_state,
-                                                                             torch.FloatTensor(next_state_batch).to(
-                                                                                 self.icm_nn_param.device))
-                    icm_action_loss += -factor*0.5 * torch.nn.functional.mse_loss(pred_action, torch.FloatTensor(action_batch).to(
-                        self.icm_nn_param.device))
+                    #loss = torch.nn.functional.mse_loss(pred_action, torch.FloatTensor(action_batch).to(
+                    #    self.icm_nn_param.device))
+
+                    loss = 0.5 * torch.nn.functional.mse_loss(pred_reward, reward_batch).to(self.icm_nn_param.device)
+
+                    #icm_action_loss += -factor * 0.5 * torch.sigmoid_(loss)
+                    icm_reward_loss += -factor * 0.5 * torch.sigmoid_(loss)
             else:
 
                 if ind == 0:
-                    icm_next_state_loss = 0.5 * torch.nn.functional.mse_loss(pred_next_state,
-                                                                               torch.FloatTensor(next_state_batch).to(
-                                                                                   self.icm_nn_param.device))
-                    icm_action_loss = 0.5 * torch.nn.functional.mse_loss(pred_action,
-                                                                           torch.FloatTensor(action_batch).to(
-                                                                               self.icm_nn_param.device))
+
+                    #icm_action_loss = 0.5 * torch.nn.functional.mse_loss(pred_action,
+                    #                                                     torch.FloatTensor(action_batch).to(
+                    #                                                         self.icm_nn_param.device))
+
+                    icm_reward_loss = 0.5 * torch.nn.functional.mse_loss(pred_reward, reward_batch).to(self.icm_nn_param.device)
                 else:
 
-                    icm_next_state_loss += 0.5 * torch.nn.functional.mse_loss(pred_next_state,
-                                                                                torch.FloatTensor(next_state_batch).to(
-                                                                                    self.icm_nn_param.device))
-                    icm_action_loss += 0.5 * torch.nn.functional.mse_loss(pred_action,
-                                                                            torch.FloatTensor(action_batch).to(
-                                                                                self.icm_nn_param.device))
+                    #icm_action_loss += 0.5 * torch.nn.functional.mse_loss(pred_action,
+                    #                                                      torch.FloatTensor(action_batch).to(
+                    #                                                          self.icm_nn_param.device))
 
+                    icm_reward_loss += 0.5 * torch.nn.functional.mse_loss(pred_reward, reward_batch).to(
+                        self.icm_nn_param.device)
 
-        self.icm_next_state_optim[index].zero_grad()
-        icm_next_state_loss.backward()
-        self.icm_next_state_optim[index].step()
+        #self.icm_next_state_optim[index].zero_grad()
+        #icm_next_state_loss.backward()
+        #self.icm_next_state_optim[index].step()
 
-        self.icm_action_optim[index].zero_grad()
-        icm_action_loss.backward()
-        self.icm_action_optim[index].step()
+        #self.icm_action_optim[index].zero_grad()
+        #icm_action_loss.backward()
+        #self.icm_action_optim[index].step()
+
+        self.icm_reward_optim[index].zero_grad()
+        icm_reward_loss.backward()
+        self.icm_reward_optim[index].step()
 
     def step(self, state, random=False):
         batch_size = 1  # since step is for a single sample
@@ -280,6 +294,8 @@ class SAC_Test():
         for i in range(self.no):
             p_next_state = self.icm_next_state[i].get_next_state(state, action)
             p_action = self.icm_action[i].get_action(state, next_state)
+            p_reward = self.icm_reward[i].get_reward(state, action)
+
 
             with torch.no_grad():
                 f_icm_r = torch.nn.functional.mse_loss(p_next_state,
@@ -288,10 +304,14 @@ class SAC_Test():
                 i_icm_r = torch.nn.functional.mse_loss(p_action, torch.Tensor(action).to(
                     self.icm_nn_param.device)).cpu().detach().numpy()
 
+                r_icm_r = (p_reward - reward) ** 2
+
             self.icm_f_r[i].append(f_icm_r)
             self.icm_i_r[i].append(i_icm_r)
+            self.icm_r[i].append(r_icm_r)
 
-            curiosity[0] += i_icm_r.item() / self.no
+            #curiosity[0] += i_icm_r.item() / self.no
+            curiosity[0] += r_icm_r.item() / self.no
 
         self.steps_done += 1
         self.steps_per_eps += 1

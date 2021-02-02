@@ -22,6 +22,17 @@ register(
 	reward_threshold=2500.0
 	)
 
+register(
+	id='AtlasPyBulletEnv-v0',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.atlas_env:AtlasBulletEnv',
+	max_episode_steps=1000
+	)
+
+register(
+	id='HumanoidPyBulletEnv-v0',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.humanoid_env:HumanoidBulletEnv',
+	max_episode_steps=1000
+	)
 """
 # roboschool envs
 ## pendula

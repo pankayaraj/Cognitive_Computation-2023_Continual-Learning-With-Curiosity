@@ -23,7 +23,7 @@ class Transition_tuple():
 class Reservoir_Task_Seperation_Replay_Memory_Gradual():
 
     def __init__(self, capacity=10000, avg_len_snr=60, repetition_threshold=30000,
-                 snr_factor=3, ):
+                 snr_factor=3, snr_factor_secondary=3.0 ):
         self.capacity = capacity
         self.storage = [[]]
         self.residual_buffer = []
@@ -41,7 +41,13 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         self.last_spike_since = 0
         self.repetition_threshold = repetition_threshold
 
+        self.avg_len_snr_sec = avg_len_snr
+        self.snr_factor_secondary = snr_factor_secondary
+        self.last_spike_since_sec = 0
+        self.repetition_threshold_sec = repetition_threshold
+
         self.curisoity_time_frame = [0 for i in range(avg_len_snr)]
+        self.curisoity_time_frame_sec = [0 for i in range(avg_len_snr)]
         self.time = 0
 
         # debug stuff
@@ -51,6 +57,18 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         self.MEASURE = []
         self.BOOL = []
         self.max = 0
+
+        self.PUSH_sec = []
+        self.SNR_sec = []
+        self.MEAN_sec = []
+        self.MEASURE_sec = []
+        self.BOOL_sec = []
+        self.max_sec = 0
+
+
+        self.t_c = False
+        self.t_c_limit = 5000
+        self.t_c_counter = 0
 
     def task_change(self):
         l = []
@@ -89,6 +107,12 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
 
         if self.time < self.avg_len_snr:
             self.curisoity_time_frame[self.time] = cur
+
+            #if self.t_c_counter > self.t_c_limit:
+            #    self.t_c = False
+            #else:
+            #    self.t_c_counter += 1
+
         else:
             self.curisoity_time_frame.pop(0)
             self.curisoity_time_frame.append(cur)
@@ -104,8 +128,24 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
 
                 if self.last_spike_since > self.repetition_threshold:
                     self.task_change()
+
+                    #self.t_c = True
+                    #self.t_c_limit = 0
+
+                #else:
+                    #if self.t_c_counter > self.t_c_limit:
+                    #    self.t_c = False
+                    #else:
+                    #    self.t_c_counter += 1
+
                 self.last_spike_since = 0
             else:
+
+                #if self.t_c_counter > self.t_c_limit:
+                #    self.t_c = False
+                #else:
+                #    self.t_c_counter += 1
+
 
                 self.BOOL.append(0.0)
                 self.last_spike_since += 1
@@ -113,9 +153,68 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
             self.SNR.append(SNR)
             self.MEAN.append(mean)
 
+    def check_for_task_change_secondary(self, curiosity):
+        #not needed as it happend in the fun above
+        #self.time = next(self.tiebreaker)  # both tiebreaker and timing is solved
+
+
+        cur = curiosity.item()
+
+        if self.time < self.avg_len_snr_sec:
+            self.curisoity_time_frame_sec[self.time] = cur
+
+            if self.t_c_counter > self.t_c_limit:
+                self.t_c = False
+            else:
+                self.t_c_counter += 1
+
+        else:
+            self.curisoity_time_frame_sec.pop(0)
+            self.curisoity_time_frame_sec.append(cur)
+
+            mean = np.mean(self.curisoity_time_frame_sec).item()
+            std = np.std(self.curisoity_time_frame_sec).item()
+            SNR = mean / (std + self.delta)
+
+            # setting the idling threshold
+            if SNR < self.snr_factor_secondary * mean:
+
+                self.BOOL_sec.append(1.0)
+
+                if self.last_spike_since_sec > self.repetition_threshold_sec:
+                    #self.task_change()
+                    print("secondary_chnage")
+                    self.t_c = True
+                    self.t_c_limit = 0
+
+                else:
+                    if self.t_c_counter > self.t_c_limit:
+                        self.t_c = False
+                    else:
+                        self.t_c_counter += 1
+
+                self.last_spike_since_sec = 0
+            else:
+
+                if self.t_c_counter > self.t_c_limit:
+                    self.t_c = False
+                else:
+                    self.t_c_counter += 1
+
+
+                self.BOOL_sec.append(0.0)
+                self.last_spike_since_sec += 1
+
+            self.SNR_sec.append(SNR)
+            self.MEAN_sec.append(mean)
+
 
     def push(self, state, action, action_mean, reward, curiosity, next_state, done_mask, tiebreaker):
+        #maintain the order of function call
         self.check_for_task_change(curiosity=curiosity)
+        self.check_for_task_change_secondary(curiosity=curiosity)
+
+
         data = (state, action, action_mean, reward, curiosity, next_state, done_mask, tiebreaker)
         priority = random.uniform(0, 1)
         #priority = curiosity.item()

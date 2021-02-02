@@ -20,7 +20,7 @@ a_c = torch.load("inverse_curiosity")[0:400000]
 
 
 #s_c = torch.load("forward_curiosity5")
-a_c = torch.load("Walker/3/inverse_curiosity7")
+a_c = torch.load("Walker/2/inverse_curiosity3")
 #r_c =""" torch.load("reward_curiosity")
 """"""
 
@@ -132,7 +132,7 @@ plt.plot(M.reservior_buffer.SNR)
 plt.plot(M.reservior_buffer.MEAN)
 #plt.plot(M.reservior_buffer.MEASURE)
 plt.plot(M.reservior_buffer.BOOL)
-plt.ylim(0,2)
+plt.ylim(0,5)
 plt.title("Using Curisioty for task seperation")
 plt.xlabel("Time")
 plt.legend(["SNR", "MEAN", "Task Seperation"])

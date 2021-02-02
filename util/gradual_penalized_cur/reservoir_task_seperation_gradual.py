@@ -223,12 +223,68 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         return l
 
 
+#for compteting_curiosity
+
+    def get_proportion_individual(self):
+        size = self.__len__()
+        if size == 0:
+            return [1.0]
+        if len(self.storage) == 1:
+            return [1.0, 0.0]
+
+        prop = []
+        p = self.get_proportion()
+
+        s = 0
+        for i in range(len(p)-2):
+            s += p[i]
+        frac = 1.0
+        for i in range(len(p)-2):
+            prop.append(frac*p[i]/(s))
+        prop.append(1-frac)
+        prop.append(0.0)
+
+        return prop
+
+    def get_sample_indices_individual(self, batch_size):
+        prop = self.get_proportion_individual()
+
+        batch_sizes = []
+        temp = 0
+        for i in range(len(self.storage)-1):
+            temp += int(batch_size*prop[i])
+            batch_sizes.append(int(batch_size*prop[i]))
+
+
+        batch_sizes.append(batch_size-temp)
+
+        indices = []
+
+        for (i,buff) in enumerate(self.storage):
+
+            if len(buff) < self.individual_buffer_capacity:
+
+                indices.append(np.random.choice(len(buff), batch_sizes[i]))
+            else:
+                indices.append(np.random.choice(self.individual_buffer_capacity, batch_sizes[i]))
+
+        #for residual buffer
+        buff = self.residual_buffer
+        if len(buff) != 0:
+            indices.append(np.random.choice(len(buff), batch_sizes[-1]))
+        else:
+            indices.append(np.array([]))
+
+
+        return indices
+
     def encode_sample_individual(self,  indices):
         D = []
-        for (j, idxs) in enumerate(indices[:-1]):
+        for (j, idxs) in enumerate(indices[:-2]):
+
             state, action, action_mean, reward, curiosity, next_state, done_mask, t_array = [], [], [], [], [], [], [], []
             for i in idxs:
-                if j == len(indices) - 1:
+                if j == len(indices) - 1 :
                     continue
                 else:
                     data = self.storage[j][i][2]
@@ -243,10 +299,11 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
                 t_array.append(t)
 
             D.append([state, action, action_mean, reward, curiosity, next_state, done_mask, t_array])
+
         return D
 
     def sample_individual(self, batch_size):
-        indices = self.get_sample_indices(batch_size)
+        indices = self.get_sample_indices_individual(batch_size)
         data  = self.encode_sample_individual(indices=indices)
 
 

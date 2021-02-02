@@ -1,11 +1,12 @@
-from pybulletgym.envs.roboschool.envs.locomotion.walker_base_env import WalkerBaseBulletEnv
-from pybulletgym.envs.roboschool.robots.locomotors import Atlas
-from pybulletgym.envs.roboschool.scenes import StadiumScene
+from custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker_base_env import WalkerBaseBulletEnv
+from custom_envs.pybulletgym_custom.envs.roboschool.robots.locomotors import Atlas
+from custom_envs.pybulletgym_custom.envs.roboschool.scenes import StadiumScene
 
 
 class AtlasBulletEnv(WalkerBaseBulletEnv):
-    def __init__(self):
-        self.robot = Atlas()
+    def __init__(self, power = 2.9):
+        self.power = power
+        self.robot = Atlas(power=power)
         WalkerBaseBulletEnv.__init__(self, self.robot)
 
     def create_single_player_scene(self, bullet_client):

@@ -211,12 +211,12 @@ class Custom_Res():
         p = self.get_proportion()
 
         s = 0
-        for i in range(len(p)-2):
+        for i in range(len(p) - 2):
             s += p[i]
-
-        for i in range(len(p)-2):
-            prop.append(0.5*p[i]/(s))
-        prop.append(0.7)
+        frac = 0.05
+        for i in range(len(p) - 2):
+            prop.append(frac * p[i] / (s))
+        prop.append(1 - frac)
         prop.append(0.0)
 
         return prop

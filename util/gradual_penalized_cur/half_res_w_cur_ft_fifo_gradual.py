@@ -23,7 +23,7 @@ class Transition_tuple():
 class Half_Reservoir_Flow_Through_w_Cur_Gradual():
 
     def __init__(self, capacity=10000, curisoity_buff_frac = 0.34, seperate_cur_buffer=True,
-                 fifo_fac = 0.05, avg_len_snr=600, repetition_threshold=30000, snr_factor=2.0):
+                 fifo_fac = 0.05, avg_len_snr=2000, repetition_threshold=30000, snr_factor=0.5):
         assert (fifo_fac > 0) and (fifo_fac < 1)
         self.fifo_frac = fifo_fac
         self.fifo_capacity = int(capacity*fifo_fac)
@@ -97,3 +97,22 @@ class Half_Reservoir_Flow_Through_w_Cur_Gradual():
 
     def __len__(self):
         return len(self.fifo_buffer) + len(self.reservior_buffer)
+
+    # individual
+
+    def sample_individual(self, batch_size, factor=0.7):
+
+        fifo_batch_size = int(factor * batch_size)
+        res_batch_size = batch_size - fifo_batch_size
+        data_tuples = []
+
+        data_tuples += self.reservior_buffer.sample_individual(batch_size=res_batch_size)
+
+        if len(data_tuples) == 0:
+            fifo_batch_size = batch_size
+
+        data_tuples.append(self.fifo_buffer.sample(fifo_batch_size))
+
+        return data_tuples
+
+

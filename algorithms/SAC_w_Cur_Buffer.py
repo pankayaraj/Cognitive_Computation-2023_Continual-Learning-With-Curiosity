@@ -35,7 +35,8 @@ class SAC_with_Curiosity_Buffer():
 
     def __init__(self, env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes =100, memory_capacity =10000,
                  batch_size=400, save_path = Save_Paths(), load_path= Load_Paths(), action_space = None, alpha_lr=0.0003,
-                 debug=Debug(), buffer_type = "Reservior", update_curiosity_from_fifo = True, fifo_frac=0.34, no_cur_network=5):
+                 debug=Debug(), buffer_type = "Reservior", update_curiosity_from_fifo = True, fifo_frac=0.34, no_cur_network=5,
+                 reset_cur_on_task_change=True, reset_alpha_on_task_change=True):
 
         self.env = env
         self.device = q_nn_param.device
@@ -45,7 +46,12 @@ class SAC_with_Curiosity_Buffer():
         self.algo_nn_param = algo_nn_param
         self.icm_nn_param = icm_nn_param
 
+        self.save_path = save_path
+        self.load_path = load_path
+
         self.update_curiosity_from_fifo = update_curiosity_from_fifo
+        self.reset_cur_on_task_change = reset_cur_on_task_change
+        self.reset_alpha_on_task_change = reset_alpha_on_task_change
 
         self.alpha_lr = alpha_lr
         self.gamma = self.algo_nn_param.gamma
@@ -73,20 +79,28 @@ class SAC_with_Curiosity_Buffer():
 
         self.icm_action = []
         self.icm_next_state = []
+        self.icm_reward = []
+
         self.icm_next_state_optim = []
         self.icm_action_optim = []
+        self.icm_reward_optim = []
 
         self.no = no_cur_network
         for i in range(self.no):
             self.icm_next_state.append(ICM_Next_State_NN(icm_nn_param, save_path.icm_n_state_path, load_path.icm_n_state_path))
             self.icm_action.append(ICM_Action_NN(icm_nn_param, save_path.icm_action_path, load_path.icm_action_path))
+            self.icm_reward.append(ICM_Reward_NN(icm_nn_param, save_path.icm_action_path, load_path.icm_action_path))
 
         for i in range(self.no):
             self.icm_next_state_optim.append(torch.optim.Adam(self.icm_next_state[i].parameters(), self.icm_nn_param.l_r))
             self.icm_action_optim.append(torch.optim.Adam(self.icm_action[i].parameters(), self.icm_nn_param.l_r))
+            self.icm_reward_optim.append(torch.optim.Adam(self.icm_reward[i].parameters(), self.icm_nn_param.l_r))
 
         self.icm_i_r = [[] for i in range(self.no)]
         self.icm_f_r = [[] for i in range(self.no)]
+        self.icm_r = [[] for i in range(self.no)]
+
+        self.alpha_history = []
 
         """
         self.icm_nxt_state = ICM_Next_State_NN(icm_nn_param, save_path.icm_n_state_path, load_path.icm_n_state_path)
@@ -166,6 +180,23 @@ class SAC_with_Curiosity_Buffer():
         return state
 
     def update(self, batch_size=None):
+
+        if self.reset_cur_on_task_change:
+            if self.replay_buffer.reservior_buffer.t_c:
+                print("init")
+                for N in self.icm_action:
+                    N.__init__(self.icm_nn_param, self.save_path.icm_n_state_path, self.load_path.icm_n_state_path)
+                for N in self.icm_next_state:
+                    N.__init__(self.icm_nn_param, self.save_path.icm_n_state_path, self.load_path.icm_n_state_path)
+                for N in self.icm_reward:
+                    N.__init__(self.icm_nn_param, self.save_path.icm_n_state_path, self.load_path.icm_n_state_path)
+
+        if self.reset_alpha_on_task_change:
+            if self.replay_buffer.reservior_buffer.t_c:
+                self.log_alpha = torch.zeros(1, requires_grad=True, device=self.device)
+                self.alpha_optim = torch.optim.Adam([self.log_alpha], lr=self.alpha_lr)
+
+
 
         if batch_size == None:
             batch_size = self.batch_size
@@ -264,6 +295,7 @@ class SAC_with_Curiosity_Buffer():
         policy_loss.backward()
         self.policy_optim.step()
 
+        self.alpha_history.append(self.alpha.item())
 
         if self.update_no%self.target_update_interval == 0:
 
@@ -373,23 +405,31 @@ class SAC_with_Curiosity_Buffer():
         reward_batch = torch.FloatTensor(batch.reward).unsqueeze(1).to(self.q_nn_param.device)
         done_mask_batch = torch.FloatTensor(batch.done_mask).unsqueeze(1).to(self.q_nn_param.device)
 
-        pred_next_state = self.icm_next_state[index].get_next_state(state_batch, action_batch, format="torch")
+        #pred_next_state = self.icm_next_state[index].get_next_state(state_batch, action_batch, format="torch")
         pred_action = self.icm_action[index].get_action(state_batch, next_state_batch, format="torch")
+        pred_reward = self.icm_reward[index].get_reward(state_batch, action_batch, format="torch")
 
-        icm_next_state_loss = 0.5 * torch.nn.functional.mse_loss(pred_next_state,
-                                                                 torch.FloatTensor(next_state_batch).to(
-                                                                     self.icm_nn_param.device))
+        #icm_next_state_loss = 0.5 * torch.nn.functional.mse_loss(pred_next_state,
+        #                                                         torch.FloatTensor(next_state_batch).to(
+        #                                                             self.icm_nn_param.device))
+
         icm_action_loss = 0.5 * torch.nn.functional.mse_loss(pred_action, torch.FloatTensor(action_batch).to(
             self.icm_nn_param.device))
 
+        #icm_reward_loss = 0.5 * torch.nn.functional.mse_loss(pred_reward, reward_batch).to(self.icm_nn_param.device)
 
-        self.icm_next_state_optim[index].zero_grad()
-        icm_next_state_loss.backward()
-        self.icm_next_state_optim[index].step()
+
+        #self.icm_next_state_optim[index].zero_grad()
+        #icm_next_state_loss.backward()
+        #self.icm_next_state_optim[index].step()
 
         self.icm_action_optim[index].zero_grad()
         icm_action_loss.backward()
         self.icm_action_optim[index].step()
+
+        #self.icm_reward_optim[index].zero_grad()
+        #icm_reward_loss.backward()
+        #self.icm_reward_optim[index].step()
 
     def step(self, state, random=False):
         batch_size = 1  #since step is for a single sample
@@ -406,18 +446,24 @@ class SAC_with_Curiosity_Buffer():
 
             p_next_state = self.icm_next_state[i].get_next_state(state, action)
             p_action = self.icm_action[i].get_action(state, next_state)
+            p_reward = self.icm_reward[i].get_reward(state, action)
+
 
             with torch.no_grad():
                 f_icm_r = torch.nn.functional.mse_loss(p_next_state,
                                                        torch.Tensor(next_state).to(self.icm_nn_param.device)).cpu().detach().numpy()
                 i_icm_r = torch.nn.functional.mse_loss(p_action, torch.Tensor(action).to(self.icm_nn_param.device)).cpu().detach().numpy()
 
+                r_icm_r = (p_reward - reward) ** 2
+
 
             self.icm_f_r[i].append(f_icm_r)
             self.icm_i_r[i].append(i_icm_r)
+            self.icm_r[i].append(r_icm_r)
 
             curiosity[0] += i_icm_r.item()/self.no
 
+            #curiosity[0] += r_icm_r.item()/ self.no
 
         self.steps_done += 1
         self.steps_per_eps += 1

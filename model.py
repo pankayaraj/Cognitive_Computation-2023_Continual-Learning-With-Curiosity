@@ -533,6 +533,8 @@ class ICM_Action_NN(BaseNN):
 
     def __init__(self, nn_params, save_path, load_path, state_action=True):
         super(ICM_Action_NN, self).__init__(save_path=save_path, load_path=load_path)
+
+        print("cur_init")
         self.layers = nn.ModuleList([])
         self.nn_params = nn_params
         self.non_lin = self.nn_params.non_linearity
