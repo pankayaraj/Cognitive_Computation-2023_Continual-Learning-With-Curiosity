@@ -20,8 +20,15 @@ a_c = torch.load("inverse_curiosity")[0:400000]
 
 
 #s_c = torch.load("forward_curiosity5")
-a_c = torch.load("Walker/2/inverse_curiosity3")
+#a_c = torch.load("Walker/3/reward_curiosity7")
 #r_c =""" torch.load("reward_curiosity")
+
+no = 7
+a_c_1 = torch.load("Walker/3/inverse_curiosity" + str(no))
+a_c_2 = torch.load("Walker/3/reward_curiosity" + str(no))
+a_c = [[]]
+for i in range(len(a_c_1[0])):
+    a_c[0].append(a_c_1[0][i] + a_c_2[0][i]*0.05)
 """"""
 
 
@@ -86,7 +93,7 @@ for i in range(len(M.reservior_buffer)):
 #a_c = r_c
 for c in a_c:
 
-
+    c = c
     if t == change_var_at[1] or t == change_var_at[2] or t == change_var_at[3] :
     #if t==200000:
 
@@ -130,6 +137,7 @@ for c in a_c:
 #plt.plot(a_c)
 plt.plot(M.reservior_buffer.SNR)
 plt.plot(M.reservior_buffer.MEAN)
+#plt.plot(M.reservior_buffer.STD)
 #plt.plot(M.reservior_buffer.MEASURE)
 plt.plot(M.reservior_buffer.BOOL)
 plt.ylim(0,5)

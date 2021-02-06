@@ -84,7 +84,7 @@ class FIFO_Replay_Memory_Gradual():
 
         self.time = next(self.tiebreaker)  # both tiebreaker and timing is solved
 
-        cur = curiosity.item()
+        cur = curiosity
 
         if self.time < self.avg_len_snr:
             self.curisoity_time_frame[self.time] = cur

@@ -83,6 +83,22 @@ def make_array_env(change_variable, name):
             env[i].reset()
             env_eval[i].reset()
 
+        elif name == "HalfCheetahPyBulletEnv-v0":
+            register(
+                id="HalfCheetahPyBulletEnv-v" + str(i + 1),
+                entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.half_cheetah_env:HalfCheetahBulletEnv',
+                kwargs={'power': change_variable[i]},
+                max_episode_steps=1000,
+                reward_threshold=3000.0
+            )
+
+            env.append(gym.make('HalfCheetahPyBulletEnv-v' + str(i + 1)))
+            env_eval.append(gym.make('HalfCheetahPyBulletEnv-v' + str(i + 1)))
+
+            env[i].reset()
+            env_eval[i].reset()
+
+
     return  env, env_eval
 
 

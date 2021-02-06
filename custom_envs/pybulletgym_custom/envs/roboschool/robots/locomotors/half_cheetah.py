@@ -6,8 +6,8 @@ import numpy as np
 class HalfCheetah(WalkerBase, MJCFBasedRobot):
     foot_list = ["ffoot", "fshin", "fthigh",  "bfoot", "bshin", "bthigh"]  # track these contacts with ground
 
-    def __init__(self):
-        WalkerBase.__init__(self, power=0.90)
+    def __init__(self, power ):
+        WalkerBase.__init__(self, power=power)
         MJCFBasedRobot.__init__(self, "half_cheetah.xml", "torso", action_dim=6, obs_dim=26)
 
     def alive_bonus(self, z, pitch):

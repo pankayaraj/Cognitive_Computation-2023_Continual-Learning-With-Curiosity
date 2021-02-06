@@ -33,6 +33,22 @@ register(
 	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.humanoid_env:HumanoidBulletEnv',
 	max_episode_steps=1000
 	)
+
+register(
+	id='PusherPyBulletEnv-v0',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.manipulation.pusher_env:PusherBulletEnv',
+	max_episode_steps=150,
+	reward_threshold=18.0,
+)
+
+register(
+	id='HalfCheetahPyBulletEnv-v0',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.half_cheetah_env:HalfCheetahBulletEnv',
+	max_episode_steps=1000,
+	reward_threshold=3000.0
+	)
+
+
 """
 # roboschool envs
 ## pendula

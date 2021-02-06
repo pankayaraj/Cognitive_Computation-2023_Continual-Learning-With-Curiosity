@@ -1,4 +1,4 @@
-from pybulletgym.envs.roboschool.robots.robot_bases import MJCFBasedRobot
+from custom_envs.pybulletgym_custom.envs.roboschool.robots.robot_bases import MJCFBasedRobot
 import numpy as np
 
 

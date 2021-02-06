@@ -36,7 +36,7 @@ class SAC_with_Curiosity_Buffer():
     def __init__(self, env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes =100, memory_capacity =10000,
                  batch_size=400, save_path = Save_Paths(), load_path= Load_Paths(), action_space = None, alpha_lr=0.0003,
                  debug=Debug(), buffer_type = "Reservior", update_curiosity_from_fifo = True, fifo_frac=0.34, no_cur_network=5,
-                 reset_cur_on_task_change=True, reset_alpha_on_task_change=True):
+                 reset_cur_on_task_change=True, reset_alpha_on_task_change=True, change_at = [100000, 350000]):
 
         self.env = env
         self.device = q_nn_param.device
@@ -158,7 +158,7 @@ class SAC_with_Curiosity_Buffer():
 
         self.debug = debug
 
-
+        self.change_var_at = change_at
 
     def get_action(self, state, evaluate=False):
 
@@ -170,6 +170,7 @@ class SAC_with_Curiosity_Buffer():
             return action_mean.cpu().detach().numpy()
 
     def initalize(self):
+
 
         # inital_phase train after this by continuing with step and train at single iteration and hard update at update interval
         self.steps_done = 0
@@ -193,6 +194,9 @@ class SAC_with_Curiosity_Buffer():
 
         if self.reset_alpha_on_task_change:
             if self.replay_buffer.reservior_buffer.t_c:
+            #for i in self.change_var_at:
+                #if i == self.replay_buffer.reservior_buffer.time:
+                self.target_entropy = -torch.prod(torch.Tensor(self.env.action_space.shape).to(self.device)).item()
                 self.log_alpha = torch.zeros(1, requires_grad=True, device=self.device)
                 self.alpha_optim = torch.optim.Adam([self.log_alpha], lr=self.alpha_lr)
 
@@ -282,8 +286,19 @@ class SAC_with_Curiosity_Buffer():
             self.alpha_optim.step()
 
             self.alpha = self.log_alpha.exp().detach()
+        """
+        state_batch_2 = fifo_batch.state
+        pi, log_pi, pi_m = self.policy.sample(state_batch_2)
 
+        # alpha update
+        if self.automatic_alpha_tuning:
+            alpha_loss = -(self.log_alpha * (log_pi + self.target_entropy).detach()).mean()
+            self.alpha_optim.zero_grad()
+            alpha_loss.backward()
+            self.alpha_optim.step()
 
+            self.alpha = self.log_alpha.exp().detach()
+        """
         q1_pi = self.critic_1.get_value(state_batch, pi)
         q2_pi = self.critic_2.get_value(state_batch, pi)
         min_q_pi = torch.min(q1_pi, q2_pi)
@@ -295,7 +310,13 @@ class SAC_with_Curiosity_Buffer():
         policy_loss.backward()
         self.policy_optim.step()
 
-        self.alpha_history.append(self.alpha.item())
+        #if self.alpha.device == "cuda":
+        #    self.alpha.detach()
+        if self.automatic_alpha_tuning:
+            self.alpha_history.append(self.alpha.item())
+        else:
+            self.alpha_history.append(self.alpha)
+
 
         if self.update_no%self.target_update_interval == 0:
 
@@ -405,7 +426,7 @@ class SAC_with_Curiosity_Buffer():
         reward_batch = torch.FloatTensor(batch.reward).unsqueeze(1).to(self.q_nn_param.device)
         done_mask_batch = torch.FloatTensor(batch.done_mask).unsqueeze(1).to(self.q_nn_param.device)
 
-        #pred_next_state = self.icm_next_state[index].get_next_state(state_batch, action_batch, format="torch")
+        pred_next_state = self.icm_next_state[index].get_next_state(state_batch, action_batch, format="torch")
         pred_action = self.icm_action[index].get_action(state_batch, next_state_batch, format="torch")
         pred_reward = self.icm_reward[index].get_reward(state_batch, action_batch, format="torch")
 
@@ -413,10 +434,9 @@ class SAC_with_Curiosity_Buffer():
         #                                                         torch.FloatTensor(next_state_batch).to(
         #                                                             self.icm_nn_param.device))
 
-        icm_action_loss = 0.5 * torch.nn.functional.mse_loss(pred_action, torch.FloatTensor(action_batch).to(
-            self.icm_nn_param.device))
+        icm_action_loss = 0.5 * torch.nn.functional.mse_loss(pred_action, torch.FloatTensor(action_batch).to(self.icm_nn_param.device))
 
-        #icm_reward_loss = 0.5 * torch.nn.functional.mse_loss(pred_reward, reward_batch).to(self.icm_nn_param.device)
+        icm_reward_loss = 0.5 * torch.nn.functional.mse_loss(pred_reward, reward_batch).to(self.icm_nn_param.device)
 
 
         #self.icm_next_state_optim[index].zero_grad()
@@ -427,9 +447,9 @@ class SAC_with_Curiosity_Buffer():
         icm_action_loss.backward()
         self.icm_action_optim[index].step()
 
-        #self.icm_reward_optim[index].zero_grad()
-        #icm_reward_loss.backward()
-        #self.icm_reward_optim[index].step()
+        self.icm_reward_optim[index].zero_grad()
+        icm_reward_loss.backward()
+        self.icm_reward_optim[index].step()
 
     def step(self, state, random=False):
         batch_size = 1  #since step is for a single sample
@@ -441,29 +461,28 @@ class SAC_with_Curiosity_Buffer():
             action, action_mean = self.get_action(state, evaluate=False)
 
         next_state, reward, done, _ = self.env.step(action)
-        curiosity = torch.Tensor([0])
+        curiosity = 0
         for i in range(self.no):
 
-            p_next_state = self.icm_next_state[i].get_next_state(state, action)
+            #p_next_state = self.icm_next_state[i].get_next_state(state, action)
             p_action = self.icm_action[i].get_action(state, next_state)
             p_reward = self.icm_reward[i].get_reward(state, action)
 
 
             with torch.no_grad():
-                f_icm_r = torch.nn.functional.mse_loss(p_next_state,
-                                                       torch.Tensor(next_state).to(self.icm_nn_param.device)).cpu().detach().numpy()
+                #f_icm_r = torch.nn.functional.mse_loss(p_next_state,torch.Tensor(next_state).to(self.icm_nn_param.device)).cpu().detach().numpy()
                 i_icm_r = torch.nn.functional.mse_loss(p_action, torch.Tensor(action).to(self.icm_nn_param.device)).cpu().detach().numpy()
 
-                r_icm_r = (p_reward - reward) ** 2
+                r_icm_r = torch.nn.functional.mse_loss(p_reward, torch.FloatTensor([reward]).to(self.icm_nn_param.device))
 
 
-            self.icm_f_r[i].append(f_icm_r)
-            self.icm_i_r[i].append(i_icm_r)
-            self.icm_r[i].append(r_icm_r)
+            #self.icm_f_r[i].append(f_icm_r.item())
+            self.icm_i_r[i].append(i_icm_r.item())
+            self.icm_r[i].append(r_icm_r.item())
 
-            curiosity[0] += i_icm_r.item()/self.no
-
-            #curiosity[0] += r_icm_r.item()/ self.no
+            curiosity += i_icm_r.item()/self.no
+            curiosity += 0.05*r_icm_r.item() / self.no
+            #curiosity += r_icm_r.item()/ self.no
 
         self.steps_done += 1
         self.steps_per_eps += 1

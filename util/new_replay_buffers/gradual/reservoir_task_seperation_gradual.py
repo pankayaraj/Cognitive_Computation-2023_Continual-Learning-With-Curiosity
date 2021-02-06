@@ -54,6 +54,7 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         self.PUSH = []
         self.SNR = []
         self.MEAN = []
+        self.STD = []
         self.MEASURE = []
         self.BOOL = []
         self.max = 0
@@ -103,7 +104,7 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         self.time = next(self.tiebreaker)  # both tiebreaker and timing is solved
 
 
-        cur = curiosity.item()
+        cur = curiosity
 
         if self.time < self.avg_len_snr:
             self.curisoity_time_frame[self.time] = cur
@@ -152,13 +153,14 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
 
             self.SNR.append(SNR)
             self.MEAN.append(mean)
+            self.STD.append(std)
 
     def check_for_task_change_secondary(self, curiosity):
         #not needed as it happend in the fun above
         #self.time = next(self.tiebreaker)  # both tiebreaker and timing is solved
 
 
-        cur = curiosity.item()
+        cur = curiosity
 
         if self.time < self.avg_len_snr_sec:
             self.curisoity_time_frame_sec[self.time] = cur
@@ -212,7 +214,7 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
     def push(self, state, action, action_mean, reward, curiosity, next_state, done_mask, tiebreaker):
         #maintain the order of function call
         self.check_for_task_change(curiosity=curiosity)
-        self.check_for_task_change_secondary(curiosity=curiosity)
+        #self.check_for_task_change_secondary(curiosity=curiosity)
 
 
         data = (state, action, action_mean, reward, curiosity, next_state, done_mask, tiebreaker)

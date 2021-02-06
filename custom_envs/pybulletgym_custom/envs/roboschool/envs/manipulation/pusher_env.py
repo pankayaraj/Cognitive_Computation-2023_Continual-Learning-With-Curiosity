@@ -1,16 +1,18 @@
-from pybulletgym.envs.roboschool.envs.env_bases import BaseBulletEnv
-from pybulletgym.envs.roboschool.robots.manipulators.pusher import Pusher
-from pybulletgym.envs.roboschool.scenes.scene_bases import SingleRobotEmptyScene
+from custom_envs.pybulletgym_custom.envs.roboschool.envs.env_bases import BaseBulletEnv
+from custom_envs.pybulletgym_custom.envs.roboschool.robots.manipulators.pusher import Pusher
+from custom_envs.pybulletgym_custom.envs.roboschool.scenes.scene_bases import SingleRobotEmptyScene
 import numpy as np
 
 
 class PusherBulletEnv(BaseBulletEnv):
-    def __init__(self):
+    def __init__(self, gravity=9.81):
         self.robot = Pusher()
         BaseBulletEnv.__init__(self, self.robot)
 
+        self.gravity = 9.81
+
     def create_single_player_scene(self, bullet_client):
-        return SingleRobotEmptyScene(bullet_client, gravity=9.81, timestep=0.0020, frame_skip=5)
+        return SingleRobotEmptyScene(bullet_client, gravity=self.gravity, timestep=0.0020, frame_skip=5)
 
     def step(self, a):
         self.robot.apply_action(a)

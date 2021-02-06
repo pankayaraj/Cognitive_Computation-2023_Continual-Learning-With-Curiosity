@@ -3,6 +3,7 @@ from custom_envs.pybulletgym_custom.envs.roboschool.robots.locomotors import Hal
 
 
 class HalfCheetahBulletEnv(WalkerBaseBulletEnv):
-    def __init__(self):
-        self.robot = HalfCheetah()
+    def __init__(self, power):
+        self.robot = HalfCheetah(power=power)
+        self.power = power
         WalkerBaseBulletEnv.__init__(self, self.robot)
