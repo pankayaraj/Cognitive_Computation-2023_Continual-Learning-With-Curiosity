@@ -28,10 +28,10 @@ a_c_1 = torch.load("Walker/3/inverse_curiosity" + str(no))
 a_c_2 = torch.load("Walker/3/reward_curiosity" + str(no))
 a_c = [[]]
 for i in range(len(a_c_1[0])):
-    a_c[0].append(a_c_1[0][i] + a_c_2[0][i]*0.05)
+    a_c[0].append(a_c_1[0][i] + a_c_2[0][i]*0.01)
 """"""
 
-
+print("experiment = "  + str(no))
 
 a =[]
 for j in range(len(a_c[0])):

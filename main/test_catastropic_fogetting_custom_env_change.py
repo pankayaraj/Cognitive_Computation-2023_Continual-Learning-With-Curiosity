@@ -29,7 +29,7 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #"HumanoidPyBulletEnv-v0"
 #HalfCheetahPyBulletEnv-v0
 
-parser.add_argument("--algo", type=str, default="SAC")
+parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
 parser.add_argument("--env", type=str, default="Walker2DPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
@@ -38,7 +38,7 @@ parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=6)
+parser.add_argument("--experiment_no", type=int, default=7)
 """
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
@@ -62,7 +62,7 @@ parser.add_argument("--alpha", type=float, default=0.2)
 parser.add_argument("--gamma", type=float, default=0.99)
 parser.add_argument("--cuda", type=bool, default=True)
 parser.add_argument("--tau", type=float, default=0.005)
-parser.add_argument("--automatic_entropy_tuning", type=bool, default=True)
+parser.add_argument("--automatic_entropy_tuning", type=bool, default=False)
 parser.add_argument("--target_update_interval", type=int, default=1)
 parser.add_argument("--save_interval", type=int, default=40000)
 parser.add_argument("--eval-interval", type=int, default=2000)
@@ -73,7 +73,7 @@ parser.add_argument("--memory_size", type=int, default=100000) #walker
 #parser.add_argument("--memory_size", type=int, default=100000)
 #parser.add_argument("--memory_size", type=int, default=20000)
 #parser.add_argument("--no_steps", type=int, default=150000)
-parser.add_argument("--no_steps", type=int, default=260000)
+parser.add_argument("--no_steps", type=int, default=400000)
 parser.add_argument("--max_episodes", type=int, default=1000)
 #parser.add_argument("--max_episodes", type=int, default=200)
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
@@ -96,11 +96,11 @@ parser.add_argument("--save_directory", type=str, default="models/native_SAC_cat
 #change_varaiable_at = [1, 100000, 150000, 350000, 400000]
 #change_varaiable = [0.40, 1.40, 2.40, 3.40, 4.40]
 
-change_varaiable_at = [1, 50000, 350000]
-change_varaiable_at = [1, 50000, 250000]
+#change_varaiable_at = [1, 50000, 350000]
+#change_varaiable_at = [1, 50000, 280000]
 #change_varaiable_at = [1, 50000, 100000]
 #change_varaiable_at = [1, 40000, 70000]
-#change_varaiable_at = [1, 50000, 60000]
+change_varaiable_at = [1, 250000, 350000]
 
 #change_varaiable = [0.40, 4.40, 8.40] #V6
 
@@ -113,17 +113,20 @@ change_varaiable_at = [1, 50000, 250000]
 #change_varaiable = [0.40, 1.15, 1.90] #v4
 #change_varaiable = [0.40, 0.90, 1.40]  #v3
 
-#change_varaiable = [1.40, 7.40, 13.40, ] #v5_5
-change_varaiable = [1.40, 6.40, 13.40, ]
-change_varaiable = [0.40, 4.40, 13.40, ]
-change_varaiable = [1.0, 3.0, 6.0, ]
-change_varaiable = [6.40, 1.40, 13.40, ]
+change_varaiable = [1.40, 7.40, 13.40, ] #v5_5
+#change_varaiable = [1.40, 6.40, 13.40, ]
+#change_varaiable = [0.40, 4.40, 13.40, ]
+#change_varaiable = [1.0, 3.0, 6.0, ]
+#change_varaiable = [6.40, 1.40, 13.40, ]
+
+
 #ant
 
 #change_varaiable_at = [1, 50000, 350000]
 #change_varaiable = [0.5, 4.5, 8.5]
 #change_varaiable = [0.5, 2.5, 4.5]
-
+#change_varaiable = [1.5, 2.5, 3.5]
+#change_varaiable = [1.0, 8.0, 15.0]
 
 #atlas
 #change_varaiable = [2.90, 6.90, 10.90]
@@ -133,13 +136,15 @@ change_varaiable = [6.40, 1.40, 13.40, ]
 
 #change_varaiable = [0.41, 2.41, 6.41]
 #change_varaiable = [0.11, 0.41, 4.41]
+#change_varaiable = [0.41, 3.41, 9.41]
 
 #half cheetah
 #change_varaiable = [0.9, 4.9, 8.9]
 #change_varaiable = [0.9, 3.9, 6.9]
-#change_varaiable = [0.9, 1.9, 4.9]
 
-
+#change_varaiable = [2.9, 8.9, 14.9]
+#change_varaiable = [0.9, 3.4, 5.9]
+#change_varaiable = [0.9, 3.9, 6.9]
 c = 0
 
 args = parser.parse_args()
@@ -296,31 +301,33 @@ for i in range(inital_step_no, args.no_steps):
 
 
     if i%save_interval == 0:
+        if i != 0:
+            torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(
+                args.eval_interval) + "_" + str(experiment_no))
+            save_dir_temp = save_dir + "/e" + str(experiment_no)
 
-        torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(
-            args.eval_interval) + "_" + str(experiment_no))
-        save_dir_temp = save_dir + "/e" + str(experiment_no)
-
-        if args.algo == "SAC_w_cur_buffer":
-            A.save(save_dir_temp + "/q1", save_dir_temp + "/q2",
-                   save_dir_temp + "/q1_target", save_dir_temp + "/q2_target",
-                   save_dir_temp + "/policy_target", icm_state_path=save_dir_temp + "/icm_state",
-                   icm_action_path=save_dir_temp + "/icm_action")
-        else:
-            A.save(save_dir_temp + "/q1", save_dir_temp + "/q2",
-                   save_dir_temp + "/q1_target", save_dir_temp + "/q2_target",
-                   save_dir_temp + "/policy_target")
+            if args.algo == "SAC_w_cur_buffer":
+                A.save(save_dir_temp + "/q1", save_dir_temp + "/q2",
+                       save_dir_temp + "/q1_target", save_dir_temp + "/q2_target",
+                       save_dir_temp + "/policy_target", icm_state_path=save_dir_temp + "/icm_state",
+                       icm_action_path=save_dir_temp + "/icm_action")
+            else:
+                A.save(save_dir_temp + "/q1", save_dir_temp + "/q2",
+                       save_dir_temp + "/q1_target", save_dir_temp + "/q2_target",
+                       save_dir_temp + "/policy_target")
 
 
     if i%30000 == 0:
-        if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer" or args.algo == "SAC_test":
-            torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity" + str(experiment_no))
-            torch.save(A.icm_f_r, "results/native_SAC_catastrophic_forgetting/forward_curiosity" + str(experiment_no))
-            torch.save(A.icm_r, "results/native_SAC_catastrophic_forgetting/reward_curiosity" + str(experiment_no))
+        if i != 0:
+            if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer" or args.algo == "SAC_test":
+                torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity" + str(experiment_no))
+                torch.save(A.icm_f_r, "results/native_SAC_catastrophic_forgetting/forward_curiosity" + str(experiment_no))
+                torch.save(A.icm_r, "results/native_SAC_catastrophic_forgetting/reward_curiosity" + str(experiment_no))
     if i % 30000 == 0:
-        if args.algo == "SAC_w_cur_buffer":
-            torch.save(A.alpha_history,
-                       "results/native_SAC_catastrophic_forgetting/alpha/alpha_history" + str(experiment_no))
+        if i != 0:
+            if args.algo == "SAC_w_cur_buffer":
+                torch.save(A.alpha_history,
+                           "results/native_SAC_catastrophic_forgetting/alpha/alpha_history" + str(experiment_no))
 
     if i%eval_interval==0:
         if args.env_type == "classic_control":
