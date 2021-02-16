@@ -1,17 +1,18 @@
-from pybulletgym.envs.roboschool.envs.env_bases import BaseBulletEnv
-from pybulletgym.envs.roboschool.robots.pendula.interted_pendulum import InvertedPendulum, InvertedPendulumSwingup
-from pybulletgym.envs.roboschool.scenes.scene_bases import SingleRobotEmptyScene
+from custom_envs.pybulletgym_custom.envs.roboschool.envs.env_bases import BaseBulletEnv
+from custom_envs.pybulletgym_custom.envs.roboschool.robots.pendula.interted_pendulum import InvertedPendulum, InvertedPendulumSwingup
+from custom_envs.pybulletgym_custom.envs.roboschool.scenes.scene_bases import SingleRobotEmptyScene
 import numpy as np
 
 
 class InvertedPendulumBulletEnv(BaseBulletEnv):
-    def __init__(self):
-        self.robot = InvertedPendulum()
+    def __init__(self, torque_factor=100, gravity=9.8):
+        self.robot = InvertedPendulum(torque_factor=torque_factor)
         BaseBulletEnv.__init__(self, self.robot)
         self.stateId = -1
-
+        self.torque_factor=torque_factor
+        self.gravity = gravity
     def create_single_player_scene(self, bullet_client):
-        return SingleRobotEmptyScene(bullet_client, gravity=9.8, timestep=0.0165, frame_skip=1)
+        return SingleRobotEmptyScene(bullet_client, gravity=self.gravity, timestep=0.0165, frame_skip=1)
 
     def reset(self):
         if self.stateId >= 0:

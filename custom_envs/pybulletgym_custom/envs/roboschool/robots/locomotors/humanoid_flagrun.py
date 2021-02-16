@@ -4,8 +4,9 @@ from custom_envs.pybulletgym_custom.envs import gym_utils as ObjectHelper
 
 
 class HumanoidFlagrun(Humanoid):
-    def __init__(self):
-        Humanoid.__init__(self)
+    def __init__(self, power=0.41):
+        self.power = power
+        Humanoid.__init__(self, power=power)
         self.flag = None
 
     def robot_specific_reset(self, bullet_client):

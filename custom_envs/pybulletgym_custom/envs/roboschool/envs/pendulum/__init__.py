@@ -1,1 +1,1 @@
-from pybulletgym.envs.roboschool.envs.pendulum.inverted_pendulum_env import InvertedPendulumBulletEnv, InvertedPendulumSwingupBulletEnv
+from custom_envs.pybulletgym_custom.envs.roboschool.envs.pendulum.inverted_pendulum_env import InvertedPendulumBulletEnv, InvertedPendulumSwingupBulletEnv

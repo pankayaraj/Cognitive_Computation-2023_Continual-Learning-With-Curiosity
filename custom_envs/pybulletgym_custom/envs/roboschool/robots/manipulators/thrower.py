@@ -1,4 +1,4 @@
-from pybulletgym.envs.roboschool.robots.robot_bases import MJCFBasedRobot
+from custom_envs.pybulletgym_custom.envs.roboschool.robots.robot_bases import MJCFBasedRobot
 import numpy as np
 
 
@@ -7,6 +7,11 @@ class Thrower(MJCFBasedRobot):
     max_target_placement_radius = 0.8
     min_object_placement_radius = 0.1
     max_object_placement_radius = 0.8
+
+    min_target_placement_radius = 0.4
+    max_target_placement_radius = 0.4
+    min_object_placement_radius = 0.4
+    max_object_placement_radius = 0.4
 
     def __init__(self):
         MJCFBasedRobot.__init__(self, 'thrower.xml', 'body0', action_dim=7, obs_dim=48)

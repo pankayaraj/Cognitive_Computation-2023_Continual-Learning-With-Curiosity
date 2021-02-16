@@ -20,8 +20,10 @@ epsilon = 1e-6
 
 class NN_Paramters():
     def __init__(self, state_dim, action_dim, non_linearity = F.tanh, weight_initializer = 'xavier', bias_initializer = 'zero',
-                 hidden_layer_dim = [128, 128], device= torch.device('cuda'), l_r=0.0001):
-
+                 hidden_layer_dim = [128, 128], device= torch.device('cuda'), l_r=0.0001, CNN_layers = [(3, 32, 8, 4), (32, 64, 4, 2), (64, 64 ,3, 1)],
+                 flatten_dim =1536 ,  CNN_initalizer = "kaiming"):
+                #[(4, 32, 8, 4), (32, 64, 4, 2), (64, 64 ,3, 1)]
+                #7*7*64
         self.state_dim = state_dim
         self.action_dim = action_dim
         self.hidden_layer_dim = hidden_layer_dim
@@ -29,6 +31,11 @@ class NN_Paramters():
         self.bias_initializer = bias_initializer
         self.non_linearity = non_linearity
         self.l_r = l_r
+
+
+        self.CNN_layers = CNN_layers
+        self.flatten_dim = flatten_dim
+        self.CNN_initalizer = CNN_initalizer
 
         self.device = device
 
@@ -47,9 +54,9 @@ class BaseNN(nn.Module):
         self.save_path = save_path
         self.load_path = load_path
 
-    def weight_init(self, layer, w_initalizer, b_initalizer):
+    def weight_init(self, layer, w_initalizer, b_initalizer, non_lin=None):
         #initalize weight
-        weight_initialize(layer, w_initalizer)
+        weight_initialize(layer, w_initalizer, non_lin=non_lin)
         bias_initialize(layer, b_initalizer)
 
     def save(self, path=None):
@@ -470,6 +477,95 @@ class Discrete_Q_Function_NN(BaseNN):
         elif format == "numpy":
             return self.forward(state).cpu().detach().numpy()
 
+
+class Discrete_Q_Function_CNN_NN(BaseNN):
+
+    def __init__(self, nn_params, save_path, load_path):
+
+        super(Discrete_Q_Function_CNN_NN, self).__init__(save_path=save_path, load_path=load_path)
+        self.cnn_layers = nn.ModuleList([])
+        self.flatten_layers = nn.ModuleList([])
+        self.layers = nn.ModuleList([])
+
+
+        self.nn_params = nn_params
+        self.non_lin = self.nn_params.non_linearity
+
+        # Hidden layers
+        layer_input_dim = self.nn_params.state_dim
+        hidden_layer_dim = self.nn_params.hidden_layer_dim
+
+        #CNN layers
+        cnn_layers = self.nn_params.CNN_layers
+        flatten_dim = self.nn_params.flatten_dim
+        cnn_initializer = self.nn_params.CNN_initalizer
+
+        for i, spec in enumerate(cnn_layers):
+            l = nn.Conv2d(spec[0], spec[1], kernel_size=spec[2], stride=spec[3])
+            self.weight_init(l, cnn_initializer, cnn_initializer, non_lin=self.non_lin)
+            self.cnn_layers.append(l)
+
+        l = nn.Flatten(start_dim=1)
+        self.flatten_layers.append(l)
+        layer_input_dim = flatten_dim
+
+
+        for i, dim in enumerate(hidden_layer_dim):
+            l = nn.Linear(layer_input_dim, dim)
+            self.weight_init(l, self.nn_params.weight_initializer, self.nn_params.bias_initializer, non_lin=None)
+            self.layers.append(l)
+            layer_input_dim = dim
+
+        #Final Layer
+        self.Q_value = nn.Linear(layer_input_dim, self.nn_params.action_dim)
+        self.weight_init(self.Q_value, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
+
+        self.to(self.nn_params.device)
+
+    def forward(self, state):
+        if type(state) != torch.Tensor:
+            state = torch.Tensor(state).to(self.nn_params.device)
+
+        if len(state.shape) == 3:
+            #inp = torch.reshape(state, (1,4,84,84))
+            inp = torch.reshape(state, (1, 3, 80, 60))
+        else:
+
+            batch_size = state.shape[0]
+            #new_dim = (batch_size, 4, 84, 84)
+            new_dim = (batch_size, 3, 80, 60)
+
+            inp = state.reshape(shape=new_dim)
+
+
+        for i, layer in enumerate(self.cnn_layers):
+
+            if self.non_lin != None:
+                inp = self.non_lin(layer(inp))
+            else:
+                inp = layer(inp)
+
+        for i, layer in enumerate(self.flatten_layers):
+            inp = layer(inp)
+
+
+        for i, layer in enumerate(self.layers):
+
+            if self.non_lin != None:
+                inp = self.non_lin(layer(inp))
+            else:
+                inp = layer(inp)
+
+        Q_s_a = self.Q_value(inp)
+
+        return Q_s_a
+
+    def get_value(self, state, format="torch"):
+
+        if format == "torch":
+            return self.forward(state)
+        elif format == "numpy":
+            return self.forward(state).cpu().detach().numpy()
 
 class ICM_Next_State_NN(BaseNN):
 

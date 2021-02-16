@@ -6,7 +6,7 @@ import gym
 from algorithms.SAC import SAC
 from parameters import Algo_Param, NN_Paramters, Load_Paths, Save_Paths
 from custom_envs.custom_pendulum import PendulumEnv
-
+from custom_envs.custom_lunar_lander import LunarLanderContinuous
 import gym  # open ai gym
 
 
@@ -119,29 +119,11 @@ env_eval = gym.make('HumanoidPyBulletEnv-v1')
 #env_eval = gym.make('HopperPyBulletEnv-v0')
 
 """
+
 """
 
-register(
-	id='AntPyBulletEnv-v1',
-	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.ant_env:AntBulletEnv',
-    kwargs={'power': 1.0},
-	max_episode_steps=1000,
-	reward_threshold=2500.0
-	)
-
-register(
-	id='AntPyBulletEnv-v2',
-	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.ant_env:AntBulletEnv',
-    kwargs={'power': 8.0},
-	max_episode_steps=1000,
-	reward_threshold=2500.0
-	)
-
-env1 = gym.make('AntPyBulletEnv-v1')
-env2 = gym.make('AntPyBulletEnv-v2')
-env_eval1 = gym.make('AntPyBulletEnv-v1')
-env_eval2 = gym.make('AntPyBulletEnv-v2')
-
+"""
+"""
 
 register( id='HopperPyBulletEnv-v1',
           entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
@@ -161,12 +143,13 @@ env2 = gym.make('HopperPyBulletEnv-v2')
 env_eval1 = gym.make('HopperPyBulletEnv-v1')
 env_eval2 = gym.make('HopperPyBulletEnv-v2')
 
-
+"""
+""" """
 
 register(
 	id='HalfCheetahPyBulletEnv-v1',
 	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.half_cheetah_env:HalfCheetahBulletEnv',
-    kwargs={'power':0.9},
+    kwargs={'power':4.4},
 	max_episode_steps=1000,
 	reward_threshold=3000.0
 	)
@@ -174,18 +157,63 @@ register(
 register(
 	id='HalfCheetahPyBulletEnv-v2',
 	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.half_cheetah_env:HalfCheetahBulletEnv',
-    kwargs={'power': 3.4},
+    kwargs={'power': 7.9},
+	max_episode_steps=1000,
+	reward_threshold=3000.0
+	)
+"""
+register(
+	id='HalfCheetahPyBulletEnv-v1',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.half_cheetah_env:HalfCheetahBulletEnv',
+    kwargs={'power': 2.9, "delta" : 0.0},
 	max_episode_steps=1000,
 	reward_threshold=3000.0
 	)
 
+
+register(
+	id='HalfCheetahPyBulletEnv-v2',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.half_cheetah_env:HalfCheetahBulletEnv',
+    kwargs={'power': 2.9, "delta" : 40.0},
+	max_episode_steps=1000,
+	reward_threshold=3000.0
+	)
+	
 
 env1 = gym.make('HalfCheetahPyBulletEnv-v1')
 env2 = gym.make('HalfCheetahPyBulletEnv-v2')
 env_eval1 = gym.make('HalfCheetahPyBulletEnv-v1')
 env_eval2 = gym.make('HalfCheetahPyBulletEnv-v2')
 """
+register(
+	id='HumanoidPyBulletEnv-v1',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.humanoid_env:HumanoidBulletEnv',
+    kwargs={'power': 0.41},
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
 
+register(
+	id='HumanoidPyBulletEnv-v2',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.humanoid_env:HumanoidBulletEnv',
+    kwargs={'power': 1.41},
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+env1 = gym.make('HumanoidPyBulletEnv-v1')
+env2 = gym.make('HumanoidPyBulletEnv-v2')
+env_eval1 = gym.make('HumanoidPyBulletEnv-v1')
+env_eval2 = gym.make('HumanoidPyBulletEnv-v2')
+
+
+"""
+env1 = gym.make('HalfCheetahPyBulletEnv-v1')
+env2 = gym.make('HalfCheetahPyBulletEnv-v2')
+env_eval1 = gym.make('HalfCheetahPyBulletEnv-v1')
+env_eval2 = gym.make('HalfCheetahPyBulletEnv-v2')
+"""
+"""
 register(
 	id='Walker2DPyBulletEnv-v1',
 	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
@@ -203,17 +231,73 @@ register(
 	)
 
 
+
+
 env1 = gym.make('Walker2DPyBulletEnv-v1')
 env2 = gym.make('Walker2DPyBulletEnv-v2')
 env_eval1 = gym.make('Walker2DPyBulletEnv-v1')
 env_eval2 = gym.make('Walker2DPyBulletEnv-v2')
 
+"""
+
+#env1 = LunarLanderContinuous(main_engine_power=13.0)
+#env2 = LunarLanderContinuous(main_engine_power=3.0)
+#env_eval1 = LunarLanderContinuous(main_engine_power=13.0)
+#env_eval2 = LunarLanderContinuous(main_engine_power=3.0)
+"""
+register(
+	id='InvertedPendulumPyBulletEnv-v1',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.pendulum.inverted_pendulum_env:InvertedPendulumBulletEnv',
+    kwargs={'torque_factor': 100, "gravity":9.8 },
+	max_episode_steps=1000,
+	reward_threshold=950.0,
+	)
+
+register(
+	id='InvertedPendulumPyBulletEnv-v2',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.pendulum.inverted_pendulum_env:InvertedPendulumBulletEnv',
+    kwargs={'torque_factor': 100, "gravity": 90.8},
+	max_episode_steps=1000,
+	reward_threshold=950.0,
+	)
+
+
+env1 = gym.make('InvertedPendulumPyBulletEnv-v1')
+env2 = gym.make('InvertedPendulumPyBulletEnv-v2')
+env_eval1 = gym.make('InvertedPendulumPyBulletEnv-v1')
+env_eval2 = gym.make('InvertedPendulumPyBulletEnv-v2')
+
+"""
+
+register(
+	id='AntPyBulletEnv-v1',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.ant_env:AntBulletEnv',
+    kwargs={'power': 2.5},
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+register(
+	id='AntPyBulletEnv-v2',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.ant_env:AntBulletEnv',
+    kwargs={'power': 6.5},
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+env1 = gym.make('AntPyBulletEnv-v1')
+env2 = gym.make('AntPyBulletEnv-v2')
+env_eval1 = gym.make('AntPyBulletEnv-v1')
+env_eval2 = gym.make('AntPyBulletEnv-v2')
+
 
 env = env1
 env_eval = env_eval1
 
-seed = env.seed()[0]
-env_eval.seed(seed)
+
+
+#seed = env.seed()[0]
+#env_eval.seed(seed)
 
 
 state_dim = env.observation_space.shape[0]
@@ -239,7 +323,7 @@ env1.reset()
 env2.reset()
 
 envs = [env1, env2]
-x = 3000
+x = 4000
 
 print("x = " + str(x))
 for i in range(200000):
@@ -262,7 +346,7 @@ for i in range(200000):
     else:
         state = A.step(state, random=False)
     if i%save_interval==0:
-        A.save("q1", "q2", "q1_target", "q2_target", "policy_target")
+        #A.save("q1", "q2", "q1_target", "q2_target", "policy_target")
         pass
     if i%eval_interval==0:
 

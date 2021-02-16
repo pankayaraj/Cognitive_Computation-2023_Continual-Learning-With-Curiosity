@@ -3,7 +3,8 @@ import numpy as np
 
 class NN_Paramters():
     def __init__(self, state_dim, action_dim, non_linearity = torch.nn.functional.tanh, weight_initializer = 'xavier', bias_initializer = 'zero',
-                 hidden_layer_dim = [128, 128], device= torch.device('cuda'), l_r=0.0001):
+                 hidden_layer_dim = [128, 128], device= torch.device('cuda'), l_r=0.0001, CNN_layers = [(4, 32, 8, 4), (32, 64, 4, 2), (64, 64 ,3, 1)],
+                 flatten_dim = 7*7*64, CNN_initalizer = "kaiming"):
 
         self.state_dim = state_dim
         self.action_dim = action_dim
@@ -12,6 +13,11 @@ class NN_Paramters():
         self.bias_initializer = bias_initializer
         self.non_linearity = non_linearity
         self.l_r = l_r
+
+        self.CNN_layers = CNN_layers
+        self.flatten_dim = flatten_dim
+        self.CNN_initalizer = CNN_initalizer
+
 
         self.device = device
 

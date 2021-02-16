@@ -1,12 +1,13 @@
-from pybulletgym.envs.roboschool.robots.robot_bases import MJCFBasedRobot
+from custom_envs.pybulletgym_custom.envs.roboschool.robots.robot_bases import MJCFBasedRobot
 import numpy as np
 
 
 class InvertedPendulum(MJCFBasedRobot):
     swingup = False
 
-    def __init__(self):
+    def __init__(self, torque_factor=100):
         MJCFBasedRobot.__init__(self, 'inverted_pendulum.xml', 'cart', action_dim=1, obs_dim=5)
+        self.torque_factor=torque_factor
 
     def robot_specific_reset(self, bullet_client):
         self._p = bullet_client
@@ -22,7 +23,8 @@ class InvertedPendulum(MJCFBasedRobot):
         if not np.isfinite(a).all():
             print("a is inf")
             a[0] = 0
-        self.slider.set_motor_torque(  100*float(np.clip(a[0], -1, +1)) )
+
+        self.slider.set_motor_torque(  self.torque_factor*float(np.clip(a[0], -1, +1)) )
 
     def calc_state(self):
         self.theta, theta_dot = self.j1.current_position()

@@ -13,7 +13,7 @@ a_c_1 = torch.load("inverse_curiosity7")
 a_c_2 = torch.load("reward_curiosity7")
 a_c = [[]]
 for i in range(len(a_c_1[0])):
-    a_c[0].append(a_c_1[0][i] + a_c_2[0][i]*0.01)
+    a_c[0].append(a_c_1[0][i] + a_c_2[0][i]*1)
 print(len(a_c))
 plt.plot(a_c[0])
 plt.show()

@@ -98,6 +98,21 @@ def make_array_env(change_variable, name):
             env[i].reset()
             env_eval[i].reset()
 
+        elif name == "ReacherPyBulletEnv-v0":
+
+            register(
+                id='ReacherPyBulletEnv-v' + str(i+1),
+                entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.manipulation.reacher_env:ReacherBulletEnv',
+                kwargs={"torque_factor":  change_variable[i]},
+                max_episode_steps=150,
+                reward_threshold=18.0,
+            )
+
+            env.append(gym.make('ReacherPyBulletEnv-v' + str(i+1)))
+            env_eval.append(gym.make('ReacherPyBulletEnv-v' + str(i+1)))
+
+            env[i].reset()
+            env_eval[i].reset()
 
     return  env, env_eval
 

@@ -1,12 +1,13 @@
-from pybulletgym.envs.roboschool.envs.env_bases import BaseBulletEnv
-from pybulletgym.envs.roboschool.scenes.scene_bases import SingleRobotEmptyScene
+from custom_envs.pybulletgym_custom.envs.roboschool.envs.env_bases import BaseBulletEnv
+from custom_envs.pybulletgym_custom.envs.roboschool.scenes.scene_bases import SingleRobotEmptyScene
 import numpy as np
-from pybulletgym.envs.roboschool.robots.manipulators.reacher import Reacher
+from custom_envs.pybulletgym_custom.envs.roboschool.robots.manipulators.reacher import Reacher
 
 
 class ReacherBulletEnv(BaseBulletEnv):
-    def __init__(self):
-        self.robot = Reacher()
+    def __init__(self, torque_factor = 0.05):
+        self.robot = Reacher(torque_factor=torque_factor)
+        self.torque_factor = torque_factor
         BaseBulletEnv.__init__(self, self.robot)
 
     def create_single_player_scene(self, bullet_client):

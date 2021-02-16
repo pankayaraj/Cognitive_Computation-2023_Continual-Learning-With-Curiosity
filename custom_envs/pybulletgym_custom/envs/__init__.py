@@ -49,6 +49,39 @@ register(
 	)
 
 
+register(
+	id='HumanoidFlagrunPyBulletEnv-v0',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.humanoid_flagrun_env:HumanoidFlagrunBulletEnv',
+	max_episode_steps=1000,
+	reward_threshold=2000.0
+	)
+register(
+	id='ReacherPyBulletEnv-v0',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.manipulation.reacher_env:ReacherBulletEnv',
+	max_episode_steps=150,
+	reward_threshold=18.0,
+	)
+
+register(
+	id='ThrowerPyBulletEnv-v0',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.manipulation.thrower_env:ThrowerBulletEnv',
+	max_episode_steps=100,
+	reward_threshold=18.0,
+)
+
+register(
+	id='StrikerPyBulletEnv-v0',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.manipulation.striker_env:StrikerBulletEnv',
+	max_episode_steps=100,
+	reward_threshold=18.0,
+)
+
+register(
+	id='InvertedPendulumPyBulletEnv-v0',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.pendulum.inverted_pendulum_env:InvertedPendulumBulletEnv',
+	max_episode_steps=1000,
+	reward_threshold=950.0,
+	)
 """
 # roboschool envs
 ## pendula

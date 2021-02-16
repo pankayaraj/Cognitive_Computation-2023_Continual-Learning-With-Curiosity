@@ -1,6 +1,6 @@
-from pybulletgym.envs.roboschool.envs.env_bases import BaseBulletEnv
-from pybulletgym.envs.roboschool.robots.manipulators.striker import Striker
-from pybulletgym.envs.roboschool.scenes.scene_bases import SingleRobotEmptyScene
+from custom_envs.pybulletgym_custom.envs.roboschool.envs.env_bases import BaseBulletEnv
+from custom_envs.pybulletgym_custom.envs.roboschool.robots.manipulators.striker import Striker
+from custom_envs.pybulletgym_custom.envs.roboschool.scenes.scene_bases import SingleRobotEmptyScene
 import numpy as np
 
 

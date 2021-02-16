@@ -26,10 +26,17 @@ a_c = torch.load("inverse_curiosity")[0:400000]
 no = 7
 a_c_1 = torch.load("Walker/3/inverse_curiosity" + str(no))
 a_c_2 = torch.load("Walker/3/reward_curiosity" + str(no))
+
+#a_c_1 = torch.load("Walker/inverse_curiosity" + str(no))
+#a_c_2 = torch.load("Walker/reward_curiosity" + str(no))
+
+
 a_c = [[]]
 for i in range(len(a_c_1[0])):
-    a_c[0].append(a_c_1[0][i] + a_c_2[0][i]*0.01)
+    a_c[0].append(a_c_1[0][i]*0.0 + a_c_2[0][i]*1.0)
 """"""
+#plt.plot(a_c[0])
+#plt.show()
 
 print("experiment = "  + str(no))
 
@@ -65,7 +72,9 @@ print(len(a_c))
 
 a_c = a
 
-
+#plt.plot(a_c)
+#plt.savefig("reward_walker")
+#plt.close()
 """
 plt.plot(a_c)
 plt.plot(a)
@@ -144,7 +153,7 @@ plt.ylim(0,5)
 plt.title("Using Curisioty for task seperation")
 plt.xlabel("Time")
 plt.legend(["SNR", "MEAN", "Task Seperation"])
-#plt.savefig("TS")
+#plt.savefig("TS_mix_walker")
 plt.show()
 
 x1 = 0

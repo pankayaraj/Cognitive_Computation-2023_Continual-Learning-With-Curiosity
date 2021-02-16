@@ -1,12 +1,12 @@
-from pybulletgym.envs.roboschool.envs.locomotion.humanoid_env import HumanoidBulletEnv
-from pybulletgym.envs.roboschool.robots.locomotors import HumanoidFlagrun, HumanoidFlagrunHarder
+from custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.humanoid_env import HumanoidBulletEnv
+from custom_envs.pybulletgym_custom.envs.roboschool.robots.locomotors import HumanoidFlagrun, HumanoidFlagrunHarder
 
 
 class HumanoidFlagrunBulletEnv(HumanoidBulletEnv):
     random_yaw = True
 
-    def __init__(self):
-        self.robot = HumanoidFlagrun()
+    def __init__(self, power = 0.41):
+        self.robot = HumanoidFlagrun(power = power)
         HumanoidBulletEnv.__init__(self, self.robot)
 
     def create_single_player_scene(self, bullet_client):

@@ -480,10 +480,17 @@ class SAC_with_Curiosity_Buffer():
             self.icm_i_r[i].append(i_icm_r.item())
             self.icm_r[i].append(r_icm_r.item())
 
-            curiosity += i_icm_r.item()/self.no
-            curiosity += 0.05*r_icm_r.item() / self.no #walker2d
-            #curiosity += 0.005 * r_icm_r.item() / self.no
-            #curiosity += 0.01 * r_icm_r.item() / self.no #halfcheetah
+
+            #pendulum , hopper
+            # curiosity += i_icm_r.item()/self.no
+
+            #walker2D
+            #curiosity += i_icm_r.item()/self.no
+            # curiosity += 0.05*r_icm_r.item() / self.no #walker2d
+
+            #half_cheetah
+            curiosity += 0.0*i_icm_r.item() / self.no
+            curiosity += 1.0 * r_icm_r.item() / self.no #halfcheetah
 
             #curiosity += r_icm_r.item()/ self.no
 
