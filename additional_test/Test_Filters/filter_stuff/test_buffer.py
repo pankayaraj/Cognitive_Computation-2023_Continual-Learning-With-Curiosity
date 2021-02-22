@@ -23,7 +23,7 @@ a_c = torch.load("inverse_curiosity")[0:400000]
 #a_c = torch.load("Walker/3/reward_curiosity7")
 #r_c =""" torch.load("reward_curiosity")
 
-no = 7
+no = 3
 a_c_1 = torch.load("Walker/3/inverse_curiosity" + str(no))
 a_c_2 = torch.load("Walker/3/reward_curiosity" + str(no))
 
@@ -33,7 +33,7 @@ a_c_2 = torch.load("Walker/3/reward_curiosity" + str(no))
 
 a_c = [[]]
 for i in range(len(a_c_1[0])):
-    a_c[0].append(a_c_1[0][i]*0.0 + a_c_2[0][i]*1.0)
+    a_c[0].append(a_c_1[0][i]*1.0 + a_c_2[0][i]*1.0)
 """"""
 #plt.plot(a_c[0])
 #plt.show()

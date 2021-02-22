@@ -5,12 +5,19 @@ import numpy as np
 
 
 class InvertedPendulumBulletEnv(BaseBulletEnv):
-    def __init__(self, torque_factor=100, gravity=9.8):
-        self.robot = InvertedPendulum(torque_factor=torque_factor)
+    def __init__(self, torque_factor=100, gravity=9.8, friction = "1 0.1 0.1", length= 0.6, index=0):
+
+        self.torque_factor = torque_factor
+        self.gravity = gravity
+        self.friction = friction
+        self.length =  length
+        self.index = index
+
+        self.robot = InvertedPendulum(torque_factor=torque_factor, friction=self.friction, length=self.length,
+                                      index=self.index)
         BaseBulletEnv.__init__(self, self.robot)
         self.stateId = -1
-        self.torque_factor=torque_factor
-        self.gravity = gravity
+
     def create_single_player_scene(self, bullet_client):
         return SingleRobotEmptyScene(bullet_client, gravity=self.gravity, timestep=0.0165, frame_skip=1)
 
@@ -44,7 +51,10 @@ class InvertedPendulumBulletEnv(BaseBulletEnv):
 
 
 class InvertedPendulumSwingupBulletEnv(InvertedPendulumBulletEnv):
-    def __init__(self):
-        self.robot = InvertedPendulumSwingup()
+    def __init__(self,  torque_factor=100, gravity=9.8, friction = "1 0.1 0.1", length= 0.6, index=0):
+
+        self.gravity = gravity
+        self.length = length
+        self.robot = InvertedPendulumSwingup(torque_factor=torque_factor, friction=friction, length=length, index=index )
         BaseBulletEnv.__init__(self, self.robot)
         self.stateId = -1

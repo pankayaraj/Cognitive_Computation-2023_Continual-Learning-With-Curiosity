@@ -4,7 +4,7 @@ import gym
 
 def make_array_env(change_variable, name):
     env, env_eval = [], []
-
+    print("enviornment = " + name)
     for i in range(len(change_variable)):
 
         if name == "HopperPyBulletEnv-v0":
@@ -22,12 +22,116 @@ def make_array_env(change_variable, name):
             env[i].reset()
             env_eval[i].reset()
 
+        elif name == "HopperPyBulletEnv-v0_leg":
+
+            register(id='HopperPyBulletEnv-v' + str(i+1),
+                     entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
+                     kwargs={"leg_length": change_variable[i], "index": i},
+                     max_episode_steps=1000,
+                     reward_threshold=2500.0)
+
+            env.append(gym.make('HopperPyBulletEnv-v' + str(i + 1)))
+            env_eval.append(gym.make('HopperPyBulletEnv-v' + str(i + 1)))
+
+            env[i].reset()
+            env_eval[i].reset()
+
+        elif name == "HopperPyBulletEnv-v0_leg_size":
+
+            register(id='HopperPyBulletEnv-v' + str(i+1),
+                     entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
+                     kwargs={"leg_size": change_variable[i], "index": i},
+                     max_episode_steps=1000,
+                     reward_threshold=2500.0)
+
+            env.append(gym.make('HopperPyBulletEnv-v' + str(i + 1)))
+            env_eval.append(gym.make('HopperPyBulletEnv-v' + str(i + 1)))
+
+            env[i].reset()
+            env_eval[i].reset()
+
+        elif name == "HopperPyBulletEnv-v0_leg_size_length":
+
+            register(id='HopperPyBulletEnv-v' + str(i+1),
+                     entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
+                     kwargs={"leg_size": change_variable[i][0], "leg_length": change_variable[i][1], "index": i},
+                     max_episode_steps=1000,
+                     reward_threshold=2500.0)
+
+            env.append(gym.make('HopperPyBulletEnv-v' + str(i + 1)))
+            env_eval.append(gym.make('HopperPyBulletEnv-v' + str(i + 1)))
+
+            env[i].reset()
+            env_eval[i].reset()
+
+
+
+        elif name == "HopperPyBulletEnv-v0_thigh":
+
+            register(id='HopperPyBulletEnv-v' + str(i+1),
+                     entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
+                     kwargs={"thigh_length": change_variable[i], "index": i},
+                     max_episode_steps=1000,
+                     reward_threshold=2500.0)
+
+            env.append(gym.make('HopperPyBulletEnv-v' + str(i + 1)))
+            env_eval.append(gym.make('HopperPyBulletEnv-v' + str(i + 1)))
+
+            env[i].reset()
+            env_eval[i].reset()
+
+        elif name == "HopperPyBulletEnv-v0_thigh_size":
+
+            register(id='HopperPyBulletEnv-v' + str(i+1),
+                     entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
+                     kwargs={"thigh_size": change_variable[i], "index": i},
+                     max_episode_steps=1000,
+                     reward_threshold=2500.0)
+
+            env.append(gym.make('HopperPyBulletEnv-v' + str(i + 1)))
+            env_eval.append(gym.make('HopperPyBulletEnv-v' + str(i + 1)))
+
+            env[i].reset()
+            env_eval[i].reset()
+
+        elif name == "HopperPyBulletEnv-v0_foot":
+
+            register(id='HopperPyBulletEnv-v' + str(i+1),
+                     entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
+                     kwargs={"foot_length": change_variable[i], "index": i},
+                     max_episode_steps=1000,
+                     reward_threshold=2500.0)
+
+            env.append(gym.make('HopperPyBulletEnv-v' + str(i + 1)))
+            env_eval.append(gym.make('HopperPyBulletEnv-v' + str(i + 1)))
+
+            env[i].reset()
+            env_eval[i].reset()
+
+
+
         elif name == "Walker2DPyBulletEnv-v0":
 
             register(
                 id='Walker2DPyBulletEnv-v' + str(i+1),
                 entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
                 kwargs={'power': change_variable[i]},
+                max_episode_steps=1000,
+                reward_threshold=2500.0
+            )
+
+            env.append(gym.make('Walker2DPyBulletEnv-v' + str(i+1)))
+            env_eval.append(gym.make('Walker2DPyBulletEnv-v' + str(i+1)))
+
+            env[i].reset()
+            env_eval[i].reset()
+
+        elif name == "Walker2DPyBulletEnv-v0_len":
+
+            register(
+                id='Walker2DPyBulletEnv-v' + str(i+1),
+                entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
+                kwargs={'length': change_variable[i]},
                 max_episode_steps=1000,
                 reward_threshold=2500.0
             )
@@ -110,6 +214,22 @@ def make_array_env(change_variable, name):
 
             env.append(gym.make('ReacherPyBulletEnv-v' + str(i+1)))
             env_eval.append(gym.make('ReacherPyBulletEnv-v' + str(i+1)))
+
+            env[i].reset()
+            env_eval[i].reset()
+
+        elif name == "InvertedPendulumSwingupPyBulletEnv-v0":
+
+            register(
+                id='InvertedPendulumSwingupPyBulletEnv-v' + str(i+1),
+                entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.pendulum.inverted_pendulum_env:InvertedPendulumSwingupBulletEnv',
+                max_episode_steps=1000,
+                kwargs={"length":  change_variable[i], "index": i},
+                reward_threshold=950.0,
+            )
+
+            env.append(gym.make('InvertedPendulumSwingupPyBulletEnv-v' + str(i + 1)))
+            env_eval.append(gym.make('InvertedPendulumSwingupPyBulletEnv-v' + str(i + 1)))
 
             env[i].reset()
             env_eval[i].reset()

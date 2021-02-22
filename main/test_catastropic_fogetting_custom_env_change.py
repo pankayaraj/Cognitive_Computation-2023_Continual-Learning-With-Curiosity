@@ -4,6 +4,7 @@ from itertools import count
 
 import argparse
 
+import custom_envs.custom_cartpole
 from algorithms.SAC import SAC
 from algorithms.SAC_w_Curiosity import SAC_with_Curiosity
 from algorithms.SAC_w_Reward_based_Curiosity import SAC_with_reward_based_Curiosity
@@ -13,11 +14,13 @@ from algorithms.DDPG import DDPG
 from algorithms.DDPG_w_Cur_Buffer import DDPG_with_Curiosity_Buffer
 
 from algorithms.q_learning import Q_learning
+from algorithms.q_learning_cur_buffer import Q_learning_w_cur_buf
 
 from parameters import Algo_Param, NN_Paramters, Save_Paths, Load_Paths, Algo_Param_DDPG
 
 from custom_envs.custom_pendulum import PendulumEnv
 from custom_envs.custom_acrobat import AcrobotEnv
+from custom_envs.custom_cartpole import CartPoleEnv
 
 from util.roboschool_util.make_new_env import make_array_env
 
@@ -34,18 +37,20 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #"FIFO_FT"
 #"HopperPyBulletEnv-v0"
 #"Walker2DPyBulletEnv-v0"
+#"Walker2DPyBulletEnv-v0_len"
 #"AntPyBulletEnv-v0"
 #'AtlasPyBulletEnv-v0'
 #"HumanoidPyBulletEnv-v0"
 #HalfCheetahPyBulletEnv-v0g
 #"ReacherPyBulletEnv-v0"
-
+#"InvertedPendulumSwingupPyBulletEnv-v0
+#Cartpole-v0
 #Acrobat
 
-parser.add_argument("--algo", type=str, default="SAC")
-parser.add_argument("--buffer_type", type=str, default="Custom")
-parser.add_argument("--env", type=str, default="AntPyBulletEnv-v0")
-parser.add_argument("--env_type", type=str, default="roboschool")
+parser.add_argument("--algo", type=str, default="Q_Learning_w_cur_buffer")
+parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
+parser.add_argument("--env", type=str, default="Cartpole-v0")
+parser.add_argument("--env_type", type=str, default="classic_control")
 """
 parser.add_argument("--algo", type=str, default="Q_Learning")
 parser.add_argument("--buffer_type", type=str, default="Custom")
@@ -57,7 +62,7 @@ parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=4)
+parser.add_argument("--experiment_no", type=int, default=7)
 """
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
@@ -68,13 +73,13 @@ parser.add_argument("--env_type", type=str, default="classic_control")
 #parser.add_argument("--fifo_frac", type=float, default=0.34)
 parser.add_argument("--fifo_frac", type=float, default=0.05)
 parser.add_argument("--no_curiosity_networks", type=int, default=1)
-parser.add_argument("--init_cur_at_task_change", type=bool, default=False)
+parser.add_argument("--init_cur_at_task_change", type=bool, default=True)
 parser.add_argument("--init_alpha_at_task_change", type=bool, default=True)
 
 
 parser.add_argument("--policy", type=str, default="gaussian")
-parser.add_argument("--hidden_layers", type=list, default=[256, 256])
-#parser.add_argument("--hidden_layers", type=list, default=[64, 64])
+#parser.add_argument("--hidden_layers", type=list, default=[256, 256])
+parser.add_argument("--hidden_layers", type=list, default=[64, 64])
 parser.add_argument("--lr", type=float, default=0.0003)
 #parser.add_argument("--lr", type=float, default=0.001)
 
@@ -91,20 +96,23 @@ parser.add_argument("--restart_alpha_interval", type=int, default=50000)
 
 #parser.add_argument("--batch_size", type=int, default=512)
 parser.add_argument("--batch_size", type=int, default=32)
+#parser.add_argument("--batch_size", type=int, default=128)
 
+#parser.add_argument("--memory_size", type=int, default=40000) #walker
 #parser.add_argument("--memory_size", type=int, default=100000) #walker
 parser.add_argument("--memory_size", type=int, default=20000)
 #parser.add_argument("--memory_size", type=int, default=50000)
 
-#parser.add_argument("--no_steps", type=int, default=210000)
-#parser.add_argument("--no_steps", type=int, default=400000)
 parser.add_argument("--no_steps", type=int, default=210000)
+#parser.add_argument("--no_steps", type=int, default=360000)
+#parser.add_argument("--no_steps", type=int, default=230000)
 
 #parser.add_argument("--max_episodes", type=int, default=1000)
-#parser.add_argument("--max_episodes", type=int, default=200)
-parser.add_argument("--max_episodes", type=int, default=150)
+parser.add_argument("--max_episodes", type=int, default=200)
+#parser.add_argument("--max_episodes", type=int, default=1000)
 
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
+
 
 
 
@@ -124,10 +132,6 @@ parser.add_argument("--save_directory", type=str, default="models/native_SAC_cat
 #change_varaiable_at = [1, 50000, 350000]
 #change_varaiable = [1.0, 2.4, 3.8]
 
-#reacher
-
-#change_varaiable_at = [1, 20000, 180000]
-#change_varaiable = [ 0.005, 5,  500]
 
 #walker2D
 #change_varaiable_at = [1, 100000, 150000, 350000, 400000]
@@ -161,43 +165,39 @@ parser.add_argument("--save_directory", type=str, default="models/native_SAC_cat
 #change_varaiable = [6.40, 1.40, 13.40, ]
 
 
-#ant
 
-change_varaiable_at = [1, 50000, 350000]
-#change_varaiable = [0.5, 4.5, 8.5]
-#change_varaiable = [0.5, 2.5, 4.5]
-#change_varaiable = [1.5, 2.5, 3.5]
-#change_varaiable = [1.0, 8.0, 15.0]
-#change_varaiable = [0.5, 3.5, 6.5]
 
-change_varaiable = [3.5, 6.5, 9.5]
-#atlas
-#change_varaiable = [2.90, 6.90, 10.90]
 
-#humanoid
-#change_varaiable = [0.41, 4.41, 10.41] #works  #old_1
 
-#change_varaiable = [0.41, 2.41, 6.41]
-#change_varaiable = [0.11, 0.41, 4.41]
-#change_varaiable = [0.41, 3.41, 9.41]
 
 #half cheetah
-#change_varaiable = [0.9, 4.9, 8.9]
-#change_varaiable = [0.9, 3.9, 6.9]
 
-#change_varaiable = [2.9, 8.9, 14.9]
-#change_varaiable = [0.9, 3.4, 5.9]
-#change_varaiable = [0.9, 3.9, 6.9]
-#change_varaiable = [0.9, 4.4, 7.9]
-#change_varaiable = [0.9, 2.9, 4.9]
 #change_varaiable = [0.9, 3.1, 4.3]
 
 #change_varaiable = [4.4, 7.9, 11.4] #can work not sure try later
 
+
+
+change_varaiable_at = [1, 40000, 310000]
+#change_varaiable_at = [1, 20000, 120000]
+change_varaiable = [0.6, 2.6, 4.6]
+
+change_varaiable = [0.5, 1.0, 2.0]
+change_varaiable = [0.04, 0.11, 0.18] #leg_size works
+
+change_varaiable = [0.05, 0.1, 0.15]
+
+change_varaiable = [0.5, 4.5, 8.5]
+
+change_varaiable = [(0.05, 0.5), (0.11, 2.5), (0.18, 4.5)]
+change_varaiable = [(0.04, 0.5), (0.06, 1.0), (0.08, 1.5)]
+
+change_varaiable_at = [1, 20000, 180000]
+change_varaiable = [0.5, 5.5, 10.5]
+change_varaiable = [0.5, 10.5, 20.5]
 c = 0
-
 args = parser.parse_args()
-
+print(args.algo + " , " + args.buffer_type)
 if args.env_type == "classic_control":
     if args.env == "Pendulum-v0":
         env = PendulumEnv()
@@ -217,8 +217,18 @@ if args.env_type == "classic_control":
 
         ini_env = env
 
+    elif args.env == "Cartpole-v0":
+        env = CartPoleEnv()
+        env_eval = CartPoleEnv()
+
+        state_dim = env.observation_space.shape[0]
+        action_dim = env.action_space.n
+
+        ini_env = env
+
 elif args.env_type == "roboschool":
     env, env_eval = make_array_env(change_varaiable, args.env)
+
     state_dim = env[0].observation_space.shape[0]
     action_dim = env[0].action_space.shape[0]
 
@@ -283,7 +293,15 @@ elif args.algo == "SAC_test":
 elif args.algo == "Q_Learning":
     A = Q_learning(ini_env, q_nn_param=q_nn_param, algo_param=algo_nn_param, max_episodes=args.max_episodes, memory_capacity=args.memory_size
                            , batch_size=args.batch_size, buffer_type=buffer_type, fifo_frac=args.fifo_frac, change_at=change_varaiable_at[1:])
+elif args.algo == "Q_Learning_w_cur_buffer":
 
+    A = Q_learning_w_cur_buf(ini_env, q_nn_param=q_nn_param,icm_nn_param=icm_nn_param, algo_param=algo_nn_param,
+                             max_episodes=args.max_episodes,memory_capacity=args.memory_size, batch_size=args.batch_size,
+                             buffer_type=buffer_type, fifo_frac=args.fifo_frac
+                             , no_cur_network=args.no_curiosity_networks,
+                             reset_cur_on_task_change=args.init_cur_at_task_change,
+                             reset_alpha_on_task_change=args.init_alpha_at_task_change
+                             )
 elif args.algo == "DDPG":
     A = DDPG(ini_env, q_nn_param=q_nn_param, policy_nn_param=policy_nn_param, algo_nn_param=algo_nn_param,
              max_episodes=args.max_episodes, memory_capacity=args.memory_size
@@ -427,8 +445,8 @@ for i in range(inital_step_no, args.no_steps):
 
 
     if i%30000 == 0:
-        if i != 0:
-            if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer" or args.algo == "SAC_test" or args.algo == "DDPG_w_cur_buffer":
+        if i != 0 or i==0:
+            if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer" or args.algo == "SAC_test" or args.algo == "DDPG_w_cur_buffer" or args.algo == "Q_Learning_w_cur_buffer":
                 torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity" + str(experiment_no))
                 torch.save(A.icm_f_r, "results/native_SAC_catastrophic_forgetting/forward_curiosity" + str(experiment_no))
                 torch.save(A.icm_r, "results/native_SAC_catastrophic_forgetting/reward_curiosity" + str(experiment_no))
@@ -440,13 +458,17 @@ for i in range(inital_step_no, args.no_steps):
 
     if i%eval_interval==0:
         if args.env_type == "classic_control":
+
             print("current variable = " + str(A.env.l))
         elif args.env_type == "roboschool":
 
             if args.env == "ReacherPyBulletEnv-v0":
                 print("current variable = " + str(A.env.torque_factor))
+            elif args.env == "InvertedPendulumSwingupPyBulletEnv-v0" or args.env == "Walker2DPyBulletEnv-v0_len":
+                print("current variable = " + str(A.env.length))
             else:
                 print("current variable = " + str(A.env.power))
+
 
 
         for l_i, l in enumerate(test_lengths):
@@ -485,7 +507,7 @@ for i in range(inital_step_no, args.no_steps):
 torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c+1))
 torch.save(results, "results/native_SAC_catastrophic_forgetting/results_length__s_i_" + str(args.eval_interval) + "_" + str(experiment_no))
 
-if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer" or args.algo == "SAC_test" or args==args.algo == "DDPG_w_cur_buffer":
+if args.algo == "SAC_w_cur" or args.algo == "SAC_w_cur_buffer" or args.algo == "SAC_test" or args.algo == "DDPG_w_cur_buffer" or args.algo == "Q_Learning_w_cur_buffer":
     torch.save(A.icm_i_r, "results/native_SAC_catastrophic_forgetting/inverse_curiosity" + str(experiment_no))
     torch.save(A.icm_f_r, "results/native_SAC_catastrophic_forgetting/forward_curiosity" + str(experiment_no))
     torch.save(A.icm_r, "results/native_SAC_catastrophic_forgetting/reward_curiosity" + str(experiment_no))

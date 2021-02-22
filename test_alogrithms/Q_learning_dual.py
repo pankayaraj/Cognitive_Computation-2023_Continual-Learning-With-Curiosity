@@ -4,12 +4,13 @@ from custom_envs.sumo.custom_sumo_env import SUMOEnv
 from custom_envs.custom_acrobat import AcrobotEnv
 from model import NN_Paramters
 from parameters import Algo_Param
+from custom_envs.custom_cartpole import CartPoleEnv
 import gym_minigrid
 import gym
-env1 = AcrobotEnv(mass=1.)
-env_eval1 = AcrobotEnv(mass=1.)
-env2 = AcrobotEnv(mass=3.)
-env_eval2 = AcrobotEnv(mass=3.)
+env1 = CartPoleEnv(length=0.5)
+env_eval1 = CartPoleEnv(length=0.5)
+env2 = CartPoleEnv(length=1.)
+env_eval2 = CartPoleEnv(length=1.)
 
 env = env1
 env_eval = env_eval1
@@ -27,7 +28,7 @@ state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.n
 
 
-q_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256, 256],
+q_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[64, 64], #hidden_layer_dim=[256, 256],
                           non_linearity=torch.relu, device=torch.device("cuda"), l_r=0.0001)
 algo_param = Algo_Param()
 algo_param.gamma = 0.99
@@ -50,12 +51,12 @@ envs = [env1, env2]
 env1.reset()
 env2.reset()
 
-x = 2000
+x = 5000
 
 print("x = " + str(x) )
 for i in range(200000):
     if i%1000 == 0:
-        print("power = " + str(Q.env.m))
+        print("power = " + str(Q.env.length))
         if i%x == 0:
             Q.env = envs[0]
         else:
@@ -84,7 +85,7 @@ for i in range(200000):
                 d = True
             if d == True:
                 break
-        print("reward at itr " + str(i) + " = " + str(rew)  + " mass = " + str(e.m))
+        print("reward at itr " + str(i) + " = " + str(rew)  + " mass = " + str(e.length))
 
         e = env_eval2
         s = e.reset()
@@ -100,6 +101,6 @@ for i in range(200000):
                 d = True
             if d == True:
                 break
-        print("reward at itr " + str(i) + " = " + str(rew) + " mass = " + str(e.m))
+        print("reward at itr " + str(i) + " = " + str(rew) + " mass = " + str(e.length))
 #Q.memory = torch.load("mem")
 #torch.save(Q.memory, "mem")

@@ -123,7 +123,7 @@ class Q_learning():
 
         if self.buffer_type == "Custom":
             if self.t == self.change_at[self.c]:
-                print(self.epsilon)
+                print("current epsilon = " + str(self.epsilon))
                 self.epsilon = 1.0
                 if self.c <= len(self.change_at) - 2:
                     self.c += 1

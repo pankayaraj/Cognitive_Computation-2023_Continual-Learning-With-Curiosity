@@ -157,9 +157,10 @@ register(
 env = gym.make('HumanoidFlagrunPyBulletEnv-v1')
 env_eval = gym.make('HumanoidFlagrunPyBulletEnv-v1')
 """
+
+"""
 env = gym.make("BipedalWalker-v3")
 env_eval = gym.make("BipedalWalker-v3")
-
 
 
 gym.register(
@@ -190,8 +191,9 @@ env_eval = gym.make('ThrowerPyBulletEnv-v1')
 
 register(
 	id='InvertedPendulumPyBulletEnv-v1',
-	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.pendulum.inverted_pendulum_env:InvertedPendulumBulletEnv',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.pendulum.inverted_pendulum_env:InvertedPendulumSwingupBulletEnv',
 	max_episode_steps=1000,
+    kwargs = {"length" : 1.0},
 	reward_threshold=950.0,
 	)
 
@@ -199,8 +201,54 @@ env = gym.make('InvertedPendulumPyBulletEnv-v1')
 env_eval = gym.make('InvertedPendulumPyBulletEnv-v1')
 
 
+register(
+	id='HalfCheetahPyBulletEnv-v1',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.half_cheetah_env:HalfCheetahBulletEnv',
+    kwargs={'power': 2.9},
+	max_episode_steps=1000,
+	reward_threshold=3000.0
+	)
+
+env = gym.make('HalfCheetahPyBulletEnv-v1')
+env_eval = gym.make('HalfCheetahPyBulletEnv-v1')
+
+
+register(
+	id='Walker2DPyBulletEnv-v1',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
+    kwargs={'power': 0.40, "length" : 0.6},
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+env = gym.make('Walker2DPyBulletEnv-v1')
+env_eval = gym.make('Walker2DPyBulletEnv-v1')
+
+
+
 #env = gym.make('AtlasPyBulletEnv-v0')
 #env_eval = gym.make('AtlasPyBulletEnv-v0')
+"""
+
+
+
+
+register( id='HopperPyBulletEnv-v1',
+          entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
+          kwargs={'power': 0.75, "thigh_length": 0.45, "leg_length" : 1.0, "foot_length" : 0.5, "leg_size" : 0.06 },
+          max_episode_steps=1000,
+          reward_threshold=2500.0)
+
+register( id='HopperPyBulletEnv-v2',
+          entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
+          kwargs={'power': 0.75, "thigh_length": 0.45, "leg_length" : 0.5, "foot_length" : 0.5, "index":1, "leg_size" : 0.04},
+          max_episode_steps=1000,
+          reward_threshold=2500.0)
+
+
+env = gym.make('HopperPyBulletEnv-v1')
+env_eval = gym.make('HopperPyBulletEnv-v1')
+env_eval2 = gym.make('HopperPyBulletEnv-v2')
 
 env.l = 1.
 env_eval.l  = 1.
@@ -219,27 +267,33 @@ algo_nn_param = Algo_Param(gamma=0.99, alpha=0.2, tau=0.005, target_update_inter
 
 
 A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=1000, memory_capacity=100000
-        ,batch_size=512, alpha_lr=0.0003, env_type="roboschool")
-#A.load("q1", "q2", "q1", "q2", "policy_target")
+        ,batch_size=128, alpha_lr=0.0003, env_type="roboschool")
 
 save_interval = 2000
 eval_interval = 2000
 
 state = A.initalize()
 
+A.load("q1", "q2", "q1", "q2", "policy_target")
+
+eval = False
+#eval = True
 for i in range(200000):
 
     if i%1000 == 0:
         print(i, A.alpha)
-    #A.update()
+
+    if eval == False:
+        A.update()
 
     if i < A.batch_size:
         state = A.step(state, random=True)
     else:
         state = A.step(state, random=False)
     if i%save_interval==0:
-        #A.save("q1", "q2", "q1_target", "q2_target", "policy_target")
-        pass
+        if eval == False:
+            #A.save("q1", "q2", "q1_target", "q2_target", "policy_target")
+            pass
     if i%eval_interval==0:
         print("testing")
         e = env_eval
@@ -266,4 +320,30 @@ for i in range(200000):
             rew_total += rew
         rew_total = rew_total/10
         print("reward at itr " + str(i) + " = " + str(rew_total) )#+ " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) )
+
+
+        e = env_eval2
+        e.reset()
+        for _ in range(10):
+            rew = 0
+
+            e.render()
+            s = e.reset()
+
+            for j in range(A.max_episodes):
+                a = A.get_action(s, evaluate=True)
+                s, r, d, _ = e.step(a)
+                e.render("gui")
+                #if i%(save_interval*1) == 0:
+                #    e.render(mode='rgb_array')
+                rew += r
+
+                if d == True:
+                    break
+
+            rew_total += rew
+        rew_total = rew_total/10
+        print("reward at itr " + str(i) + " = " + str(rew_total) )#+ " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) )
+
+
 torch.save(A.replay_buffer, "mem")

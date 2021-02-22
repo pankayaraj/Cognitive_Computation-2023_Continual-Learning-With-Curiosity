@@ -268,7 +268,7 @@ env_eval1 = gym.make('InvertedPendulumPyBulletEnv-v1')
 env_eval2 = gym.make('InvertedPendulumPyBulletEnv-v2')
 
 """
-
+"""
 register(
 	id='AntPyBulletEnv-v1',
 	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.ant_env:AntBulletEnv',
@@ -290,15 +290,77 @@ env2 = gym.make('AntPyBulletEnv-v2')
 env_eval1 = gym.make('AntPyBulletEnv-v1')
 env_eval2 = gym.make('AntPyBulletEnv-v2')
 
+index = 4
+register(
+	id='InvertedPendulumSwingupPyBulletEnv-v1',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.pendulum.inverted_pendulum_env:InvertedPendulumSwingupBulletEnv',
+	max_episode_steps=1000,
+    kwargs = {"length" : 1.0, "index":index},
+	reward_threshold=950.0,
+	)
 
-env = env1
-env_eval = env_eval1
+register(
+	id='InvertedPendulumSwingupPyBulletEnv-v2',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.pendulum.inverted_pendulum_env:InvertedPendulumSwingupBulletEnv',
+	max_episode_steps=1000,
+    kwargs = {"length" : 2.5, "index":index+1},
+	reward_threshold=950.0,
+)
+
+env1 = gym.make('InvertedPendulumSwingupPyBulletEnv-v1')
+env2 = gym.make('InvertedPendulumSwingupPyBulletEnv-v2')
+env_eval1 = gym.make('InvertedPendulumSwingupPyBulletEnv-v1')
+env_eval2 = gym.make('InvertedPendulumSwingupPyBulletEnv-v2')
+
+index = 0
+register(
+	id='Walker2DPyBulletEnv-v1',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
+    kwargs={'power': 0.40, "length" : 0.1, "index": index},
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+register(
+	id='Walker2DPyBulletEnv-v2',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
+    kwargs={'power': 0.40, "length" : 0.5, "index": index+1},
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+env1 = gym.make('Walker2DPyBulletEnv-v1')
+env2 = gym.make('Walker2DPyBulletEnv-v2')
+env_eval1 = gym.make('Walker2DPyBulletEnv-v1')
+env_eval2 = gym.make('Walker2DPyBulletEnv-v2')
+
+"""
 
 
 
+
+index = 2
+register( id='HopperPyBulletEnv-v1',
+          entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
+          kwargs={'power': 0.75,  "thigh_length": 0.45, "leg_length" : 0.5, "leg_size" : 0.04, "foot_length" : 0.4, "thigh_size" :0.05, "index":index},
+          max_episode_steps=1000,
+          reward_threshold=2500.0)
+register( id='HopperPyBulletEnv-v2',
+          entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
+          kwargs={'power': 0.75,  "thigh_length": 0.45, "leg_length" :2.5, "leg_size" : 0.04, "foot_length" : 0.4, "thigh_size" :0.05, "index":index+1},
+          max_episode_steps=1000,
+          reward_threshold=2500.0)
+
+env1 = gym.make('HopperPyBulletEnv-v1')
+env2 = gym.make('HopperPyBulletEnv-v2')
+env_eval1 = gym.make('HopperPyBulletEnv-v1')
+env_eval2 = gym.make('HopperPyBulletEnv-v2')
 #seed = env.seed()[0]
 #env_eval.seed(seed)
 
+
+env = env1
+env_eval = env_eval1
 
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.shape[0]
@@ -308,7 +370,7 @@ q_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256, 256],
 policy_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256, 256],
                           non_linearity=torch.relu, device=torch.device("cuda"), l_r=0.0003)
 
-algo_nn_param = Algo_Param(gamma=0.99, alpha=0.2, tau=0.005, target_update_interval=1, automatic_alpha_tuning=False)
+algo_nn_param = Algo_Param(gamma=0.99, alpha=0.2, tau=0.005, target_update_interval=1, automatic_alpha_tuning=True)
 
 
 A = SAC(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=1000, memory_capacity=100000
@@ -321,14 +383,16 @@ eval_interval = 2000
 state = A.initalize()
 env1.reset()
 env2.reset()
+env_eval1.reset()
+env_eval2.reset()
 
 envs = [env1, env2]
-x = 4000
+x = 2000
 
 print("x = " + str(x))
 for i in range(200000):
     if i%1000 == 0:
-        print("power = " + str(A.env.power))
+        print("power = " + str(A.env.l_length))
         if i%x == 0:
             A.env = envs[0]
         else:
@@ -352,7 +416,7 @@ for i in range(200000):
 
 
         e = env_eval1
-        #e.render()
+        e.render()
 
         rew_total = 0
         for _ in range(10):
@@ -369,10 +433,12 @@ for i in range(200000):
 
             rew_total += rew
         rew_total = rew_total/10
-        print("reward at itr " + str(i) + " = " + str(rew_total)  + " power = " + str(e.power))#+ " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) )
+        print("reward at itr " + str(i) + " = " + str(rew_total)  + " power = " + str(e.l_length))#+ " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) )
 
 
         e = env_eval2
+        e.render()
+
         rew_total = 0
         for _ in range(10):
             rew = 0
@@ -388,6 +454,6 @@ for i in range(200000):
 
             rew_total += rew
         rew_total = rew_total / 10
-        print("reward at itr " + str(i) + " = " + str(rew_total) + " power = " + str(e.power) ) # + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) )
+        print("reward at itr " + str(i) + " = " + str(rew_total) + " power = " + str(e.l_length) ) # + " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) )
 
 torch.save(A.replay_buffer, "mem")

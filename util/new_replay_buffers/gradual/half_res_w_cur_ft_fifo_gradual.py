@@ -23,7 +23,9 @@ class Transition_tuple():
 class Half_Reservoir_Flow_Through_w_Cur_Gradual():
 
     def __init__(self, capacity=10000, curisoity_buff_frac = 0.34, seperate_cur_buffer=True,
-                 fifo_fac = 0.05, avg_len_snr=3000, repetition_threshold=30000, snr_factor=0.5, snr_fac_secondary = 2.5): #halfcheetah
+                 fifo_fac=0.05, avg_len_snr=600, repetition_threshold=8000, snr_factor=10 ,snr_fac_secondary=2.5):  # cartpole
+                 #fifo_fac=0.05, avg_len_snr=2000, repetition_threshold=12000, snr_factor=2.0,snr_fac_secondary=2.5):  # hopperleg
+                 #fifo_fac = 0.05, avg_len_snr=3000, repetition_threshold=30000, snr_factor=0.5, snr_fac_secondary = 2.5): #halfcheetah
         #fifo_fac = 0.05, avg_len_snr = 2000, repetition_threshold = 30000, snr_factor = 0.2, snr_fac_secondary = 2.5): #walker2d
         #fifo_fac = 0.05, avg_len_snr = 3000, repetition_threshold = 30000, snr_factor = 0.05, snr_fac_secondary = 0.05
         assert (fifo_fac > 0) and (fifo_fac < 1)

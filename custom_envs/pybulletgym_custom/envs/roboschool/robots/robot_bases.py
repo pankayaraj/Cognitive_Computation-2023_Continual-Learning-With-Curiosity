@@ -107,6 +107,9 @@ class MJCFBasedRobot(XmlBasedRobot):
 		self.model_xml = model_xml
 		self.doneLoading = 0
 
+
+
+
 	def reset(self, bullet_client):
 		full_path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "mjcf", self.model_xml)
 

@@ -650,8 +650,10 @@ class ICM_Action_NN(BaseNN):
         self.to(self.nn_params.device)
 
     def forward(self, state, next_state):
+
         if type(state) != torch.Tensor:
             state = torch.Tensor(state).to(self.nn_params.device)
+
         if type(next_state) != torch.Tensor:
             next_state = torch.Tensor(next_state).to(self.nn_params.device)
 
@@ -706,6 +708,7 @@ class ICM_Reward_NN(BaseNN):
         self.to(self.nn_params.device)
 
     def forward(self, state, action):
+
         if type(state) != torch.Tensor:
             state = torch.Tensor(state).to(self.nn_params.device)
         if type(action) != torch.Tensor:
@@ -716,6 +719,7 @@ class ICM_Reward_NN(BaseNN):
             inp = torch.cat((state, action), dim=0)
         else:
             inp = torch.cat((state, action), dim=1)
+
 
         for i, layer in enumerate(self.layers):
             if self.non_lin != None:

@@ -489,8 +489,13 @@ class SAC_with_Curiosity_Buffer():
             # curiosity += 0.05*r_icm_r.item() / self.no #walker2d
 
             #half_cheetah
-            curiosity += 0.0*i_icm_r.item() / self.no
-            curiosity += 1.0 * r_icm_r.item() / self.no #halfcheetah
+            #curiosity += 0.0*i_icm_r.item() / self.no
+            #curiosity += 1.0 * r_icm_r.item() / self.no #halfcheetah
+
+            # hopper leg
+            curiosity += 1.0 * i_icm_r.item() / self.no
+            curiosity += 1.0 * r_icm_r.item() / self.no  # halfcheetah
+
 
             #curiosity += r_icm_r.item()/ self.no
 
