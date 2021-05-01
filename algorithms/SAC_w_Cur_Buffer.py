@@ -4,15 +4,18 @@ import torch
 from model import Q_Function_NN, Value_Function_NN, Continuous_Gaussian_Policy, ICM_Action_NN, ICM_Next_State_NN, ICM_Reward_NN
 from parameters import Algo_Param, NN_Paramters, Save_Paths, Load_Paths
 
-from util.replay_buff_cur import Replay_Memory_Cur
-from util.reservoir_w_cur_replay_buffer import Reservoir_with_Cur_Replay_Memory
-from util.reservoir_w_cur_fifo_replay_buffer import Half_Reservoir_w_Cur_FIFO_Replay_Buffer
-from util.reservior_w_cur_time_restriction_buffer import Reservoir_with_Cur_n_Time_Restirction_Replay_Memory
-from util.reservior_w_cur_time_restriction_buffer_n_FIFO import Half_Reservoir_w_Curn_Time_Restriction_FIFO_Replay_Buffer
-from util.reservior_w_cur_time_restriction_buffer_n_FIFO_flow_through import Half_Reservoir_w_Curn_Time_Restriction_FIFO_Flow_Through_Replay_Buffer
+from util.new_replay_buffers.replay_buff_cur import Replay_Memory_Cur
 
-from util.new_replay_buffers.reservior_buffer_w_cur_n_SNR_with_FT_FIFO import Half_Reservoir_Cur_n_SNR_FIFO_Flow_Through_Replay_Buffer
-from util.new_replay_buffers.half_res_w_cur_ft_fifo import Half_Reservoir_Flow_Through_w_Cur
+#from util.reservoir_w_cur_replay_buffer import Reservoir_with_Cur_Replay_Memory
+#from util.reservoir_w_cur_fifo_replay_buffer import Half_Reservoir_w_Cur_FIFO_Replay_Buffer
+#from util.reservior_w_cur_time_restriction_buffer import Reservoir_with_Cur_n_Time_Restirction_Replay_Memory
+#from util.reservior_w_cur_time_restriction_buffer_n_FIFO import Half_Reservoir_w_Curn_Time_Restriction_FIFO_Replay_Buffer
+#from util.reservior_w_cur_time_restriction_buffer_n_FIFO_flow_through import Half_Reservoir_w_Curn_Time_Restriction_FIFO_Flow_Through_Replay_Buffer
+
+#from util.new_replay_buffers.reservior_buffer_w_cur_n_SNR_with_FT_FIFO import Half_Reservoir_Cur_n_SNR_FIFO_Flow_Through_Replay_Buffer
+#from util.new_replay_buffers.half_res_w_cur_ft_fifo import Half_Reservoir_Flow_Through_w_Cur
+
+
 from util.new_replay_buffers.gradual.half_res_w_cur_ft_fifo_gradual import Half_Reservoir_Flow_Through_w_Cur_Gradual
 from util.new_replay_buffers.gradual.ft_fifo_gradual_w_cur import FIFO_w_Cur_Gradual
 
@@ -133,26 +136,32 @@ class SAC_with_Curiosity_Buffer():
         self.replay_buffer_type = buffer_type
 
 
-        if buffer_type == "Reservior":
-            self.replay_buffer = Reservoir_with_Cur_Replay_Memory(capacity=memory_capacity)
-        elif buffer_type == "FIFO":
+
+        if buffer_type == "FIFO":
             self.replay_buffer = Replay_Memory_Cur(capacity=memory_capacity)
-        elif buffer_type == "Half_Reservior_FIFO":
-            self.replay_buffer = Half_Reservoir_w_Cur_FIFO_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
-        elif buffer_type == "Reservior_TR":
-            self.replay_buffer = Reservoir_with_Cur_n_Time_Restirction_Replay_Memory(capacity=memory_capacity,
-                                                                                     lambda_v=0.5, r=1, slope=3, shift=5 )
-        elif buffer_type == "Half_Reservior_TR_FIFO":
-            self.replay_buffer = Half_Reservoir_w_Curn_Time_Restriction_FIFO_Replay_Buffer(capacity=memory_capacity,
-                                                                                     fifo_fac =fifo_frac, lambda_v=0.5, r=1, slope=3, shift=5)
-        elif buffer_type == "Half_Reservior_TR_FIFO_Flow_Through":
-            self.replay_buffer = Half_Reservoir_w_Curn_Time_Restriction_FIFO_Flow_Through_Replay_Buffer(capacity=memory_capacity,
-                                                                                     fifo_fac = fifo_frac, lambda_v=0.5, r=1, slope=3, shift=5)
+        #elif buffer_type == "Reservior":
+        #   self.replay_buffer = Reservoir_with_Cur_Replay_Memory(capacity=memory_capacity)
+        #elif buffer_type == "Half_Reservior_FIFO":
+        #    self.replay_buffer = Half_Reservoir_w_Cur_FIFO_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
+        #elif buffer_type == "Reservior_TR":
+        #    self.replay_buffer = Reservoir_with_Cur_n_Time_Restirction_Replay_Memory(capacity=memory_capacity,
+        #                                                                             lambda_v=0.5, r=1, slope=3, shift=5 )
+        #elif buffer_type == "Half_Reservior_TR_FIFO":
+        #    self.replay_buffer = Half_Reservoir_w_Curn_Time_Restriction_FIFO_Replay_Buffer(capacity=memory_capacity,
+        #                                                                             fifo_fac =fifo_frac, lambda_v=0.5, r=1, slope=3, shift=5)
+        #elif buffer_type == "Half_Reservior_TR_FIFO_Flow_Through":
+        #    self.replay_buffer = Half_Reservoir_w_Curn_Time_Restriction_FIFO_Flow_Through_Replay_Buffer(capacity=memory_capacity,
+        #                                                                             fifo_fac = fifo_frac, lambda_v=0.5, r=1, slope=3, shift=5)
+
+
         elif buffer_type == "Half_Reservior_FIFO_with_FT":
             #self.replay_buffer = Half_Reservoir_Cur_n_SNR_FIFO_Flow_Through_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
             #self.replay_buffer = Half_Reservoir_Flow_Through_w_Cur(capacity=memory_capacity,fifo_fac=fifo_frac)
             self.replay_buffer = Half_Reservoir_Flow_Through_w_Cur_Gradual(capacity=memory_capacity, curisoity_buff_frac=0.34, seperate_cur_buffer=True,
                                                                           fifo_fac=fifo_frac)
+
+
+        #this is the all fifo task seperation buffer. Implementation not done finally
         elif buffer_type == "FIFO_FT":
             self.replay_buffer = FIFO_w_Cur_Gradual(capacity=memory_capacity, fifo_fac=fifo_frac)
 

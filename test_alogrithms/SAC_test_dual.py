@@ -312,32 +312,12 @@ env2 = gym.make('InvertedPendulumSwingupPyBulletEnv-v2')
 env_eval1 = gym.make('InvertedPendulumSwingupPyBulletEnv-v1')
 env_eval2 = gym.make('InvertedPendulumSwingupPyBulletEnv-v2')
 
-index = 0
-register(
-	id='Walker2DPyBulletEnv-v1',
-	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
-    kwargs={'power': 0.40, "length" : 0.1, "index": index},
-	max_episode_steps=1000,
-	reward_threshold=2500.0
-	)
 
-register(
-	id='Walker2DPyBulletEnv-v2',
-	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
-    kwargs={'power': 0.40, "length" : 0.5, "index": index+1},
-	max_episode_steps=1000,
-	reward_threshold=2500.0
-	)
-
-env1 = gym.make('Walker2DPyBulletEnv-v1')
-env2 = gym.make('Walker2DPyBulletEnv-v2')
-env_eval1 = gym.make('Walker2DPyBulletEnv-v1')
-env_eval2 = gym.make('Walker2DPyBulletEnv-v2')
 
 """
 
 
-
+"""
 
 index = 2
 register( id='HopperPyBulletEnv-v1',
@@ -355,6 +335,29 @@ env1 = gym.make('HopperPyBulletEnv-v1')
 env2 = gym.make('HopperPyBulletEnv-v2')
 env_eval1 = gym.make('HopperPyBulletEnv-v1')
 env_eval2 = gym.make('HopperPyBulletEnv-v2')
+
+"""
+index = 0
+register(
+	id='Walker2DPyBulletEnv-v1',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
+    kwargs={'power': 0.40, "leg_length" : 0.5, "index": index},
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+register(
+	id='Walker2DPyBulletEnv-v2',
+	entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
+    kwargs={'power': 0.40, "leg_length" : 1.0, "index": index+1},
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+env1 = gym.make('Walker2DPyBulletEnv-v1')
+env2 = gym.make('Walker2DPyBulletEnv-v2')
+env_eval1 = gym.make('Walker2DPyBulletEnv-v1')
+env_eval2 = gym.make('Walker2DPyBulletEnv-v2')
 #seed = env.seed()[0]
 #env_eval.seed(seed)
 
@@ -390,7 +393,7 @@ envs = [env1, env2]
 x = 2000
 
 print("x = " + str(x))
-for i in range(200000):
+for i in range(800000):
     if i%1000 == 0:
         print("power = " + str(A.env.l_length))
         if i%x == 0:

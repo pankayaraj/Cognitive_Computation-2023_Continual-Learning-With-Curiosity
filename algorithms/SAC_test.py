@@ -5,8 +5,8 @@ from model import Q_Function_NN, Value_Function_NN, Continuous_Gaussian_Policy, 
     ICM_Reward_NN
 from parameters import Algo_Param, NN_Paramters, Save_Paths, Load_Paths
 
-from util.gradual_penalized_cur.half_res_w_cur_ft_fifo_gradual import Half_Reservoir_Flow_Through_w_Cur_Gradual
-from util.gradual_penalized_cur.custom_hrf import Custom_HRF
+from util.old_buffers.gradual_penalized_cur.half_res_w_cur_ft_fifo_gradual import Half_Reservoir_Flow_Through_w_Cur_Gradual
+from util.old_buffers.gradual_penalized_cur.custom_hrf import Custom_HRF
 
 class Debug():
     def __init__(self):

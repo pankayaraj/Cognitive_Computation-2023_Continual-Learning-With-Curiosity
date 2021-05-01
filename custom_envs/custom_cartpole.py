@@ -86,12 +86,23 @@ class CartPoleEnv(gym.Env):
         self.viewer = None
         self.state = None
 
+        self.l = length
+        self.g = gravity
+        self.m_p = self.masspole
+
+
         self.steps_beyond_done = None
     def set_length(self, length = 0.5):
         self.length = length
         self.l = length
 
+    def set_gravity(self, gravity=9.8):
+        self.gravity = gravity
+        self.g = gravity
 
+    def set_mass_pole(self, mass=0.1):
+        self.masscart = mass
+        self.m_p = mass
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]

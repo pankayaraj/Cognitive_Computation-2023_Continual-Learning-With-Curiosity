@@ -14,7 +14,7 @@
       <joint armature="0" axis="0 1 0" damping="0" limited="false" name="ignore3" pos="0 0 0" stiffness="0" type="hinge" />
       <geom fromto="0 0 1.4500000000000002 0 0 1.05" name="torso_geom" size="0.05" type="capsule" />
       <body name="thigh">
-        <joint axis="0 -1 0" name="thigh_joint" pos="0 0 1.05" range="-150 0" type="hinge" size="0.05" />
+        <joint axis="0 -1 0" name="thigh_joint" pos="0 0 1.05" range="-150 0" type="hinge" />
         <geom fromto="0 0 1.05 0 0 0.6" name="thigh_geom" size="0.05" type="capsule" />
         <body name="leg">
           <joint axis="0 -1 0" name="leg_joint" pos="0 0 0.6" range="-150 0" type="hinge" />

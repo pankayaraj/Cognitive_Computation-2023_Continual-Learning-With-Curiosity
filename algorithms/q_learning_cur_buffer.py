@@ -5,8 +5,8 @@ from parameters import NN_Paramters, Algo_Param, Save_Paths, Load_Paths
 import numpy as np
 from algorithms.epsilon_greedy import epsilon_greedy
 
-from util.replay_buff_cur import Replay_Memory_Cur
-from util.reservoir_w_cur_replay_buffer import Reservoir_with_Cur_Replay_Memory
+from util.new_replay_buffers.replay_buff_cur import Replay_Memory_Cur
+#from reservoir_w_cur_replay_buffer import Reservoir_with_Cur_Replay_Memory
 from util.new_replay_buffers.gradual.half_res_w_cur_ft_fifo_gradual import Half_Reservoir_Flow_Through_w_Cur_Gradual
 
 
@@ -83,9 +83,9 @@ class Q_learning_w_cur_buf():
         self.icm_r = [[] for i in range(self.no)]
 
 
-        if buffer_type == "Reservior":
-            self.replay_buffer = Reservoir_with_Cur_Replay_Memory(capacity=memory_capacity)
-        elif buffer_type == "FIFO":
+        #if buffer_type == "Reservior":
+        #    self.replay_buffer = Reservoir_with_Cur_Replay_Memory(capacity=memory_capacity)
+        if buffer_type == "FIFO":
             self.replay_buffer = Replay_Memory_Cur(capacity=memory_capacity)
         elif buffer_type == "Half_Reservior_FIFO_with_FT":
             self.replay_buffer = Half_Reservoir_Flow_Through_w_Cur_Gradual(capacity=memory_capacity, curisoity_buff_frac=0.34, seperate_cur_buffer=True,

@@ -5,8 +5,9 @@ from models.DDPG_model import Q_Function_NN, DDPG_Policy
 from models.DDPG_sumo_model import Q_Function_sumo_NN, DDPG_Policy_sumo, ICM_Next_State_sumo_NN, ICM_Action_sumo_NN, ICM_Reward_sumo_NN
 from parameters import Save_Paths, Load_Paths
 
-from util.replay_buffer import Replay_Memory
-from util.reservoir_with_fifo_replay_buffer_flow_through import Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer
+from util.new_replay_buffers.replay_buffer import Replay_Memory
+from util.new_replay_buffers.gradual.mtr.multi_time_scale_buffer import Multi_time_Scale_Buffer
+from util.new_replay_buffers.reservoir_with_fifo_replay_buffer_flow_through import Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer
 from util.new_replay_buffers.gradual.custom_hrf import Custom_HRF
 
 
@@ -82,6 +83,8 @@ class DDPG():
 
         if buffer_type == "FIFO":
             self.replay_buffer = Replay_Memory(capacity=memory_capacity)
+        elif buffer_type == "MTR":
+            self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=5)
         elif buffer_type == "Half_Reservior_FIFO_with_FT":
             self.replay_buffer = Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
         elif buffer_type == "Custom":

@@ -5,7 +5,7 @@ from models.DDPG_model import Q_Function_NN, DDPG_Policy, ICM_Reward_NN, ICM_Act
 from models.DDPG_sumo_model import Q_Function_sumo_NN, DDPG_Policy_sumo, ICM_Next_State_sumo_NN, ICM_Action_sumo_NN, ICM_Reward_sumo_NN
 from parameters import Save_Paths, Load_Paths
 
-from util.replay_buffer import Replay_Memory
+from util.new_replay_buffers.replay_buffer import Replay_Memory
 from util.new_replay_buffers.gradual.half_res_w_cur_ft_fifo_gradual import Half_Reservoir_Flow_Through_w_Cur_Gradual
 
 

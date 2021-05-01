@@ -7,12 +7,14 @@ from models.SAC_sumo_model import Continuous_Gaussian_Policy_Sumo, Q_Function_su
 
 
 from parameters import Algo_Param, NN_Paramters, Save_Paths, Load_Paths
-from util.replay_buffer import Replay_Memory
-from util.reservoir_replay_buffer import Reservoir_Replay_Memory
-from util.reservoir_with_fifo_replay_buffer import Reservoir_with_FIFO_Replay_Buffer
-from util.multi_time_scale_buffer import Multi_time_Scale_Buffer
-from util.reservoir_with_fifo_replay_buffer_flow_through import Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer
-from util.new_replay_buffers.gradual.custom_hrf import Custom_HRF
+from util.new_replay_buffers.replay_buffer import Replay_Memory #FIFO
+
+#from util.reservoir_replay_buffer import Reservoir_Replay_Memory
+#from util.reservoir_with_fifo_replay_buffer import Reservoir_with_FIFO_Replay_Buffer
+from util.new_replay_buffers.gradual.mtr.multi_time_scale_buffer import Multi_time_Scale_Buffer
+from util.new_replay_buffers.reservoir_with_fifo_replay_buffer_flow_through import Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer #HRF
+from util.new_replay_buffers.gradual.custom_hrf import Custom_HRF #Custom for enviornment definition
+
 class SAC():
 
     def __init__(self, env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes =100, memory_capacity =10000,
@@ -83,12 +85,12 @@ class SAC():
 
         if buffer_type == "FIFO":
             self.replay_buffer = Replay_Memory(capacity=memory_capacity)
-        elif buffer_type == "Reservior":
-            self.replay_buffer = Reservoir_Replay_Memory(capacity=memory_capacity)
-        elif buffer_type == "Half_Reservior_FIFO":
-            self.replay_buffer = Reservoir_with_FIFO_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
+        #elif buffer_type == "Reservior":
+        #    self.replay_buffer = Reservoir_Replay_Memory(capacity=memory_capacity)
+        #elif buffer_type == "Half_Reservior_FIFO":
+        #    self.replay_buffer = Reservoir_with_FIFO_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
         elif buffer_type == "MTR":
-            self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=5)
+            self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=3)
         elif buffer_type == "Half_Reservior_FIFO_with_FT":
             self.replay_buffer = Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
         elif buffer_type == "Custom":

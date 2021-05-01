@@ -4,7 +4,7 @@ import torch
 
 from model import Q_Function_NN, Value_Function_NN, Continuous_Gaussian_Policy, ICM_Action_NN, ICM_Next_State_NN
 from parameters import Algo_Param, NN_Paramters, Save_Paths, Load_Paths
-from util.replay_buffer import Replay_Memory
+from util.new_replay_buffers.replay_buffer import Replay_Memory
 
 class Debug():
     def __init__(self):

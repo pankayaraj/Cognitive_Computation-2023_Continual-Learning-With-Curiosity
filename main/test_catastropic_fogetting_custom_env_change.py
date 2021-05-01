@@ -26,18 +26,34 @@ from util.roboschool_util.make_new_env import make_array_env
 
 parser = argparse.ArgumentParser(description='SAC arguments')
 
+#SUMMARY
+#SAC + Half_Reservior_FIFO_with_FT = HRF
+#SAC + FIFO = FIFO
+#SAC + MRT = MTR
+#SAC_w_cur_buffer + + Half_Reservior_FIFO_with_FT = Reservoir with task seperation
+
+#ALGORITHMS
 #"SAC_w_cur_buffer"
 #"DDPG_w_cur_buffer"
+#SAC
+#DDPG
 #"Q_Learning"
+#"Q_Learning_w_cur_buffer"
 
-#Half_Reservior_FIFO
-#Half_Reservior_TR_FIFO_Flow_Through
 
+#BUFFERS
+#FIFO
 #"Half_Reservior_FIFO_with_FT"
+#"MTR"
+
+
+#not done yet
 #"FIFO_FT"
+
+#ENVIORNMENTS
 #"HopperPyBulletEnv-v0"
 #"Walker2DPyBulletEnv-v0"
-#"Walker2DPyBulletEnv-v0_len"
+#"Walker2DPyBulletEnv-v0_leg_len"
 #"AntPyBulletEnv-v0"
 #'AtlasPyBulletEnv-v0'
 #"HumanoidPyBulletEnv-v0"
@@ -46,11 +62,12 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #"InvertedPendulumSwingupPyBulletEnv-v0
 #Cartpole-v0
 #Acrobat
-
-parser.add_argument("--algo", type=str, default="Q_Learning_w_cur_buffer")
+"""
+parser.add_argument("--algo", type=str, default="SAC")
 parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
-parser.add_argument("--env", type=str, default="Cartpole-v0")
-parser.add_argument("--env_type", type=str, default="classic_control")
+parser.add_argument("--env", type=str, default="Walker2DPyBulletEnv-v0_leg_len")
+parser.add_argument("--env_type", type=str, default="roboschool")
+"""
 """
 parser.add_argument("--algo", type=str, default="Q_Learning")
 parser.add_argument("--buffer_type", type=str, default="Custom")
@@ -58,28 +75,42 @@ parser.add_argument("--env", type=str, default="Acrobat-v0")
 parser.add_argument("--env_type", type=str, default="classic_control")
 
 """
+
+"""
+"""
+
+parser.add_argument("--algo", type=str, default="SAC")
+parser.add_argument("--buffer_type", type=str, default="MTR")
+parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
+#parser.add_argument("--env_type", type=str, default="classic_control")
+parser.add_argument("--env_type", type=str, default="roboschool")
+
+
+"""
+parser.add_argument("--algo", type=str, default="Q_Learning")
+parser.add_argument("--buffer_type", type=str, default="MTR")
+parser.add_argument("--env", type=str, default="Cartpole-v0")
+parser.add_argument("--env_type", type=str, default="classic_control")
+"""
+
+
 parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=7)
-"""
-parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
-parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
-parser.add_argument("--env", type=str, default="Pendulum-v0")
-parser.add_argument("--env_type", type=str, default="classic_control")
-"""
+parser.add_argument("--experiment_no", type=int, default=1)
+
 
 #parser.add_argument("--fifo_frac", type=float, default=0.34)
 parser.add_argument("--fifo_frac", type=float, default=0.05)
 parser.add_argument("--no_curiosity_networks", type=int, default=1)
-parser.add_argument("--init_cur_at_task_change", type=bool, default=True)
-parser.add_argument("--init_alpha_at_task_change", type=bool, default=True)
+parser.add_argument("--init_cur_at_task_change", type=bool, default=False)
+parser.add_argument("--init_alpha_at_task_change", type=bool, default=False)
 
 
 parser.add_argument("--policy", type=str, default="gaussian")
-#parser.add_argument("--hidden_layers", type=list, default=[256, 256])
-parser.add_argument("--hidden_layers", type=list, default=[64, 64])
+parser.add_argument("--hidden_layers", type=list, default=[256, 256])
+#parser.add_argument("--hidden_layers", type=list, default=[64, 64])
 parser.add_argument("--lr", type=float, default=0.0003)
 #parser.add_argument("--lr", type=float, default=0.001)
 
@@ -94,21 +125,25 @@ parser.add_argument("--eval-interval", type=int, default=2000)
 parser.add_argument("--restart_alpha", type=bool, default=False)
 parser.add_argument("--restart_alpha_interval", type=int, default=50000)
 
-#parser.add_argument("--batch_size", type=int, default=512)
-parser.add_argument("--batch_size", type=int, default=32)
+parser.add_argument("--batch_size", type=int, default=512)
+#parser.add_argument("--batch_size", type=int, default=32)
 #parser.add_argument("--batch_size", type=int, default=128)
 
 #parser.add_argument("--memory_size", type=int, default=40000) #walker
 #parser.add_argument("--memory_size", type=int, default=100000) #walker
-parser.add_argument("--memory_size", type=int, default=20000)
-#parser.add_argument("--memory_size", type=int, default=50000)
+#parser.add_argument("--memory_size", type=int, default=20000)
+#parser.add_argument("--memory_size", type=int, default=20000)
+parser.add_argument("--memory_size", type=int, default=50000)
 
-parser.add_argument("--no_steps", type=int, default=210000)
+#parser.add_argument("--no_steps", type=int, default=180000)
+#parser.add_argument("--no_steps", type=int, default=150000)
 #parser.add_argument("--no_steps", type=int, default=360000)
 #parser.add_argument("--no_steps", type=int, default=230000)
+parser.add_argument("--no_steps", type=int, default=400000)
 
-#parser.add_argument("--max_episodes", type=int, default=1000)
-parser.add_argument("--max_episodes", type=int, default=200)
+
+parser.add_argument("--max_episodes", type=int, default=1000)
+#parser.add_argument("--max_episodes", type=int, default=200)
 #parser.add_argument("--max_episodes", type=int, default=1000)
 
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
@@ -117,10 +152,10 @@ parser.add_argument("--save_directory", type=str, default="models/native_SAC_cat
 
 
 #Hopper
-#change_varaiable_at = [1, 50000, 350000] #v3
+change_varaiable_at = [1, 50000, 350000] #v3
 #change_varaiable_at = [1, 100000, 500000, 600000, 700000]
 #change_varaiable = [0.75, 4.75, 8.75,  12.75, 16.75]
-#change_varaiable = [0.75, 4.75, 8.75]
+change_varaiable = [0.75, 4.75, 8.75]
 
 #pendulum
 #change_varaiable_at = [1, 20000, 120000]
@@ -132,6 +167,9 @@ parser.add_argument("--save_directory", type=str, default="models/native_SAC_cat
 #change_varaiable_at = [1, 50000, 350000]
 #change_varaiable = [1.0, 2.4, 3.8]
 
+#cartpole
+#change_varaiable_at = [1, 20000]
+#change_varaiable = [0.5, 10.5]
 
 #walker2D
 #change_varaiable_at = [1, 100000, 150000, 350000, 400000]
@@ -177,7 +215,7 @@ parser.add_argument("--save_directory", type=str, default="models/native_SAC_cat
 #change_varaiable = [4.4, 7.9, 11.4] #can work not sure try later
 
 
-
+"""
 change_varaiable_at = [1, 40000, 310000]
 #change_varaiable_at = [1, 20000, 120000]
 change_varaiable = [0.6, 2.6, 4.6]
@@ -195,6 +233,13 @@ change_varaiable = [(0.04, 0.5), (0.06, 1.0), (0.08, 1.5)]
 change_varaiable_at = [1, 20000, 180000]
 change_varaiable = [0.5, 5.5, 10.5]
 change_varaiable = [0.5, 10.5, 20.5]
+
+
+change_varaiable_at = [1, 75000, 425000]
+change_varaiable = [0.5, 1.5, 2.5]
+"""
+
+#change_varaiable = [1, 1.5, 2]
 c = 0
 args = parser.parse_args()
 print(args.algo + " , " + args.buffer_type)
@@ -217,7 +262,7 @@ if args.env_type == "classic_control":
 
         ini_env = env
 
-    elif args.env == "Cartpole-v0":
+    elif args.env == "Cartpole-v0" or args.env == "Cartpole-v0_masspole":
         env = CartPoleEnv()
         env_eval = CartPoleEnv()
 
@@ -381,12 +426,17 @@ for i in range(inital_step_no, args.no_steps):
     if i%1000==0:
         print(i)
 
-    if i%change_varaiable_at[c] == 0:
+    if i == change_varaiable_at[c]:
         # save_the_buffer
+        print("saving the replay memory")
         torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
 
         if args.env_type == "classic_control":
-            A.env.set_length(length=change_varaiable[c])
+            if args.env == "Cartpole-v0_masspole":
+                A.env.set_mass_pole(mass=change_varaiable[c])
+            else:
+                A.env.set_length(length=change_varaiable[c])
+
         elif args.env_type == "roboschool":
             A.env = env[c]
 
@@ -458,14 +508,18 @@ for i in range(inital_step_no, args.no_steps):
 
     if i%eval_interval==0:
         if args.env_type == "classic_control":
-
-            print("current variable = " + str(A.env.l))
+            if args.env == "Cartpole-v0_masspole":
+                print("current variable = " + str(A.env.m_p))
+            else:
+                print("current variable = " + str(A.env.l))
         elif args.env_type == "roboschool":
 
             if args.env == "ReacherPyBulletEnv-v0":
                 print("current variable = " + str(A.env.torque_factor))
-            elif args.env == "InvertedPendulumSwingupPyBulletEnv-v0" or args.env == "Walker2DPyBulletEnv-v0_len":
+            elif args.env == "InvertedPendulumSwingupPyBulletEnv-v0":
                 print("current variable = " + str(A.env.length))
+            elif args.env  == "Walker2DPyBulletEnv-v0_leg_len":
+                print("current variable = " + str(A.env.l_length))
             else:
                 print("current variable = " + str(A.env.power))
 

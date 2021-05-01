@@ -1,5 +1,5 @@
 import numpy as np
-from util.replay_buff_cur import Replay_Memory_Cur
+from util.new_replay_buffers.replay_buff_cur import Replay_Memory_Cur
 from util.new_replay_buffers.gradual.fifo_gradual_buffer import FIFO_Replay_Memory_Gradual
 import random
 from itertools import count

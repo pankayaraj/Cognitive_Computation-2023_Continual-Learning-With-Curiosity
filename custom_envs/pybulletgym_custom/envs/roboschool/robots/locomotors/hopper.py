@@ -45,7 +45,7 @@ class Hopper(WalkerBase, MJCFBasedRobot):
 
         root[3][0][4][1].set("fromto", self.from_to_t)
         root[3][0][4][0].set("pos", self.from_t)
-        root[3][0][4][0].set("size", self.thigh_size)
+        root[3][0][4][1].set("size", self.thigh_size)
 
         root[3][0][4][2][1].set("fromto", self.from_to_l)
         root[3][0][4][2][0].set("pos", self.from_l)

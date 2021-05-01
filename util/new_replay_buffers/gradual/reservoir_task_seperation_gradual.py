@@ -2,7 +2,7 @@ import numpy as np
 import heapq
 import random
 from itertools import count
-
+import torch
 class Transition_tuple():
 
     def __init__(self, state, action, action_mean, reward, curiosity, next_state, done_mask, t):
@@ -219,7 +219,14 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
 
         data = (state, action, action_mean, reward, curiosity, next_state, done_mask, tiebreaker)
         priority = random.uniform(0, 1)
-        #priority = curiosity.item()
+        """
+        if str(type(curiosity)) != torch.Tensor:
+            priority = curiosity
+        else:
+            priority = curiosity.item()
+        """
+
+
         if tiebreaker == None:
             tiebreaker = self.time
 

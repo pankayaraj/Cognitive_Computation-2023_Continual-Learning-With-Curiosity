@@ -1,5 +1,5 @@
 import numpy as np
-from util.replay_buffer import Replay_Memory
+from util.new_replay_buffers.replay_buffer import Replay_Memory
 from util.new_replay_buffers.gradual.custom_res import  Custom_Res
 import random
 from itertools import count

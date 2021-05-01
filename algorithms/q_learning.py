@@ -5,8 +5,9 @@ from parameters import NN_Paramters, Algo_Param, Save_Paths, Load_Paths
 import numpy as np
 from algorithms.epsilon_greedy import epsilon_greedy
 
-from util.replay_buffer import Replay_Memory
-from util.reservoir_with_fifo_replay_buffer_flow_through import Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer
+from util.new_replay_buffers.replay_buffer import Replay_Memory
+from util.new_replay_buffers.gradual.mtr.multi_time_scale_buffer import Multi_time_Scale_Buffer
+from util.new_replay_buffers.reservoir_with_fifo_replay_buffer_flow_through import Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer
 from util.new_replay_buffers.gradual.custom_hrf import Custom_HRF
 
 
@@ -52,6 +53,8 @@ class Q_learning():
 
         if buffer_type == "FIFO":
             self.replay_buffer = Replay_Memory(capacity=memory_capacity)
+        elif buffer_type == "MTR":
+            self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=5)
         elif buffer_type == "Half_Reservior_FIFO_with_FT":
             self.replay_buffer = Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
         elif buffer_type == "Custom":

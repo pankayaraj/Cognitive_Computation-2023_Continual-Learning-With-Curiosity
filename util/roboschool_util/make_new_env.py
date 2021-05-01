@@ -126,12 +126,12 @@ def make_array_env(change_variable, name):
             env[i].reset()
             env_eval[i].reset()
 
-        elif name == "Walker2DPyBulletEnv-v0_len":
+        elif name == "Walker2DPyBulletEnv-v0_leg_len":
 
             register(
                 id='Walker2DPyBulletEnv-v' + str(i+1),
                 entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.walker2d_env:Walker2DBulletEnv',
-                kwargs={'length': change_variable[i]},
+                kwargs={'leg_length': change_variable[i]},
                 max_episode_steps=1000,
                 reward_threshold=2500.0
             )

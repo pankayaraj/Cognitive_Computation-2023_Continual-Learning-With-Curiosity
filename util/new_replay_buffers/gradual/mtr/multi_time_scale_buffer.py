@@ -1,6 +1,7 @@
 import numpy as np
 from collections import deque
-from util.replay_buffer import Replay_Memory
+from util.new_replay_buffers.gradual.mtr.replay_buffer_mtr import Replay_Memory_MTR
+
 import random
 
 def proportional(nsample, buf_sizes):
@@ -19,7 +20,7 @@ def proportional(nsample, buf_sizes):
 
 class Transition_tuple():
 
-    def __init__(self, state, action, action_mean, reward, next_state, done_mask):
+    def __init__(self, state, action, action_mean, reward, next_state, done_mask, t):
         #expects as list of items for each initalization variable
         self.state = np.array(state)
         self.action = np.array(action)
@@ -27,10 +28,10 @@ class Transition_tuple():
         self.reward = np.array(reward)
         self.next_state = np.array(next_state)
         self.done_mask = np.array(done_mask)
+        self.t = np.array(t)
 
     def get_all_attributes(self):
-        return [self.state, self.action,  self.action_mean, self.reward, self.next_state, self.done_mask]
-
+        return [self.state, self.action,  self.action_mean, self.reward, self.next_state, self.done_mask, self.t]
 
 class Multi_time_Scale_Buffer():
 
@@ -46,7 +47,7 @@ class Multi_time_Scale_Buffer():
 
         self.buffers = []
         for i in range(self.no_buffers):
-            self.buffers.append(Replay_Memory(self.max_size_per_buffer))
+            self.buffers.append(Replay_Memory_MTR(self.max_size_per_buffer))
         if self.no_waste:
             self.overflow_buffer = deque(maxlen=self.max_size)
 
@@ -66,9 +67,9 @@ class Multi_time_Scale_Buffer():
 
     def push(self, state, action, action_mean, reward, next_state, done_mask):
         self.count += 1
-        data = (state, action, action_mean, reward, next_state, done_mask)
+        data = (state, action, action_mean, reward, next_state, done_mask, self.count)
 
-        popped_data = self.buffers[0].push(state, action, action_mean, reward, next_state, done_mask)
+        popped_data = self.buffers[0].push(state, action, action_mean, reward, next_state, done_mask, self.count)
 
         for i in range(1, self.no_buffers):
             if popped_data == None:
@@ -86,7 +87,7 @@ class Multi_time_Scale_Buffer():
             self.overflow_buffer.pop()
 
     def encode_sample(self, indices):
-        state, action, action_mean, reward, next_state, done_mask = [], [], [], [], [], []
+        state, action, action_mean, reward, next_state, done_mask, time = [], [], [], [], [], [], []
 
         if self.no_waste:
             assert len(indices) == self.no_buffers + 1
@@ -100,21 +101,24 @@ class Multi_time_Scale_Buffer():
                 else:
                     data = self.buffers[buff_i -1].storage[i]
 
-                s, a, a_m, r, n_s, d = data
+                s, a, a_m, r, n_s, d, t = data
                 state.append(s)
                 action.append(a)
                 action_mean.append(a_m)
                 reward.append(r)
                 next_state.append(n_s)
                 done_mask.append(d)
+                time.append(t)
 
-        return state, action, action_mean, reward, next_state, done_mask
+        return state, action, action_mean, reward, next_state, done_mask, time
 
     def get_sample_indices(self, batch_size):
         buff_len = [len(buff) for buff in self.buffers]
+
         if self.no_waste:
             buff_len.insert(0, len(self.overflow_buffer))
-
+        #print(len(self.overflow_buffer))
+        #print(buff_len)
         buff_batch_size = proportional(batch_size, buff_len)
         indices = [np.random.choice(buff_len[i], buff_batch_size[i]) for i in range(len(buff_len))]
 
@@ -122,7 +126,7 @@ class Multi_time_Scale_Buffer():
 
     def sample(self, batch_size):
         indices = self.get_sample_indices(batch_size)
-        state, action, action_mean, reward, next_state, done_mask = self.encode_sample(indices)
-        return Transition_tuple(state, action, action_mean, reward, next_state, done_mask)
+        state, action, action_mean, reward, next_state, done_mask, time = self.encode_sample(indices)
+        return Transition_tuple(state, action, action_mean, reward, next_state, done_mask, time)
 
 

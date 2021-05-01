@@ -1,6 +1,6 @@
 import numpy as np
-from util.replay_buff_cur import Replay_Memory_Cur
-from util.gradual_penalized_cur.custom_res import Custom_Res
+from util.new_replay_buffers.replay_buff_cur import Replay_Memory_Cur
+from util.old_buffers.gradual_penalized_cur.reservoir_task_seperation_gradual import Reservoir_Task_Seperation_Replay_Memory_Gradual
 import random
 from itertools import count
 
@@ -20,10 +20,10 @@ class Transition_tuple():
     def get_all_attributes(self):
         return [self.state, self.action,  self.action_mean, self.reward, self.curiosity, self.next_state, self.done_mask, self.t]
 
-class Custom_HRF():
+class Half_Reservoir_Flow_Through_w_Cur_Gradual():
 
     def __init__(self, capacity=10000, curisoity_buff_frac = 0.34, seperate_cur_buffer=True,
-                 fifo_fac = 0.05, avg_len_snr=600, repetition_threshold=30000, snr_factor=2.0, change_at = [100000, 350000]):
+                 fifo_fac = 0.05, avg_len_snr=2000, repetition_threshold=30000, snr_factor=0.5):
         assert (fifo_fac > 0) and (fifo_fac < 1)
         self.fifo_frac = fifo_fac
         self.fifo_capacity = int(capacity*fifo_fac)
@@ -33,9 +33,9 @@ class Custom_HRF():
         self.seperate_cur_buffer = seperate_cur_buffer
 
         self.fifo_buffer = Replay_Memory_Cur(capacity=self.fifo_capacity)
-        self.reservior_buffer = Custom_Res(capacity=self.reservior_capacity,
+        self.reservior_buffer = Reservoir_Task_Seperation_Replay_Memory_Gradual(capacity=self.reservior_capacity,
                                                                      avg_len_snr=avg_len_snr, repetition_threshold=repetition_threshold,
-                                                                     snr_factor=snr_factor, change_at=change_at
+                                                                     snr_factor=snr_factor,
                                                                      )
 
         self.t = 0
@@ -97,3 +97,22 @@ class Custom_HRF():
 
     def __len__(self):
         return len(self.fifo_buffer) + len(self.reservior_buffer)
+
+    # individual
+
+    def sample_individual(self, batch_size, factor=0.7):
+
+        fifo_batch_size = int(factor * batch_size)
+        res_batch_size = batch_size - fifo_batch_size
+        data_tuples = []
+
+        data_tuples += self.reservior_buffer.sample_individual(batch_size=res_batch_size)
+
+        if len(data_tuples) == 0:
+            fifo_batch_size = batch_size
+
+        data_tuples.append(self.fifo_buffer.sample(fifo_batch_size))
+
+        return data_tuples
+
+
