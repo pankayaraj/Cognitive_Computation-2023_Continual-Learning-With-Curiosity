@@ -16,7 +16,10 @@ class Q_learning_w_cur_buf():
     def __init__(self, env, q_nn_param,  icm_nn_param, algo_param, max_episodes =100, memory_capacity =50000,
                  batch_size=32, save_path = Save_Paths(), load_path= Load_Paths(), buffer_type = "FIFO",
                  update_curiosity_from_fifo=True, fifo_frac=0.34, no_cur_network=1,
-                 reset_cur_on_task_change=True, reset_alpha_on_task_change=True,  tau=0.005
+                 reset_cur_on_task_change=True, reset_alpha_on_task_change=True,  tau=0.005,
+                 fow_cur_w=0.0, inv_cur_w=1.0, rew_cur_w=0.0,
+                 n_k=600, l_k=8000, m_k=1.5,
+                 priority="uniform"
                  ):
 
         self.state_dim = q_nn_param.state_dim
@@ -27,7 +30,7 @@ class Q_learning_w_cur_buf():
         self.max_episodes = max_episodes
 
         self.replay_buffer_type = buffer_type
-
+        self.priority = priority
 
         self.update_curiosity_from_fifo = update_curiosity_from_fifo
         self.reset_cur_on_task_change = reset_cur_on_task_change
@@ -89,14 +92,18 @@ class Q_learning_w_cur_buf():
             self.replay_buffer = Replay_Memory_Cur(capacity=memory_capacity)
         elif buffer_type == "Half_Reservior_FIFO_with_FT":
             self.replay_buffer = Half_Reservoir_Flow_Through_w_Cur_Gradual(capacity=memory_capacity, curisoity_buff_frac=0.34, seperate_cur_buffer=True,
-                                                                          fifo_fac=fifo_frac)
+                                                                          fifo_fac=fifo_frac,
+                                                                           avg_len_snr=n_k, repetition_threshold=l_k, snr_factor=m_k,
+                                                                           priority=priority)
 
 
         self.memory_capacity = memory_capacity
         self.batch_size = batch_size
         self.env = env
 
-
+        self.fow_cur_w = fow_cur_w
+        self.inv_cur_w = inv_cur_w
+        self.rew_cur_w = rew_cur_w
         self.update_no = 0
 
     def save(self, critic_path="critic",
@@ -145,23 +152,25 @@ class Q_learning_w_cur_buf():
 
         curiosity = 0
         for i in range(self.no):
-            # p_next_state = self.icm_next_state[i].get_next_state(state, action)
+            p_next_state = self.icm_next_state[i].get_next_state(state, action)
             p_action = self.icm_action[i].get_action(state, next_state)
             p_reward = self.icm_reward[i].get_reward(state, action)
 
             with torch.no_grad():
-                # f_icm_r = torch.nn.functional.mse_loss(p_next_state,torch.Tensor(next_state).to(self.icm_nn_param.device)).cpu().detach().numpy()
+                f_icm_r = torch.nn.functional.mse_loss(p_next_state,torch.Tensor(next_state).to(self.icm_nn_param.device)).cpu().detach().numpy()
                 i_icm_r = torch.nn.functional.mse_loss(p_action, torch.Tensor(action).to(
                     self.icm_nn_param.device)).cpu().detach().numpy()
 
                 r_icm_r = torch.nn.functional.mse_loss(p_reward,
                                                        torch.FloatTensor([reward]).to(self.icm_nn_param.device))
 
+
             self.icm_i_r[i].append(i_icm_r.item())
             self.icm_r[i].append(r_icm_r.item())
 
-            curiosity += 1.0 * i_icm_r.item() / self.no
-            curiosity += 1.0 * r_icm_r.item() / self.no
+            curiosity += self.fow_cur_w * f_icm_r.item() / self.no
+            curiosity += self.inv_cur_w * i_icm_r.item() / self.no
+            curiosity += self.rew_cur_w * r_icm_r.item() / self.no
 
 
         self.time_step += 1
@@ -302,17 +311,17 @@ class Q_learning_w_cur_buf():
         pred_action = self.icm_action[index].get_action(non_final_states, non_final_next_states, format="torch")
         pred_reward = self.icm_reward[index].get_reward(non_final_states, non_final_action, format="torch")
 
-        #icm_next_state_loss = 0.5 * torch.nn.functional.mse_loss(pred_next_state,
-        #                                                         non_final_next_states)
+        icm_next_state_loss = 0.5 * torch.nn.functional.mse_loss(pred_next_state,
+                                                                non_final_next_states)
 
         icm_action_loss = 0.5 * torch.nn.functional.mse_loss(pred_action, non_final_action).to(self.icm_nn_param.device)
 
         icm_reward_loss = 0.5 * torch.nn.functional.mse_loss(pred_reward, non_final_reward).to(self.icm_nn_param.device)
 
 
-        #self.icm_next_state_optim[index].zero_grad()
-        #icm_next_state_loss.backward()
-        #self.icm_next_state_optim[index].step()
+        self.icm_next_state_optim[index].zero_grad()
+        icm_next_state_loss.backward()
+        self.icm_next_state_optim[index].step()
 
         self.icm_action_optim[index].zero_grad()
         icm_action_loss.backward()

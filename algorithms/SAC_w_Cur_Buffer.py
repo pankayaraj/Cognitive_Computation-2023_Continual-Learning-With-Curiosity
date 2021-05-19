@@ -39,10 +39,15 @@ class SAC_with_Curiosity_Buffer():
     def __init__(self, env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes =100, memory_capacity =10000,
                  batch_size=400, save_path = Save_Paths(), load_path= Load_Paths(), action_space = None, alpha_lr=0.0003,
                  debug=Debug(), buffer_type = "Reservior", update_curiosity_from_fifo = True, fifo_frac=0.34, no_cur_network=5,
-                 reset_cur_on_task_change=True, reset_alpha_on_task_change=True, change_at = [100000, 350000]):
+                 reset_cur_on_task_change=True, reset_alpha_on_task_change=True, change_at = [100000, 350000],
+                 fow_cur_w = 0.0, inv_cur_w = 1.0, rew_cur_w = 0.0,
+                 n_k=600, l_k=8000, m_k=1.5,
+                 priority = "uniform"):
 
         self.env = env
         self.device = q_nn_param.device
+
+        self.priority = priority
 
         self.q_nn_param = q_nn_param
         self.policy_nn_param = policy_nn_param
@@ -105,6 +110,10 @@ class SAC_with_Curiosity_Buffer():
 
         self.alpha_history = []
 
+        self.fow_cur_w = fow_cur_w
+        self.inv_cur_w = inv_cur_w
+        self.rew_cur_w = rew_cur_w
+
         """
         self.icm_nxt_state = ICM_Next_State_NN(icm_nn_param, save_path.icm_n_state_path, load_path.icm_n_state_path)
         self.icm_action = ICM_Action_NN(icm_nn_param, save_path.icm_action_path, load_path.icm_action_path)
@@ -158,7 +167,9 @@ class SAC_with_Curiosity_Buffer():
             #self.replay_buffer = Half_Reservoir_Cur_n_SNR_FIFO_Flow_Through_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
             #self.replay_buffer = Half_Reservoir_Flow_Through_w_Cur(capacity=memory_capacity,fifo_fac=fifo_frac)
             self.replay_buffer = Half_Reservoir_Flow_Through_w_Cur_Gradual(capacity=memory_capacity, curisoity_buff_frac=0.34, seperate_cur_buffer=True,
-                                                                          fifo_fac=fifo_frac)
+                                                                          fifo_fac=fifo_frac,
+                                                                          avg_len_snr=n_k, repetition_threshold=l_k, snr_factor=m_k,
+                                                                           priority=priority)
 
 
         #this is the all fifo task seperation buffer. Implementation not done finally
@@ -439,18 +450,18 @@ class SAC_with_Curiosity_Buffer():
         pred_action = self.icm_action[index].get_action(state_batch, next_state_batch, format="torch")
         pred_reward = self.icm_reward[index].get_reward(state_batch, action_batch, format="torch")
 
-        #icm_next_state_loss = 0.5 * torch.nn.functional.mse_loss(pred_next_state,
-        #                                                         torch.FloatTensor(next_state_batch).to(
-        #                                                             self.icm_nn_param.device))
+        icm_next_state_loss = 0.5 * torch.nn.functional.mse_loss(pred_next_state,
+                                                                torch.FloatTensor(next_state_batch).to(
+                                                                    self.icm_nn_param.device))
 
         icm_action_loss = 0.5 * torch.nn.functional.mse_loss(pred_action, torch.FloatTensor(action_batch).to(self.icm_nn_param.device))
 
         icm_reward_loss = 0.5 * torch.nn.functional.mse_loss(pred_reward, reward_batch).to(self.icm_nn_param.device)
 
 
-        #self.icm_next_state_optim[index].zero_grad()
-        #icm_next_state_loss.backward()
-        #self.icm_next_state_optim[index].step()
+        self.icm_next_state_optim[index].zero_grad()
+        icm_next_state_loss.backward()
+        self.icm_next_state_optim[index].step()
 
         self.icm_action_optim[index].zero_grad()
         icm_action_loss.backward()
@@ -473,25 +484,23 @@ class SAC_with_Curiosity_Buffer():
         curiosity = 0
         for i in range(self.no):
 
-            #p_next_state = self.icm_next_state[i].get_next_state(state, action)
+            p_next_state = self.icm_next_state[i].get_next_state(state, action)
             p_action = self.icm_action[i].get_action(state, next_state)
             p_reward = self.icm_reward[i].get_reward(state, action)
 
 
             with torch.no_grad():
-                #f_icm_r = torch.nn.functional.mse_loss(p_next_state,torch.Tensor(next_state).to(self.icm_nn_param.device)).cpu().detach().numpy()
+                f_icm_r = torch.nn.functional.mse_loss(p_next_state,torch.Tensor(next_state).to(self.icm_nn_param.device)).cpu().detach().numpy()
                 i_icm_r = torch.nn.functional.mse_loss(p_action, torch.Tensor(action).to(self.icm_nn_param.device)).cpu().detach().numpy()
-
                 r_icm_r = torch.nn.functional.mse_loss(p_reward, torch.FloatTensor([reward]).to(self.icm_nn_param.device))
 
 
-            #self.icm_f_r[i].append(f_icm_r.item())
+            self.icm_f_r[i].append(f_icm_r.item())
             self.icm_i_r[i].append(i_icm_r.item())
             self.icm_r[i].append(r_icm_r.item())
 
-
             #pendulum , hopper
-            # curiosity += i_icm_r.item()/self.no
+            #curiosity += i_icm_r.item()/self.no
 
             #walker2D
             #curiosity += i_icm_r.item()/self.no
@@ -502,11 +511,17 @@ class SAC_with_Curiosity_Buffer():
             #curiosity += 1.0 * r_icm_r.item() / self.no #halfcheetah
 
             # hopper leg
-            curiosity += 1.0 * i_icm_r.item() / self.no
-            curiosity += 1.0 * r_icm_r.item() / self.no  # halfcheetah
-
+            #curiosity += 1.0 * i_icm_r.item() / self.no
+            #curiosity += 1.0 * r_icm_r.item() / self.no  # halfcheetah
 
             #curiosity += r_icm_r.item()/ self.no
+
+
+            curiosity += self.fow_cur_w*f_icm_r.item() / self.no
+            curiosity += self.inv_cur_w*i_icm_r.item() / self.no
+            curiosity += self.rew_cur_w*r_icm_r.item() / self.no
+
+
 
         self.steps_done += 1
         self.steps_per_eps += 1

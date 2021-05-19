@@ -54,7 +54,7 @@ class Q_learning():
         if buffer_type == "FIFO":
             self.replay_buffer = Replay_Memory(capacity=memory_capacity)
         elif buffer_type == "MTR":
-            self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=5)
+            self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=2)
         elif buffer_type == "Half_Reservior_FIFO_with_FT":
             self.replay_buffer = Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
         elif buffer_type == "Custom":
