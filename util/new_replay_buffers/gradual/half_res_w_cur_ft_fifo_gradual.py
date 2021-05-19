@@ -22,8 +22,9 @@ class Transition_tuple():
 
 class Half_Reservoir_Flow_Through_w_Cur_Gradual():
 
-    def __init__(self, capacity=10000, curisoity_buff_frac = 0.34, seperate_cur_buffer=True,
-                 fifo_fac=0.05, avg_len_snr=600, repetition_threshold=8000, snr_factor=10 ,snr_fac_secondary=2.5):  # cartpole
+    def __init__(self, capacity=10000, curisoity_buff_frac = 0.34, seperate_cur_buffer=True,  priority = "uniform",
+                 fifo_fac=0.05, avg_len_snr=600, repetition_threshold=8000, snr_factor=1.5, snr_fac_secondary=2.5):  # pendulum
+                 #fifo_fac=0.05, avg_len_snr=600, repetition_threshold=8000, snr_factor=10 ,snr_fac_secondary=2.5):  # cartpole
                  #fifo_fac=0.05, avg_len_snr=2000, repetition_threshold=12000, snr_factor=2.0,snr_fac_secondary=2.5):  # hopperleg
                  #fifo_fac = 0.05, avg_len_snr=3000, repetition_threshold=30000, snr_factor=0.5, snr_fac_secondary = 2.5): #halfcheetah
         #fifo_fac = 0.05, avg_len_snr = 2000, repetition_threshold = 30000, snr_factor = 0.2, snr_fac_secondary = 2.5): #walker2d
@@ -39,10 +40,12 @@ class Half_Reservoir_Flow_Through_w_Cur_Gradual():
         self.fifo_buffer = Replay_Memory_Cur(capacity=self.fifo_capacity)
         self.reservior_buffer = Reservoir_Task_Seperation_Replay_Memory_Gradual(capacity=self.reservior_capacity,
                                                                      avg_len_snr=avg_len_snr, repetition_threshold=repetition_threshold,
-                                                                     snr_factor=snr_factor, snr_factor_secondary=snr_fac_secondary
+                                                                     snr_factor=snr_factor, snr_factor_secondary=snr_fac_secondary,
+                                                                    priority=priority
                                                                      )
 
         self.t = 0
+
 
 
     def push(self, state, action, action_mean, reward, curiosity, next_state, done_mask):
@@ -70,19 +73,18 @@ class Half_Reservoir_Flow_Through_w_Cur_Gradual():
         s1, a1, a_m1, r1, c1, n_s1, d1 = self.fifo_buffer.encode_sample(fifo_indices)
         s2, a2, a_m2, r2, c2, n_s2, d2, t2 = self.reservior_buffer.encode_sample(reservior_indices)
 
-
-        state = state + s1 + s2
-        action = action + a1 + a2
-        action_mean = action_mean + a_m1 + a_m2
-        reward = reward + r1 + r2
-        curiosity = curiosity + c1 + c2
-        next_state = next_state + n_s1 + n_s2
-        done_mask = done_mask + d1 + d2
+        #conveniently_added_fifo buffer data at the end to facilitate split in case if IRM
+        state = state  + s2 + s1
+        action = action + a2 + a1
+        action_mean = action_mean + a_m2 + a_m1
+        reward = reward + r2 + r1
+        curiosity = curiosity + c2 + c1
+        next_state = next_state + n_s2 + n_s1
+        done_mask = done_mask + d2 + d1
 
         return state, action, action_mean, reward, curiosity, next_state, done_mask
 
     def get_sample_indices(self, batch_size):
-
 
         fifo_batch_size = int(batch_size * self.fifo_frac)
         reservoir_batch_size = batch_size - fifo_batch_size
@@ -98,6 +100,11 @@ class Half_Reservoir_Flow_Through_w_Cur_Gradual():
 
         return fifo_indices, reservoir_indices
 
+    def get_all_buff_sizes(self):
+        res_cap = self.reservior_buffer.get_all_buff_sizes()
+        buff_sizes = res_cap.insert(0, len(self.fifo_buffer))
+
+        return buff_sizes
 
     def __len__(self):
         return len(self.fifo_buffer) + len(self.reservior_buffer)

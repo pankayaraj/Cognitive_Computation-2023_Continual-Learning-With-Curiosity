@@ -56,7 +56,13 @@ class FIFO_Replay_Memory_Gradual():
         self.BOOL = []
         self.max = 0
 
+        self.task_seperation_initiated = False
+
+
     def task_change(self):
+
+        self.task_seperation_initiated = True
+
         l = []
         for  b in self.storage:
             l.append(len(b))
@@ -160,7 +166,7 @@ class FIFO_Replay_Memory_Gradual():
         state, action, action_mean, reward, curiosity, next_state, done_mask, t_array = [], [], [], [], [], [], [], []
         for (j,idxs) in enumerate(indices[:-1]):
             for i in idxs:
-                if j == len(indices)-1:
+                if j == 0:
                     data = self.residual_buffer[i][2]
                 else:
                     data = self.storage[j][i][2]
@@ -196,9 +202,9 @@ class FIFO_Replay_Memory_Gradual():
         #for residual buffer
         buff = self.residual_buffer
         if len(buff) != 0:
-            indices.append(np.random.choice(len(buff), batch_sizes[-1]))
+            indices.insert(0, np.random.choice(len(buff), batch_sizes[-1]))
         else:
-            indices.append(np.array([]))
+            indices.insert(0, np.array([]))
 
 
         return indices

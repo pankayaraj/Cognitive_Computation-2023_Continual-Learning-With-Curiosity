@@ -79,12 +79,18 @@ class Multi_time_Scale_Buffer():
                     popped_data = self.buffers[i].push(*popped_data)
                 elif self.no_waste:
                     self.overflow_buffer.appendleft(popped_data)
+                    break
                 else:
                     break
 
 
         if self.no_waste and (self.count > self.max_size) and (len(self.overflow_buffer) != 0):
             self.overflow_buffer.pop()
+
+
+
+
+
 
     def encode_sample(self, indices):
         state, action, action_mean, reward, next_state, done_mask, time = [], [], [], [], [], [], []
@@ -123,6 +129,14 @@ class Multi_time_Scale_Buffer():
         indices = [np.random.choice(buff_len[i], buff_batch_size[i]) for i in range(len(buff_len))]
 
         return indices
+
+    def get_all_buff_sizes(self):
+        buff_len = [len(buff) for buff in self.buffers]
+
+        if self.no_waste:
+            buff_len.insert(0, len(self.overflow_buffer))
+
+        return buff_len
 
     def sample(self, batch_size):
         indices = self.get_sample_indices(batch_size)

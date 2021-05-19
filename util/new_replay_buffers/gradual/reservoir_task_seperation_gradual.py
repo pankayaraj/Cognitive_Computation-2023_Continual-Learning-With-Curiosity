@@ -23,7 +23,7 @@ class Transition_tuple():
 class Reservoir_Task_Seperation_Replay_Memory_Gradual():
 
     def __init__(self, capacity=10000, avg_len_snr=60, repetition_threshold=30000,
-                 snr_factor=3, snr_factor_secondary=3.0 ):
+                 snr_factor=3, snr_factor_secondary=3.0, priority = "uniform" ):
         self.capacity = capacity
         self.storage = [[]]
         self.residual_buffer = []
@@ -40,6 +40,8 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         self.snr_factor = snr_factor
         self.last_spike_since = 0
         self.repetition_threshold = repetition_threshold
+
+        self.priority = priority
 
         self.avg_len_snr_sec = avg_len_snr
         self.snr_factor_secondary = snr_factor_secondary
@@ -71,7 +73,11 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         self.t_c_limit = 5000
         self.t_c_counter = 0
 
+        self.task_seperation_initiated = False
+        self.split_indices = []
+
     def task_change(self):
+        self.task_seperation_initiated = True
         l = []
         for  b in self.storage:
             l.append(len(b))
@@ -218,13 +224,14 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
 
 
         data = (state, action, action_mean, reward, curiosity, next_state, done_mask, tiebreaker)
-        priority = random.uniform(0, 1)
-        """
-        if str(type(curiosity)) != torch.Tensor:
-            priority = curiosity
-        else:
-            priority = curiosity.item()
-        """
+
+        if self.priority == "uniform":
+            priority = random.uniform(0, 1)
+        elif self.priority == "curiosity":
+            if str(type(curiosity)) != torch.Tensor:
+                priority = curiosity
+            else:
+                priority = curiosity.item()
 
 
         if tiebreaker == None:
@@ -266,7 +273,7 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         state, action, action_mean, reward, curiosity, next_state, done_mask, t_array = [], [], [], [], [], [], [], []
         for (j,idxs) in enumerate(indices[:-1]):
             for i in idxs:
-                if j == len(indices)-1:
+                if j == 0:
                     data = self.residual_buffer[i][2]
                 else:
                     data = self.storage[j][i][2]
@@ -301,14 +308,24 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         #for residual buffer
         buff = self.residual_buffer
         if len(buff) != 0:
-            indices.append(np.random.choice(len(buff), batch_sizes[-1]))
+            indices.insert(0, np.random.choice(len(buff), batch_sizes[-1]))
         else:
-            indices.append(np.array([]))
+            indices.insert(0, np.array([]))
+
+        #indices at which we can beform task split for IRM
+        #(including the residual buffer, so u may ignore it)
+        self.split_indices = []
+        curr_index = 0
+        for i in range(len(self.storage)):
+            curr_index = curr_index + len(indices[i])
+            self.split_indices.append(curr_index)
 
 
         return indices
 
-
+    def get_all_buff_sizes(self):
+        buff_size = [len(buff) for buff in self.storage]
+        return buff_size
 
     def get_proportion(self):
         size = self.__len__()
