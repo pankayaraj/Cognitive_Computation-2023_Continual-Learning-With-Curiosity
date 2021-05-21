@@ -19,6 +19,7 @@ from util.new_replay_buffers.replay_buff_cur import Replay_Memory_Cur
 
 from util.new_replay_buffers.gradual.half_res_w_cur_ft_fifo_gradual import Half_Reservoir_Flow_Through_w_Cur_Gradual
 from util.new_replay_buffers.gradual.ft_fifo_gradual_w_cur import FIFO_w_Cur_Gradual
+from util.new_replay_buffers.gradual.custom_hrf import Custom_HRF #Custom for enviornment definition,not used in final results, just to debug
 
 
 class Debug():
@@ -35,28 +36,31 @@ class Debug():
               + ", " + str(self.i_icm_r.item()))
 
 
-class SAC_with_Curiosity_Buffer():
+class SAC_with_IRM_Curiosity_Buffer():
 
     def __init__(self, env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes=100,
                  memory_capacity=10000,
                  batch_size=400, save_path=Save_Paths(), load_path=Load_Paths(), action_space=None, alpha_lr=0.0003,
                  debug=Debug(), buffer_type="Reservior", update_curiosity_from_fifo=True, fifo_frac=0.34,
                  no_cur_network=5,
-                 reset_cur_on_task_change=True, reset_alpha_on_task_change=True, change_at=[100000, 350000],
+                 reset_cur_on_task_change=True, reset_alpha_on_task_change=True, change_at=[3000, 350000],
                  fow_cur_w=0.0, inv_cur_w=1.0, rew_cur_w=0.0,
                  n_k=600, l_k=8000, m_k=1.5,
-                 priority="uniform", irm_coff_policy=1.0, irm_coff_critic=1.0):
+                 priority="uniform",
+                 irm_coff_policy=1.0, irm_coff_critic=1.0, irm_on_policy=True, irm_on_critic=False):
 
         self.env = env
         self.device = q_nn_param.device
 
         #IRM stuff
+        #since curioisty is updated from fifo buffer don't need to do IRM on curioisty
         self.irm_coff_policy = irm_coff_policy
         self.irm_coff_critic = irm_coff_critic
-
+        self.irm_on_policy = irm_on_policy
+        self.irm_on_critic = irm_on_critic
         #dummy w evaluated at 1.0
-        self.dummy_polciy = torch.nn.Parameter ( torch . Tensor ([1.0]))
-        self.dummy_critic = torch.nn.Parameter ( torch . Tensor ([1.0]))
+        self.dummy_polciy = torch.nn.Parameter ( torch . Tensor ([1.0]).to(self.device))
+        self.dummy_critic = torch.nn.Parameter ( torch . Tensor ([1.0]).to(self.device))
 
         self.priority = priority
 
@@ -161,6 +165,10 @@ class SAC_with_Curiosity_Buffer():
         elif buffer_type == "FIFO_FT":
             self.replay_buffer = FIFO_w_Cur_Gradual(capacity=memory_capacity, fifo_fac=fifo_frac)
 
+        elif buffer_type == "Custom":  #this is for debug purposes alone
+            self.replay_buffer = Custom_HRF(capacity=memory_capacity, fifo_fac=fifo_frac, change_at = change_at)
+
+
         self.debug = debug
 
         self.change_var_at = change_at
@@ -220,13 +228,18 @@ class SAC_with_Curiosity_Buffer():
         reward_batch = torch.FloatTensor(batch.reward).unsqueeze(1).to(self.q_nn_param.device)
         done_mask_batch = torch.FloatTensor(batch.done_mask).unsqueeze(1).to(self.q_nn_param.device)
 
+
+        #SPLIT INDEX FOR IRM
         #two things to consider here:
         #1. Consider the FIFO buffer data with that of the lastest buffer
         #2. Ignore residual buffer as it contains the residues from all other buffers, so can't be considered as data from a task
+        if self.irm_on_policy and self.replay_buffer.reservior_buffer.task_seperation_initiated:
+            self.split_sizes = self.replay_buffer.split_sizes
 
-        self.split_indices = self.replay_buffer.reservior_buffer.split_indices
-        self.split_indices = self.split_indices[:-1] #therefore last split is fifo + current buffer
-        # ignore the first split residual buffer (since it's the data that's added first)
+
+            self.split_sizes[-2] = self.split_sizes[-2] + self.split_sizes[-1]  #adding FIFO size to that of the current buffer
+            self.split_sizes = self.split_sizes[:-1] #ignore the fifo buffer size which is now added to that of current buffer
+            # ignore the first split residual buffer (since it's the data that's added first)
 
 
         # critic update
@@ -284,6 +297,7 @@ class SAC_with_Curiosity_Buffer():
                     self.update_curiosity(fifo_batch, index=i)
 
         # policy update
+
         pi, log_pi, pi_m = self.policy.sample(state_batch)
 
         # alpha update
@@ -312,6 +326,35 @@ class SAC_with_Curiosity_Buffer():
         min_q_pi = torch.min(q1_pi, q2_pi)
 
         policy_loss = ((self.alpha * log_pi) - min_q_pi).mean()
+
+        #do the irm only when the buffers are split (task_seperation_initiated)
+        if self.irm_on_policy and self.replay_buffer.reservior_buffer.task_seperation_initiated:
+            #irm policy loss
+            irm_log_pi = self.policy.sample_log_prob_for_IMR(dummy_w=self.dummy_polciy)
+
+            #print(irm_log_pi.size(), min_q_pi.size())
+            #print(self.split_sizes)
+            #print(self.replay_buffer.reservior_buffer.debug, self.update_no)
+
+            unreduced_irm_policy_loss = ((self.alpha * irm_log_pi) - min_q_pi)
+            #print(unreduced_irm_policy_loss)
+
+            unreduced_irm_policy_loss_by_buffer = unreduced_irm_policy_loss.split(self.split_sizes)[1:]
+            #unreduced_irm_policy_loss_by_buffer = torch.split(unreduced_irm_policy_loss, self.split_indices)[1:]
+
+            grad_norm_irm_by_buffer = [torch.square(torch.autograd.grad(split.mean(), self.dummy_polciy, create_graph=True)[0])
+                                       for split in unreduced_irm_policy_loss_by_buffer]
+
+            #policy_irm_loss = self.irm_coff_policy*torch.mean(grad_norm_irm_by_buffer)
+            policy_irm_loss = self.irm_coff_policy * torch.stack(grad_norm_irm_by_buffer).sum()
+
+            policy_loss += policy_irm_loss
+
+
+
+
+
+
 
         self.policy_optim.zero_grad()
         policy_loss.backward()
@@ -511,20 +554,30 @@ class SAC_with_Curiosity_Buffer():
 
         if done:
             mask = 0.0
-            self.replay_buffer.push(state, action, action_mean, reward, curiosity, next_state, mask)
+            if self.replay_buffer_type == "Custom":
+                self.replay_buffer.push(state, action, action_mean, reward, next_state, mask)
+            else:
+                self.replay_buffer.push(state, action, action_mean, reward, curiosity, next_state, mask)
+
             next_state = self.env.reset()
             self.steps_per_eps = 0
             return next_state
 
         if self.steps_per_eps == self.max_episodes:
             mask = 1.0
-            self.replay_buffer.push(state, action, action_mean, reward, curiosity, next_state, mask)
+            if self.replay_buffer_type == "Custom":
+                self.replay_buffer.push(state, action, action_mean, reward, next_state, mask)
+            else:
+                self.replay_buffer.push(state, action, action_mean, reward, curiosity, next_state, mask)
             next_state = self.env.reset()
             self.steps_per_eps = 0
             return next_state
         mask = 1.0
 
-        self.replay_buffer.push(state, action, action_mean, reward, curiosity, next_state, mask)
+        if self.replay_buffer_type == "Custom":
+            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask)
+        else:
+            self.replay_buffer.push(state, action, action_mean, reward, curiosity, next_state, mask)
 
         return next_state
 

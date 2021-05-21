@@ -13,7 +13,7 @@ from util.new_replay_buffers.replay_buffer import Replay_Memory #FIFO
 #from util.reservoir_with_fifo_replay_buffer import Reservoir_with_FIFO_Replay_Buffer
 from util.new_replay_buffers.gradual.mtr.multi_time_scale_buffer import Multi_time_Scale_Buffer
 from util.new_replay_buffers.reservoir_with_fifo_replay_buffer_flow_through import Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer #HRF
-from util.new_replay_buffers.gradual.custom_hrf import Custom_HRF #Custom for enviornment definition
+from util.new_replay_buffers.gradual.custom_hrf import Custom_HRF #Custom for enviornment definition,not used in final results, just to debug
 
 class SAC():
 

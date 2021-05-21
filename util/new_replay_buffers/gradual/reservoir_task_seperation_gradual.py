@@ -74,10 +74,11 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         self.t_c_counter = 0
 
         self.task_seperation_initiated = False
-        self.split_indices = []
+
+        self.split_sizes = [0]
 
     def task_change(self):
-        self.task_seperation_initiated = True
+
         l = []
         for  b in self.storage:
             l.append(len(b))
@@ -105,6 +106,7 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         self.storage.append([])
 
 
+
     def check_for_task_change(self, curiosity):
 
         self.time = next(self.tiebreaker)  # both tiebreaker and timing is solved
@@ -114,11 +116,6 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
 
         if self.time < self.avg_len_snr:
             self.curisoity_time_frame[self.time] = cur
-
-            #if self.t_c_counter > self.t_c_limit:
-            #    self.t_c = False
-            #else:
-            #    self.t_c_counter += 1
 
         else:
             self.curisoity_time_frame.pop(0)
@@ -136,22 +133,8 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
                 if self.last_spike_since > self.repetition_threshold:
                     self.task_change()
 
-                    #self.t_c = True
-                    #self.t_c_limit = 0
-
-                #else:
-                    #if self.t_c_counter > self.t_c_limit:
-                    #    self.t_c = False
-                    #else:
-                    #    self.t_c_counter += 1
-
                 self.last_spike_since = 0
             else:
-
-                #if self.t_c_counter > self.t_c_limit:
-                #    self.t_c = False
-                #else:
-                #    self.t_c_counter += 1
 
 
                 self.BOOL.append(0.0)
@@ -162,7 +145,7 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
             self.STD.append(std)
 
     def check_for_task_change_secondary(self, curiosity):
-        #not needed as it happend in the fun above
+        #not needed as it happend in the function above
         #self.time = next(self.tiebreaker)  # both tiebreaker and timing is solved
 
 
@@ -271,12 +254,13 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
 
     def encode_sample(self, indices):
         state, action, action_mean, reward, curiosity, next_state, done_mask, t_array = [], [], [], [], [], [], [], []
-        for (j,idxs) in enumerate(indices[:-1]):
+        for (j,idxs) in enumerate(indices):
             for i in idxs:
+
                 if j == 0:
                     data = self.residual_buffer[i][2]
                 else:
-                    data = self.storage[j][i][2]
+                    data = self.storage[j-1][i][2]
                 s, a, a_m, r, c, n_s, d, t = data
                 state.append(s)
                 action.append(a)
@@ -291,19 +275,26 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
 
     def get_sample_indices(self, batch_size):
         prop = self.get_proportion()
+
+
         batch_sizes = []
         temp = 0
-        for i in range(len(self.storage)-1):
+        #for i in range(len(self.storage)-1):
+        for i in range(len(self.storage)):
             temp += int(batch_size*prop[i])
             batch_sizes.append(int(batch_size*prop[i]))
-        batch_sizes.append(batch_size-temp)
+        batch_sizes.append(batch_size-temp) #this for residual buffer
 
         indices = []
+
         for (i,buff) in enumerate(self.storage):
+
             if len(buff) < self.individual_buffer_capacity:
                 indices.append(np.random.choice(len(buff), batch_sizes[i]))
             else:
                 indices.append(np.random.choice(self.individual_buffer_capacity, batch_sizes[i]))
+
+
 
         #for residual buffer
         buff = self.residual_buffer
@@ -312,14 +303,18 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         else:
             indices.insert(0, np.array([]))
 
+
         #indices at which we can beform task split for IRM
         #(including the residual buffer, so u may ignore it)
+        """
         self.split_indices = []
         curr_index = 0
         for i in range(len(self.storage)):
             curr_index = curr_index + len(indices[i])
             self.split_indices.append(curr_index)
-
+        """
+        self.split_sizes = [len(inx) for inx in indices]
+        self.debug = [prop, batch_size, self.split_sizes, batch_sizes, len(self.residual_buffer) ]
 
         return indices
 

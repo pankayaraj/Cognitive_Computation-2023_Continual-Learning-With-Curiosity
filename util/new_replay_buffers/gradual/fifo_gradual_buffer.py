@@ -169,7 +169,7 @@ class FIFO_Replay_Memory_Gradual():
                 if j == 0:
                     data = self.residual_buffer[i][2]
                 else:
-                    data = self.storage[j][i][2]
+                    data = self.storage[j-1][i][2]
 
                 s, a, a_m, r, c, n_s, d = data
                 state.append(s)

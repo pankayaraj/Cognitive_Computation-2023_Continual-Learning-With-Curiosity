@@ -110,6 +110,7 @@ class Continuous_Gaussian_Policy(BaseNN):
             self.action_bias = torch.FloatTensor(
                 (action_space.high + action_space.low) / 2.).to(self.nn_params.device)
 
+        self.gaussian = None
 
     def forward(self, state):
 
@@ -136,6 +137,7 @@ class Continuous_Gaussian_Policy(BaseNN):
         std = log_std.exp()
 
         gaussian = torch.distributions.Normal(loc=mean, scale=std)
+        self.gaussian = gaussian #to use for IRM sampling later on
 
         #sample for reparametrization trick
         x_t = gaussian.rsample()
@@ -151,13 +153,26 @@ class Continuous_Gaussian_Policy(BaseNN):
 
         mean = torch.tanh(mean) * self.action_scale + self.action_bias
 
-
+        self.x_t = x_t
 
         if format == "torch":
             return action, log_prob, mean
         else:
             return action.cpu().detach().numpy(), log_prob.cpu().detach().numpy(), mean.cpu().detach().numpy()
 
+    def sample_log_prob_for_IMR(self, dummy_w):
+
+        x_t = self.gaussian.rsample()
+
+        y_t = torch.tanh(x_t)
+        log_prob = self.gaussian.log_prob(dummy_w*x_t)
+        # Enforcing Action Bound
+        log_prob -= torch.log(self.action_scale * (1 - y_t.pow(2)) + epsilon)
+
+        if len(log_prob.shape) != 1:
+            log_prob = log_prob.sum(1, keepdim=True)
+
+        return log_prob
 
     def to(self, device):
         super().to(device)

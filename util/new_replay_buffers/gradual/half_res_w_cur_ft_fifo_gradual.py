@@ -45,6 +45,7 @@ class Half_Reservoir_Flow_Through_w_Cur_Gradual():
                                                                      )
 
         self.t = 0
+        self.split_sizes  = [0]
 
 
 
@@ -59,8 +60,14 @@ class Half_Reservoir_Flow_Through_w_Cur_Gradual():
         self.curiosity_buffer.push(state, action, action_mean, reward, curiosity, next_state, done_mask)
 
     def sample(self, batch_size):
+
         fifo_indices, reservoir_indices = self.get_sample_indices(batch_size)
         state, action, action_mean, reward, curiosity, next_state, done_mask = self.encode_sample(fifo_indices, reservoir_indices)
+
+        fifo_batch_size = int(batch_size * self.fifo_frac)
+        self.reservior_buffer.split_sizes.append(fifo_batch_size)
+        self.split_sizes = self.reservior_buffer.split_sizes
+
         return Transition_tuple(state, action, action_mean, reward, curiosity, next_state, done_mask,None)
 
     def sample_for_curiosity(self, batch_size):
@@ -68,6 +75,7 @@ class Half_Reservoir_Flow_Through_w_Cur_Gradual():
 
 
     def encode_sample(self, fifo_indices, reservior_indices):
+
 
         state, action, action_mean, reward, curiosity, next_state, done_mask = [], [], [], [], [], [], []
         s1, a1, a_m1, r1, c1, n_s1, d1 = self.fifo_buffer.encode_sample(fifo_indices)

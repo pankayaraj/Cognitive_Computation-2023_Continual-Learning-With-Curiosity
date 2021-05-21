@@ -8,7 +8,10 @@ import custom_envs.custom_cartpole
 from algorithms.SAC import SAC
 from algorithms.SAC_w_Curiosity import SAC_with_Curiosity
 from algorithms.SAC_w_Reward_based_Curiosity import SAC_with_reward_based_Curiosity
+
 from algorithms.SAC_w_Cur_Buffer import SAC_with_Curiosity_Buffer
+from algorithms.SAC_w_IRM_Cur_buffer import SAC_with_IRM_Curiosity_Buffer
+
 from algorithms.SAC_test import SAC_Test
 from algorithms.DDPG import DDPG
 from algorithms.DDPG_w_Cur_Buffer import DDPG_with_Curiosity_Buffer
@@ -63,21 +66,22 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #"InvertedPendulumSwingupPyBulletEnv-v0
 #Cartpole-v0
 #Acrobat
-"""
-parser.add_argument("--algo", type=str, default="SAC")
-parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
-parser.add_argument("--env", type=str, default="Walker2DPyBulletEnv-v0_leg_len")
+
+parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
+parser.add_argument("--buffer_type", type=str, default="Custom")
+parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
 """
+"""
 
-
-
+"""
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
 parser.add_argument("--env", type=str, default="Pendulum-v0")
 parser.add_argument("--env_type", type=str, default="classic_control")
+
 """
-"""
+
 
 """
 parser.add_argument("--algo", type=str, default="Q_Learning")
@@ -85,18 +89,23 @@ parser.add_argument("--buffer_type", type=str, default="MTR")
 parser.add_argument("--env", type=str, default="Cartpole-v0")
 parser.add_argument("--env_type", type=str, default="classic_control")
 """
-
+#IRM parameters
+parser.add_argument("--do_irm", type=bool, default=True)
+parser.add_argument("--apply_irm_on_policy", type=bool, default=True)
+parser.add_argument("--apply_irm_on_critic", type=bool, default=False)
+parser.add_argument("--irm_coefficient_p", type=float, default=1.0)
+parser.add_argument("--irm_coefficient_q", type=float, default=1.0)
 
 parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=2)
+parser.add_argument("--experiment_no", type=int, default=4)
 
 
 #parser.add_argument("--fifo_frac", type=float, default=0.34)
 parser.add_argument("--fifo_frac", type=float, default=0.05)
-parser.add_argument("--no_curiosity_networks", type=int, default=3)
+parser.add_argument("--no_curiosity_networks", type=int, default=0)
 parser.add_argument("--init_cur_at_task_change", type=bool, default=False)
 parser.add_argument("--init_alpha_at_task_change", type=bool, default=False)
 
@@ -125,25 +134,25 @@ parser.add_argument("--batch_size", type=int, default=512)
 #parser.add_argument("--memory_size", type=int, default=40000) #walker
 #parser.add_argument("--memory_size", type=int, default=100000) #walker
 #parser.add_argument("--memory_size", type=int, default=20000)
-parser.add_argument("--memory_size", type=int, default=20000)
-#parser.add_argument("--memory_size", type=int, default=50000)
+#parser.add_argument("--memory_size", type=int, default=20000)
+parser.add_argument("--memory_size", type=int, default=50000)
 
 #parser.add_argument("--no_steps", type=int, default=180000)
-parser.add_argument("--no_steps", type=int, default=150000)
+#parser.add_argument("--no_steps", type=int, default=150000)
 #parser.add_argument("--no_steps", type=int, default=360000)
 #parser.add_argument("--no_steps", type=int, default=230000)
-#parser.add_argument("--no_steps", type=int, default=400000)
+parser.add_argument("--no_steps", type=int, default=400000)
 
 
-#parser.add_argument("--max_episodes", type=int, default=1000)
-parser.add_argument("--max_episodes", type=int, default=200)
+parser.add_argument("--max_episodes", type=int, default=1000)
+#parser.add_argument("--max_episodes", type=int, default=200)
 #parser.add_argument("--max_episodes", type=int, default=1000)
 
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
 
-parser.add_argument("--n_k", type=int, default=600)
-parser.add_argument("--l_k", type=int, default=8000)
-parser.add_argument("--m_f", type=int, default=1.5)
+parser.add_argument("--n_k", type=int, default=500)
+parser.add_argument("--l_k", type=int, default=30000)
+parser.add_argument("--m_f", type=int, default=2.5)
 
 parser.add_argument("--fow_cur_weight", type=float, default=0.0)
 parser.add_argument("--inv_cur_weight", type=float, default=1.0)
@@ -157,13 +166,15 @@ parser.add_argument("--save_buff_after", type=int, default=-1)
 
 #Hopper
 #change_varaiable_at = [1, 50000, 350000] #v3
+change_varaiable_at = [1, 3000, 350000]
 #change_varaiable_at = [1, 100000, 500000, 600000, 700000]
 #change_varaiable = [0.75, 4.75, 8.75,  12.75, 16.75]
-#change_varaiable = [0.75, 4.75, 8.75]
+change_varaiable = [0.75, 4.75, 8.75]
 
 #pendulum
-change_varaiable_at = [1, 20000, 120000]
-change_varaiable = [1.0, 1.4, 1.8]
+
+#change_varaiable_at = [1, 20000, 120000]
+#change_varaiable = [1.0, 1.4, 1.8]
 #change_varaiable_at = [1, 30000, 60000, 120000, 200000]
 #change_varaiable = [1.0, 1.2, 1.4, 1.6, 1.8]
 
@@ -325,16 +336,34 @@ if args.algo == "SAC":
 #                           memory_capacity=args.memory_size
 #                           , batch_size=args.batch_size, alpha_lr=args.lr)
 elif args.algo == "SAC_w_cur_buffer":
+    if not args.do_irm:
+        A = SAC_with_Curiosity_Buffer(ini_env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param,
+                               max_episodes=args.max_episodes,
+                               memory_capacity=args.memory_size
+                               , batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type, fifo_frac=args.fifo_frac
+                                      , no_cur_network=args.no_curiosity_networks,
+                                      reset_cur_on_task_change=args.init_cur_at_task_change,  reset_alpha_on_task_change=args.init_alpha_at_task_change,
+                                      fow_cur_w=args.fow_cur_weight, inv_cur_w=args.inv_cur_weight, rew_cur_w=args.rew_cur_weight,
+                                      n_k=args.n_k, l_k=args.l_k, m_k=args.m_f,
+                                      priority = args.priority)
 
-    A = SAC_with_Curiosity_Buffer(ini_env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param,
-                           max_episodes=args.max_episodes,
-                           memory_capacity=args.memory_size
-                           , batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type, fifo_frac=args.fifo_frac
-                                  , no_cur_network=args.no_curiosity_networks,
-                                  reset_cur_on_task_change=args.init_cur_at_task_change,  reset_alpha_on_task_change=args.init_alpha_at_task_change,
-                                  fow_cur_w=args.fow_cur_weight, inv_cur_w=args.inv_cur_weight, rew_cur_w=args.rew_cur_weight,
-                                  n_k=args.n_k, l_k=args.l_k, m_k=args.m_f,
-                                  priority = args.priority)
+    else:
+        A = SAC_with_IRM_Curiosity_Buffer(ini_env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param,
+                                      max_episodes=args.max_episodes,
+                                      memory_capacity=args.memory_size
+                                      , batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type,
+                                      fifo_frac=args.fifo_frac
+                                      , no_cur_network=args.no_curiosity_networks,
+                                      reset_cur_on_task_change=args.init_cur_at_task_change,
+                                      reset_alpha_on_task_change=args.init_alpha_at_task_change,
+                                      fow_cur_w=args.fow_cur_weight, inv_cur_w=args.inv_cur_weight,
+                                      rew_cur_w=args.rew_cur_weight,
+                                      n_k=args.n_k, l_k=args.l_k, m_k=args.m_f,
+                                      priority=args.priority,
+                                      irm_coff_policy=args.irm_coefficient_p, irm_coff_critic=args.irm_coefficient_q,
+                                      irm_on_policy=args.apply_irm_on_policy, irm_on_critic=args.apply_irm_on_critic)
+
+
 elif args.algo == "SAC_test":
     A = SAC_Test(ini_env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param,
                            max_episodes=args.max_episodes,

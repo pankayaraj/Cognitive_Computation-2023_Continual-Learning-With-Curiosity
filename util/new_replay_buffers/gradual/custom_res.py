@@ -54,7 +54,11 @@ class Custom_Res():
         self.BOOL = []
         self.max = 0
 
+        self.task_seperation_initiated = False
+        self.split_sizes = [0]
+
     def task_change(self):
+        self.task_seperation_initiated = True
         l = []
         for  b in self.storage:
             l.append(len(b))
@@ -132,7 +136,7 @@ class Custom_Res():
         state, action, action_mean, reward, next_state, done_mask, t_array = [], [], [], [], [], [], []
         for (j,idxs) in enumerate(indices[:-1]):
             for i in idxs:
-                if j == len(indices)-1:
+                if j == 0:
                     data = self.residual_buffer[i][2]
                 else:
                     data = self.storage[j][i][2]
@@ -151,7 +155,8 @@ class Custom_Res():
         prop = self.get_proportion()
         batch_sizes = []
         temp = 0
-        for i in range(len(self.storage)-1):
+        #for i in range(len(self.storage)-1):
+        for i in range(len(self.storage)):
             temp += int(batch_size*prop[i])
             batch_sizes.append(int(batch_size*prop[i]))
         batch_sizes.append(batch_size-temp)
@@ -163,12 +168,15 @@ class Custom_Res():
             else:
                 indices.append(np.random.choice(self.individual_buffer_capacity, batch_sizes[i]))
 
-        #for residual buffer
+            # for residual buffer
         buff = self.residual_buffer
         if len(buff) != 0:
-            indices.append(np.random.choice(len(buff), batch_sizes[-1]))
+            indices.insert(0, np.random.choice(len(buff), batch_sizes[-1]))
         else:
-            indices.append(np.array([]))
+            indices.insert(0, np.array([]))
+
+        self.split_sizes = [len(inx) for inx in indices]
+        self.debug = [prop, batch_size, self.split_sizes, batch_sizes, len(self.residual_buffer)]
 
 
         return indices

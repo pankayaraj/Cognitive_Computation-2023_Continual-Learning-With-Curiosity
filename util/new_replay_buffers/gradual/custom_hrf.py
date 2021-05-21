@@ -35,7 +35,7 @@ class Custom_HRF():
                                                                      )
 
         self.t = 0
-
+        self.split_sizes = [0]
 
     def push(self, state, action, action_mean, reward, next_state, done_mask):
         self.t += 1
@@ -50,6 +50,12 @@ class Custom_HRF():
     def sample(self, batch_size):
         fifo_indices, reservoir_indices = self.get_sample_indices(batch_size)
         state, action, action_mean, reward, next_state, done_mask = self.encode_sample(fifo_indices, reservoir_indices)
+
+        fifo_batch_size = int(batch_size * self.fifo_frac)
+        self.reservior_buffer.split_sizes.append(fifo_batch_size)
+        self.split_sizes = self.reservior_buffer.split_sizes
+
+
         return Transition_tuple(state, action, action_mean, reward, next_state, done_mask,None)
 
 
