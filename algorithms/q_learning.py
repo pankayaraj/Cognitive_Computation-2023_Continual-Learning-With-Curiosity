@@ -17,7 +17,7 @@ class Q_learning():
 
     def __init__(self, env, q_nn_param, algo_param, max_episodes =100, memory_capacity =50000,
                  batch_size=128, save_path = Save_Paths(), load_path= Load_Paths(),
-                 buffer_type= "FIFO", fifo_frac=0.34, change_at = [100000, 350000], tau=0.005 ):
+                 buffer_type= "FIFO", fifo_frac=0.34, change_at = [100000, 350000], tau=0.005, mtr_buff_no = 3 ):
 
         self.state_dim = q_nn_param.state_dim
         self.action_dim = q_nn_param.action_dim
@@ -54,7 +54,7 @@ class Q_learning():
         if buffer_type == "FIFO":
             self.replay_buffer = Replay_Memory(capacity=memory_capacity)
         elif buffer_type == "MTR":
-            self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=2)
+            self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=mtr_buff_no)
         elif buffer_type == "Half_Reservior_FIFO_with_FT":
             self.replay_buffer = Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
         elif buffer_type == "Custom":

@@ -19,7 +19,7 @@ class SAC():
 
     def __init__(self, env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes =100, memory_capacity =10000,
                  batch_size=400, save_path = Save_Paths(), load_path= Load_Paths(), action_space = None, alpha_lr=0.0003,
-                 buffer_type= "FIFO", fifo_frac=0.34, change_at = [100000, 350000], env_type="robochool"):
+                 buffer_type= "FIFO", fifo_frac=0.34, change_at = [100000, 350000], env_type="robochool", mtr_buff_no = 3):
 
         self.env = env
         self.env_type = env_type
@@ -90,7 +90,7 @@ class SAC():
         #elif buffer_type == "Half_Reservior_FIFO":
         #    self.replay_buffer = Reservoir_with_FIFO_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
         elif buffer_type == "MTR":
-            self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=3)
+            self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=mtr_buff_no)
         elif buffer_type == "Half_Reservior_FIFO_with_FT":
             self.replay_buffer = Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
         elif buffer_type == "Custom":

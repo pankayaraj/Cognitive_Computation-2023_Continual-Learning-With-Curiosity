@@ -176,6 +176,8 @@ parser.add_argument("--priority", type=str, default="uniform")
 #parser.add_argument("--priority", type=str, default="curiosity")
 
 
+parser.add_argument("--mtr_buff_no", type=int, default=3)
+
 parser.add_argument("--save_buff_after", type=int, default=-1)
 
 #Hopper
@@ -329,7 +331,7 @@ if args.algo == "SAC":
     A = SAC(ini_env, q_nn_param, policy_nn_param, algo_nn_param,
         max_episodes=args.max_episodes, memory_capacity=args.memory_size,
         batch_size=args.batch_size, alpha_lr=args.lr, buffer_type=buffer_type, fifo_frac=args.fifo_frac,
-            change_at=change_varaiable_at[1:] )
+            change_at=change_varaiable_at[1:], mtr_buff_no=args.mtr_buff_no )
 #elif args.algo == "SAC_w_cur":
 #    A = SAC_with_Curiosity(ini_env, q_nn_param, policy_nn_param, icm_nn_param, algo_nn_param, max_episodes=args.max_episodes,
 #                           memory_capacity=args.memory_size
@@ -379,7 +381,8 @@ elif args.algo == "SAC_test":
 
 elif args.algo == "Q_Learning":
     A = Q_learning(ini_env, q_nn_param=q_nn_param, algo_param=algo_nn_param, max_episodes=args.max_episodes, memory_capacity=args.memory_size
-                           , batch_size=args.batch_size, buffer_type=buffer_type, fifo_frac=args.fifo_frac, change_at=change_varaiable_at[1:])
+                           , batch_size=args.batch_size, buffer_type=buffer_type, fifo_frac=args.fifo_frac, change_at=change_varaiable_at[1:]
+                   , mtr_buff_no=args.mtr_buff_no)
 elif args.algo == "Q_Learning_w_cur_buffer":
 
     A = Q_learning_w_cur_buf(ini_env, q_nn_param=q_nn_param,icm_nn_param=icm_nn_param, algo_param=algo_nn_param,
