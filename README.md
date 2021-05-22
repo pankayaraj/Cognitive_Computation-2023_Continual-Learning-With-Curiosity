@@ -3,7 +3,7 @@
 ## Description
 
 ### 1 . Reproducing the results in the paper
-    Inorder to reproduce the results in this paper just used the three arguments 
+    Inorder to reproduce the results in this paper just used the three arguments aling with the main file rub
     
     superseding = True
     supersede_env : use the env you want (check below)
