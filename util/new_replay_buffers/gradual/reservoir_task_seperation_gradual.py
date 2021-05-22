@@ -256,7 +256,6 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         state, action, action_mean, reward, curiosity, next_state, done_mask, t_array = [], [], [], [], [], [], [], []
         for (j,idxs) in enumerate(indices):
             for i in idxs:
-
                 if j == 0:
                     data = self.residual_buffer[i][2]
                 else:

@@ -58,6 +58,7 @@ class Custom_Res():
         self.split_sizes = [0]
 
     def task_change(self):
+        print(self.time, self.change_count, self.change_at)
         self.task_seperation_initiated = True
         l = []
         for  b in self.storage:
@@ -134,12 +135,14 @@ class Custom_Res():
 
     def encode_sample(self, indices):
         state, action, action_mean, reward, next_state, done_mask, t_array = [], [], [], [], [], [], []
-        for (j,idxs) in enumerate(indices[:-1]):
+        for (j,idxs) in enumerate(indices):
+
             for i in idxs:
                 if j == 0:
                     data = self.residual_buffer[i][2]
                 else:
-                    data = self.storage[j][i][2]
+
+                    data = self.storage[j-1][i][2]
                 s, a, a_m, r, n_s, d, t = data
                 state.append(s)
                 action.append(a)
@@ -168,7 +171,7 @@ class Custom_Res():
             else:
                 indices.append(np.random.choice(self.individual_buffer_capacity, batch_sizes[i]))
 
-            # for residual buffer
+        # for residual buffer
         buff = self.residual_buffer
         if len(buff) != 0:
             indices.insert(0, np.random.choice(len(buff), batch_sizes[-1]))

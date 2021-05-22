@@ -43,7 +43,7 @@ class SAC_with_IRM_Curiosity_Buffer():
                  batch_size=400, save_path=Save_Paths(), load_path=Load_Paths(), action_space=None, alpha_lr=0.0003,
                  debug=Debug(), buffer_type="Reservior", update_curiosity_from_fifo=True, fifo_frac=0.34,
                  no_cur_network=5,
-                 reset_cur_on_task_change=True, reset_alpha_on_task_change=True, change_at=[3000, 350000],
+                 reset_cur_on_task_change=True, reset_alpha_on_task_change=True, change_at=[50000, 350000],
                  fow_cur_w=0.0, inv_cur_w=1.0, rew_cur_w=0.0,
                  n_k=600, l_k=8000, m_k=1.5,
                  priority="uniform",
@@ -233,7 +233,7 @@ class SAC_with_IRM_Curiosity_Buffer():
         #two things to consider here:
         #1. Consider the FIFO buffer data with that of the lastest buffer
         #2. Ignore residual buffer as it contains the residues from all other buffers, so can't be considered as data from a task
-        if self.irm_on_policy and self.replay_buffer.reservior_buffer.task_seperation_initiated:
+        if self.replay_buffer.reservior_buffer.task_seperation_initiated:
             self.split_sizes = self.replay_buffer.split_sizes
 
 
@@ -250,11 +250,51 @@ class SAC_with_IRM_Curiosity_Buffer():
             min_q_target = torch.min(q1_next_target, q2_next_target) - self.alpha * next_log_prob_batch
             next_q_value = reward_batch + done_mask_batch * self.gamma * min_q_target
 
+
+
+
+
+
         q1 = self.critic_1.get_value(state_batch, action_batch)
         q2 = self.critic_2.get_value(state_batch, action_batch)
 
         q1_loss = 0.5 * torch.nn.functional.mse_loss(q1, next_q_value)
         q2_loss = 0.5 * torch.nn.functional.mse_loss(q2, next_q_value)
+
+        # IRM for critic
+        if self.irm_on_critic and self.replay_buffer.reservior_buffer.task_seperation_initiated:
+            with torch.no_grad():
+                next_action_batch_irm, next_log_prob_batch_irm = self.policy.sample_for_critic_IMR()
+                q1_next_target_irm = self.critic_target_1.get_value_IRM(self.dummy_critic)
+                q2_next_target_irm = self.critic_target_2.get_value_IRM(self.dummy_critic)
+                min_q_target_irm = torch.min(q1_next_target_irm,
+                                             q2_next_target_irm) - self.alpha * next_log_prob_batch_irm
+                next_q_value_IRM = reward_batch + done_mask_batch * self.gamma * min_q_target_irm
+
+            q1_IRM = self.critic_1.get_value_IRM(self.dummy_critic)
+            q2_IRM = self.critic_2.get_value_IRM(self.dummy_critic)
+
+            q1_IRM_buffer = q1_IRM.split(self.split_sizes)[1:]
+            q2_IRM_buffer = q2_IRM.split(self.split_sizes)[1:]
+            next_q_value_IRM_by_buffer = next_q_value_IRM.split(self.split_sizes)[1:]
+
+            q1_loss_IRM_by_buffer = [0.5 * torch.nn.functional.mse_loss(q1_IRM_buffer[i], next_q_value_IRM_by_buffer[i]
+                                                                        ) for i in range(len(q1_IRM_buffer))]
+            q2_loss_IRM_by_buffer = [0.5 * torch.nn.functional.mse_loss(q2_IRM_buffer[i], next_q_value_IRM_by_buffer[i]
+                                                                        ) for i in range(len(q2_IRM_buffer))]
+
+            grad_norm_q1_IRM_by_buffer = [torch.square(torch.autograd.grad(split, self.dummy_critic, create_graph=True)[0])
+                                       for split in q1_loss_IRM_by_buffer]
+            grad_norm_q2_IRM_by_buffer = [torch.square(torch.autograd.grad(split, self.dummy_critic, create_graph=True)[0])
+                                        for split in q2_loss_IRM_by_buffer]
+
+            q1_irm_loss = self.irm_coff_critic*torch.stack(grad_norm_q1_IRM_by_buffer).sum()
+            q2_irm_loss = self.irm_coff_critic * torch.stack(grad_norm_q2_IRM_by_buffer).sum()
+
+
+            q1_loss += q1_irm_loss
+            q2_loss += q2_irm_loss
+
 
         self.critic_1_optim.zero_grad()
         q1_loss.backward()

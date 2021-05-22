@@ -66,20 +66,20 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #"InvertedPendulumSwingupPyBulletEnv-v0
 #Cartpole-v0
 #Acrobat
-
+"""
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 parser.add_argument("--buffer_type", type=str, default="Custom")
 parser.add_argument("--env", type=str, default="HopperPyBulletEnv-v0")
 parser.add_argument("--env_type", type=str, default="roboschool")
 """
-"""
 
-"""
+
+
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
-parser.add_argument("--buffer_type", type=str, default="Half_Reservior_FIFO_with_FT")
+parser.add_argument("--buffer_type", type=str, default="Custom")
 parser.add_argument("--env", type=str, default="Pendulum-v0")
 parser.add_argument("--env_type", type=str, default="classic_control")
-
+"""
 """
 
 
@@ -91,21 +91,26 @@ parser.add_argument("--env_type", type=str, default="classic_control")
 """
 #IRM parameters
 parser.add_argument("--do_irm", type=bool, default=True)
-parser.add_argument("--apply_irm_on_policy", type=bool, default=True)
-parser.add_argument("--apply_irm_on_critic", type=bool, default=False)
+parser.add_argument("--apply_irm_on_policy", type=bool, default=False)
+parser.add_argument("--apply_irm_on_critic", type=bool, default=True)
 parser.add_argument("--irm_coefficient_p", type=float, default=1.0)
-parser.add_argument("--irm_coefficient_q", type=float, default=1.0)
+parser.add_argument("--irm_coefficient_q", type=float, default=0.0005)
 
 parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=4)
+parser.add_argument("--experiment_no", type=int, default=7)
 
 
 #parser.add_argument("--fifo_frac", type=float, default=0.34)
 parser.add_argument("--fifo_frac", type=float, default=0.05)
+
 parser.add_argument("--no_curiosity_networks", type=int, default=0)
+#parser.add_argument("--no_curiosity_networks", type=int, default=1)
+#parser.add_argument("--no_curiosity_networks", type=int, default=3)
+
+
 parser.add_argument("--init_cur_at_task_change", type=bool, default=False)
 parser.add_argument("--init_alpha_at_task_change", type=bool, default=False)
 
@@ -134,18 +139,18 @@ parser.add_argument("--batch_size", type=int, default=512)
 #parser.add_argument("--memory_size", type=int, default=40000) #walker
 #parser.add_argument("--memory_size", type=int, default=100000) #walker
 #parser.add_argument("--memory_size", type=int, default=20000)
-#parser.add_argument("--memory_size", type=int, default=20000)
-parser.add_argument("--memory_size", type=int, default=50000)
+parser.add_argument("--memory_size", type=int, default=20000)
+#parser.add_argument("--memory_size", type=int, default=50000)
 
 #parser.add_argument("--no_steps", type=int, default=180000)
-#parser.add_argument("--no_steps", type=int, default=150000)
+parser.add_argument("--no_steps", type=int, default=150000)
 #parser.add_argument("--no_steps", type=int, default=360000)
 #parser.add_argument("--no_steps", type=int, default=230000)
-parser.add_argument("--no_steps", type=int, default=400000)
+#parser.add_argument("--no_steps", type=int, default=400000)
 
 
-parser.add_argument("--max_episodes", type=int, default=1000)
-#parser.add_argument("--max_episodes", type=int, default=200)
+#parser.add_argument("--max_episodes", type=int, default=1000)
+parser.add_argument("--max_episodes", type=int, default=200)
 #parser.add_argument("--max_episodes", type=int, default=1000)
 
 parser.add_argument("--save_directory", type=str, default="models/native_SAC_catastropic_forgetting/diff_length")
@@ -166,15 +171,16 @@ parser.add_argument("--save_buff_after", type=int, default=-1)
 
 #Hopper
 #change_varaiable_at = [1, 50000, 350000] #v3
-change_varaiable_at = [1, 3000, 350000]
+#change_varaiable = [0.75, 4.75, 8.75]
+
 #change_varaiable_at = [1, 100000, 500000, 600000, 700000]
 #change_varaiable = [0.75, 4.75, 8.75,  12.75, 16.75]
-change_varaiable = [0.75, 4.75, 8.75]
+
 
 #pendulum
 
-#change_varaiable_at = [1, 20000, 120000]
-#change_varaiable = [1.0, 1.4, 1.8]
+change_varaiable_at = [1, 20000, 120000]
+change_varaiable = [1.0, 1.4, 1.8]
 #change_varaiable_at = [1, 30000, 60000, 120000, 200000]
 #change_varaiable = [1.0, 1.2, 1.4, 1.6, 1.8]
 
@@ -361,7 +367,8 @@ elif args.algo == "SAC_w_cur_buffer":
                                       n_k=args.n_k, l_k=args.l_k, m_k=args.m_f,
                                       priority=args.priority,
                                       irm_coff_policy=args.irm_coefficient_p, irm_coff_critic=args.irm_coefficient_q,
-                                      irm_on_policy=args.apply_irm_on_policy, irm_on_critic=args.apply_irm_on_critic)
+                                      irm_on_policy=args.apply_irm_on_policy, irm_on_critic=args.apply_irm_on_critic,
+                                        change_at=change_varaiable_at[1:])
 
 
 elif args.algo == "SAC_test":

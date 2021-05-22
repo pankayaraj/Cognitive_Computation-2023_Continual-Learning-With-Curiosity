@@ -160,6 +160,23 @@ class Continuous_Gaussian_Policy(BaseNN):
         else:
             return action.cpu().detach().numpy(), log_prob.cpu().detach().numpy(), mean.cpu().detach().numpy()
 
+    def sample_for_critic_IMR(self):
+
+        x_t = self.gaussian.rsample()
+        y_t = torch.tanh(x_t)
+
+        log_prob = self.gaussian.log_prob(x_t)
+        # Enforcing Action Bound
+        log_prob -= torch.log(self.action_scale * (1 - y_t.pow(2)) + epsilon)
+
+        if len(log_prob.shape) != 1:
+            log_prob = log_prob.sum(1, keepdim=True)
+
+        action = y_t * self.action_scale + self.action_bias
+
+        return action, log_prob
+
+    #for IRM on policy
     def sample_log_prob_for_IMR(self, dummy_w):
 
         x_t = self.gaussian.rsample()
@@ -363,6 +380,7 @@ class Q_Function_NN(BaseNN):
         self.Q_value = nn.Linear(layer_input_dim, 1)
         self.weight_init(self.Q_value, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
 
+        self.curr_Q_s_a = None
         self.to(self.nn_params.device)
 
     def forward(self, state, action):
@@ -381,7 +399,12 @@ class Q_Function_NN(BaseNN):
                 inp = layer(inp)
         Q_s_a = self.Q_value(inp)
 
+        self.curr_Q_s_a = Q_s_a
+
         return Q_s_a
+
+    def get_value_IRM(self, dummy_w):
+        return dummy_w*self.curr_Q_s_a
 
     def get_value(self, state, action, format="torch"):
 
