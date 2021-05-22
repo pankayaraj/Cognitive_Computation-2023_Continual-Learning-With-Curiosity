@@ -2,8 +2,8 @@
 
 ## Description
 
-### 1 . Reproducing the results in the paper
-    Inorder to reproduce the results in this paper just used the three arguments aling with the main file **run.py**
+### 1 . Reproducing the results in the pape
+    Inorder to reproduce the results in this paper just used the three arguments aling with the main file run.py
     
     superseding = True
     supersede_env : use the env you want (check below (1.1)
@@ -27,4 +27,4 @@
     
 ### 2. Invarient risk minimization 
 
-    Since IRM didn't produce much of a difference in the results we didn't include it in the results. But if you wanted to try you can set **superseding =      False**and manually try changing the paprmemters on run.py
+    Since IRM didn't produce much of a difference in the results we didn't include it in the results. But if you wanted to try you can set superseding = False and manually try changing the parameters on run.py
