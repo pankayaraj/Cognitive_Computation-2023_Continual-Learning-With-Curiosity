@@ -2,7 +2,9 @@
 
 ## Description
 
-### 1 . Algorithms
-
-    cdesp -  Curiosity-driven Exploration by Self-supervised Prediction (https://pathak22.github.io/noreward-rl/resources/icml17.pdf)
-    sac - soft actor critic
+### 1 . Reproducing the results in the paper
+    Inorder to reproduce the results in this paper just used the three arguments 
+    
+    superseding = True
+    supersede_env : use the env you want (check below)
+    supersede_buff : use the algo you want to run (see below for available algorithms)
