@@ -27,4 +27,4 @@
     
 ### 2. Invarient risk minimization 
 
-    Since IRM didn't produce much of a difference in the results we didn't include it in the results. But if you wanted to try you can set superseding = False and manually try changing the parameters on run.py
+    Since IRM didn't produce much of a difference in the results we didn't include it in the results. But if you wanted to try you can set superseding = False and manually try changing the parameters on main/run.py
