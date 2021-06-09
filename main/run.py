@@ -26,7 +26,10 @@ from custom_envs.custom_acrobat import AcrobotEnv
 from custom_envs.custom_cartpole import CartPoleEnv
 
 from util.roboschool_util.make_new_env import make_array_env
+from util.roboschool_util.make_env_schedule import sine_schedule_generator, spurcious_fluxuation_generator
+
 from set_arguments import set_arguments
+
 
 parser = argparse.ArgumentParser(description='SAC arguments')
 
@@ -68,11 +71,20 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #Cartpole-v0
 #Acrobat
 
+
+#"discrete"
+#"sine_flux"
+#"spur_flux"
+
+#"TS_C_HRF"
+#"MTR_high_20"
 #these two supersedes other argumetns and makes the relevant choices for hyperparamter as it appears in the paper
 #set superceding to false if you want to set custom arguments
+
+parser.add_argument("--env_change_type", type=str, default="sine_flux")
 parser.add_argument("--superseding", type=bool, default=True)
 parser.add_argument("--supersede_env", type=str, default="Pendulum")
-parser.add_argument("--supersede_buff", type=str, default="TS_HRF")
+parser.add_argument("--supersede_buff", type=str, default="FIFO")
 
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 parser.add_argument("--buffer_type", type=str, default="Custom")
@@ -81,14 +93,17 @@ parser.add_argument("--env_type", type=str, default="roboschool")
 """
 """
 """
-
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 parser.add_argument("--buffer_type", type=str, default="Custom")
 parser.add_argument("--env", type=str, default="Pendulum-v0")
 parser.add_argument("--env_type", type=str, default="classic_control")
 """
 
+#for sine flux
 
+parser.add_argument("--min_lim", type=float, default=1.0)
+parser.add_argument("--max_lim", type=float, default=1.8)
+parser.add_argument("--factor", type=float, default=0.0001)
 
 """
 parser.add_argument("--algo", type=str, default="Q_Learning")
@@ -107,7 +122,7 @@ parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=3)
+parser.add_argument("--experiment_no", type=int, default=6)
 
 
 #parser.add_argument("--fifo_frac", type=float, default=0.34)
@@ -255,6 +270,12 @@ change_varaiable = [0.5, 1.5, 2.5]
 c = 0
 args = parser.parse_args()
 
+#only for flux settings
+if args.env_change_type == "sine_flux":
+    schedule_generator = sine_schedule_generator(min_limit=args.min_lim, max_limit=args.max_lim, factor=args.factor, no_iteration=args.no_steps)
+elif args.env_change_type == "spur_flux":
+    schedule_generator = spurcious_fluxuation_generator(min_limit=args.min_lim, max_limit=args.max_lim, no_iteration=args.no_steps)
+
 
 if args.superseding == True:
     args, change_varaiable_at, change_varaiable = set_arguments(args)
@@ -263,7 +284,7 @@ if args.superseding == True:
 
 
 
-print(args.algo + " , " + args.buffer_type)
+print(args.algo + " , " + args.buffer_type + " , " + args.priority)
 if args.env_type == "classic_control":
     if args.env == "Pendulum-v0":
         env = PendulumEnv()
@@ -469,28 +490,65 @@ if args.load_from_old:
 ratio = 0.4
 l_r = 20000
 
+
+old_l = None
+x = 0
+
 for i in range(inital_step_no, args.no_steps):
 
     if i%1000==0:
         print(i)
 
-
-    if i == change_varaiable_at[c]:
-        # save_the_buffer
-        print("saving the replay memory")
-        torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
-
-        if args.env_type == "classic_control":
+    if args.env_type == "classic_control":
+        if args.env_change_type == "sine_flux":
+            new_l = schedule_generator.get_param(i)
             if args.env == "Cartpole-v0_masspole":
-                A.env.set_mass_pole(mass=change_varaiable[c])
+                A.env.set_mass_pole(mass=new_l)
             else:
-                A.env.set_length(length=change_varaiable[c])
+                A.env.set_length(length=new_l)
 
-        elif args.env_type == "roboschool":
-            A.env = env[c]
 
-        if c < len(change_varaiable_at)-1:
-            c += 1
+
+        elif args.env_change_type == "spur_flux":
+            new_l = schedule_generator.get_param(i)
+
+            if args.env == "Cartpole-v0_masspole":
+                A.env.set_mass_pole(mass=new_l)
+            else:
+                A.env.set_length(length=new_l)
+
+            if new_l != old_l:
+                old_l = new_l
+                x += 1
+                print("saving the replay memory")
+                torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(x))
+
+        elif args.env_change_type == "discrete":
+            if i == change_varaiable_at[c]:
+                # save_the_buffer
+                print("saving the replay memory")
+                torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
+
+                if args.env == "Cartpole-v0_masspole":
+                    A.env.set_mass_pole(mass=change_varaiable[c])
+                else:
+                    A.env.set_length(length=change_varaiable[c])
+
+                if c < len(change_varaiable_at) - 1:
+                    c += 1
+
+    else:
+
+        if i == change_varaiable_at[c]:
+            # save_the_buffer
+            print("saving the replay memory")
+            torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
+
+            if args.env_type == "roboschool":
+                A.env = env[c]
+
+            if c < len(change_varaiable_at)-1:
+                c += 1
 
 
 
@@ -579,7 +637,14 @@ for i in range(inital_step_no, args.no_steps):
             for k in range(test_sample_no):
                 if args.env_type == "classic_control":
                     e = env_eval
-                    e.set_length(l)
+
+                    if args.env_change_type == "discrete":
+                        e.set_length(l)
+                    elif args.env_change_type == "sine_flux":
+                        e.set_length(l)
+                    elif args.env_change_type == "spur_flux":
+                        e.set_length(l)
+
                 elif args.env_type == "roboschool":
                     e = env_eval[l_i]
 

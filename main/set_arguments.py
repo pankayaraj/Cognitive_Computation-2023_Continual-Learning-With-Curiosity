@@ -135,7 +135,7 @@ def set_algo(args):
 
         args.buffer_type = "MTR"
 
-    elif args.supersede_buff == "MTR_hgih":
+    elif args.supersede_buff == "MTR_high":
         if args.env == "Cartpole-v0":
             args.algo = "Q_Learning"
 
@@ -145,6 +145,16 @@ def set_algo(args):
 
         args.buffer_type = "MTR"
         args.mtr_buff_no = 5
+
+    elif args.supersede_buff == "MTR_high_20":
+        if args.env == "Cartpole-v0":
+            args.algo = "Q_Learning"
+
+        else:
+            args.algo = "SAC"
+
+        args.buffer_type = "MTR"
+        args.mtr_buff_no = 20
 
     elif args.supersede_buff == "TS_HRF":
 
