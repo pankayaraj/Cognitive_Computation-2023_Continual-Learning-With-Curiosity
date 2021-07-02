@@ -18,7 +18,13 @@ class HopperBulletEnv(WalkerBaseBulletEnv):
 
         self.robot = Hopper(power=power, leg_length=self.l_length, thigh_length=self.t_length,
                             foot_length=self.f_length, leg_size=leg_size, thigh_size=thigh_size, index=index)
-        WalkerBaseBulletEnv.__init__(self, self.robot)
+        self.walker_base = WalkerBaseBulletEnv
+        self.walker_base.__init__(self, self.robot)
 	
+    def change_power(self, power = 0.75):
+        self.power = power
+        self.walker_base.power = power
 
+        self.robot.power = power
+        self.robot.walker_base.__init__(self, power=power)
 

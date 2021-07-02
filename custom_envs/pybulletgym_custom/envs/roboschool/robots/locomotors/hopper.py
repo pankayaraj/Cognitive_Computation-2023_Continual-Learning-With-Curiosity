@@ -61,7 +61,8 @@ class Hopper(WalkerBase, MJCFBasedRobot):
 
         tree.write(new_path)
 
-        WalkerBase.__init__(self, power=power)
+        self.walker_base = WalkerBase
+        self.walker_base.__init__(self, power=power)
         MJCFBasedRobot.__init__(self, new_xml, "torso", action_dim=3, obs_dim=15)
 
     def alive_bonus(self, z, pitch):

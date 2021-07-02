@@ -15,6 +15,7 @@ from util.new_replay_buffers.replay_buff_cur import Replay_Memory_Cur
 #from util.new_replay_buffers.reservior_buffer_w_cur_n_SNR_with_FT_FIFO import Half_Reservoir_Cur_n_SNR_FIFO_Flow_Through_Replay_Buffer
 #from util.new_replay_buffers.half_res_w_cur_ft_fifo import Half_Reservoir_Flow_Through_w_Cur
 
+from util.new_replay_buffers.hybird_fifo_cur_res.hybrid_fifo_cur_res_res import Hybrid_fifo_cur_res_res
 
 from util.new_replay_buffers.gradual.half_res_w_cur_ft_fifo_gradual import Half_Reservoir_Flow_Through_w_Cur_Gradual
 from util.new_replay_buffers.gradual.ft_fifo_gradual_w_cur import FIFO_w_Cur_Gradual
@@ -42,7 +43,7 @@ class SAC_with_Curiosity_Buffer():
                  reset_cur_on_task_change=True, reset_alpha_on_task_change=True, change_at = [100000, 350000],
                  fow_cur_w = 0.0, inv_cur_w = 1.0, rew_cur_w = 0.0,
                  n_k=600, l_k=8000, m_k=1.5,
-                 priority = "uniform"):
+                 priority = "uniform", cur_res_frac = 0.5):
 
         self.env = env
         self.device = q_nn_param.device
@@ -148,8 +149,11 @@ class SAC_with_Curiosity_Buffer():
 
         if buffer_type == "FIFO":
             self.replay_buffer = Replay_Memory_Cur(capacity=memory_capacity)
-        #elif buffer_type == "Reservior":
-        #   self.replay_buffer = Reservoir_with_Cur_Replay_Memory(capacity=memory_capacity)
+
+        elif buffer_type == "Hybrid_Cur_Res_Res":
+
+            self.replay_buffer = Hybrid_fifo_cur_res_res(capacity=memory_capacity, curisoity_buff_frac=0.34, seperate_cur_buffer=True,
+                                                         fifo_fac=fifo_frac, cur_res_frac=cur_res_frac)
         #elif buffer_type == "Half_Reservior_FIFO":
         #    self.replay_buffer = Half_Reservoir_w_Cur_FIFO_Replay_Buffer(capacity=memory_capacity, fifo_fac=fifo_frac)
         #elif buffer_type == "Reservior_TR":
@@ -245,6 +249,7 @@ class SAC_with_Curiosity_Buffer():
             q1_next_target = self.critic_target_1.get_value(next_state_batch, next_action_batch, format="torch")
             q2_next_target = self.critic_target_2.get_value(next_state_batch, next_action_batch, format="torch")
             min_q_target = torch.min(q1_next_target, q2_next_target) - self.alpha*next_log_prob_batch
+
             next_q_value = reward_batch + done_mask_batch*self.gamma*min_q_target
 
         q1 = self.critic_1.get_value(state_batch, action_batch)

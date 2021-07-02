@@ -2,7 +2,6 @@ import numpy as np
 import heapq
 import random
 from itertools import count
-import torch
 
 class Transition_tuple():
 
@@ -20,7 +19,7 @@ class Transition_tuple():
     def get_all_attributes(self):
         return [self.state, self.action,  self.action_mean, self.reward, self.curiosity, self.next_state, self.done_mask, self.t]
 
-class Curious_Reservoir_Replay_Memory():
+class Reservoir_Replay_Memory_new():
 
     def __init__(self, capacity=10000):
         self.capacity = capacity
@@ -28,14 +27,8 @@ class Curious_Reservoir_Replay_Memory():
         self.tiebreaker = count()
 
     def push(self, state, action, action_mean, reward, curiosity, next_state, done_mask, tie_breaker=None):
-        data = (state, action, action_mean, reward, curiosity, next_state, done_mask)
-
-        if str(type(curiosity)) != torch.Tensor:
-            priority = curiosity
-        else:
-            priority = curiosity.item()
-
-
+        data = (state, action, action_mean, reward, curiosity, next_state, done_mask, tie_breaker)
+        priority = random.uniform(0, 1)
         self.p = priority
 
         if tie_breaker == None:
@@ -54,15 +47,15 @@ class Curious_Reservoir_Replay_Memory():
 
     def sample(self, batch_size):
         indices = self.get_sample_indices(batch_size)
-        state, action, action_mean, reward, curiosity, next_state, done_mask =  self.encode_sample(indices=indices)
-        return Transition_tuple(state, action, action_mean, reward, curiosity, next_state, done_mask, None)
+        state, action, action_mean, reward, curiosity, next_state, done_mask, time =  self.encode_sample(indices=indices)
+        return Transition_tuple(state, action, action_mean, reward, curiosity, next_state, done_mask, time)
 
 
     def encode_sample(self, indices):
-        state, action, action_mean, reward, curiosity, next_state, done_mask, t_array = [], [], [], [], [], [], [], []
+        state, action, action_mean, reward, curiosity, next_state, done_mask, time = [], [], [], [], [], [], [], []
         for i in indices:
             data = self.storage[i][2]
-            s, a, a_m, r, c, n_s, d = data
+            s, a, a_m, r, c, n_s, d, t = data
 
             state.append(s)
             action.append(a)
@@ -71,7 +64,8 @@ class Curious_Reservoir_Replay_Memory():
             curiosity.append(c)
             next_state.append(n_s)
             done_mask.append(d)
-        return state, action, action_mean, reward, curiosity, next_state, done_mask
+            time.append(t)
+        return state, action, action_mean, reward, curiosity, next_state, done_mask, time
 
     def get_sample_indices(self, batch_size):
         if len(self.storage) < self.capacity:

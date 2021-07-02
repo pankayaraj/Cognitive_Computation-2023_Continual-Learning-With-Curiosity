@@ -4,8 +4,8 @@ from pathlib import Path
 
 
 load_dir = "results_length__s_i_2000_1"
-a_c = torch.load("inverse_curiosity4")
-r_c = torch.load("reward_curiosity4")
+a_c = torch.load("inverse_curiosity6")
+r_c = torch.load("reward_curiosity6")
 
 plt.plot(a_c[0])
 plt.show()
@@ -17,9 +17,10 @@ for i in range(len(a_c_1[0])):
 print(len(a_c))
 plt.plot(a_c[0])
 plt.show()
+print("reward")
 plt.plot(r_c[0])
 plt.show()
-
+print("reward done")
 rewards = torch.load(load_dir)
 
 print(len(rewards[0]))

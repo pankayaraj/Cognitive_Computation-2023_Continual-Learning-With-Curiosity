@@ -2,7 +2,7 @@ from gym.envs.registration import register
 import custom_envs.pybulletgym_custom
 import gym
 
-def make_array_env(change_variable, name):
+def make_array_env(change_variable, name, change_env_type, test_var = None):
     env, env_eval = [], []
     print("enviornment = " + name)
     for i in range(len(change_variable)):
@@ -17,10 +17,12 @@ def make_array_env(change_variable, name):
             )
 
             env.append(gym.make('HopperPyBulletEnv-v' + str(i+1)))
-            env_eval.append(gym.make('HopperPyBulletEnv-v' + str(i+1)))
+            if change_env_type != "spur_flux" and change_env_type != "sine_flux":
+                env_eval.append(gym.make('HopperPyBulletEnv-v' + str(i+1)))
+                env_eval[i].reset()
 
             env[i].reset()
-            env_eval[i].reset()
+
 
         elif name == "HopperPyBulletEnv-v0_leg":
 
@@ -233,6 +235,28 @@ def make_array_env(change_variable, name):
 
             env[i].reset()
             env_eval[i].reset()
+
+
+    #for spur flux where multiple env repeat again and again
+    if change_env_type == "spur_flux" or change_env_type == "sine_flux":
+
+        for i in range(len(test_var)):
+
+            if name == "HopperPyBulletEnv-v0":
+                register(
+                    id='HopperPyBulletEnv-v' + str(len(change_variable) + i + 1),
+                    entry_point='custom_envs.pybulletgym_custom.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
+                    kwargs={'power': test_var[i]},
+                    max_episode_steps=1000,
+                    reward_threshold=2500.0
+                )
+
+
+                env_eval.append(gym.make('HopperPyBulletEnv-v' + str(len(change_variable) + i + 1)))
+                env_eval[i].reset()
+
+
+
 
     return  env, env_eval
 

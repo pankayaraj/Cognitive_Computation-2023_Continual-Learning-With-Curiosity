@@ -26,7 +26,7 @@ from custom_envs.custom_acrobat import AcrobotEnv
 from custom_envs.custom_cartpole import CartPoleEnv
 
 from util.roboschool_util.make_new_env import make_array_env
-from util.roboschool_util.make_env_schedule import sine_schedule_generator, spurcious_fluxuation_generator
+from util.roboschool_util.make_env_schedule import sine_schedule_generator, spurcious_fluxuation_generator, linear_schedule_generator
 
 from set_arguments import set_arguments
 
@@ -75,16 +75,20 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 #"discrete"
 #"sine_flux"
 #"spur_flux"
+#"linear"
 
 #"TS_C_HRF"
 #"MTR_high_20"
+#"HCRRF"
+
 #these two supersedes other argumetns and makes the relevant choices for hyperparamter as it appears in the paper
 #set superceding to false if you want to set custom arguments
 
-parser.add_argument("--env_change_type", type=str, default="sine_flux")
+
 parser.add_argument("--superseding", type=bool, default=True)
-parser.add_argument("--supersede_env", type=str, default="Pendulum")
-parser.add_argument("--supersede_buff", type=str, default="FIFO")
+parser.add_argument("--env_change_type", type=str, default="sine_flux")
+parser.add_argument("--supersede_env", type=str, default="Hopper")
+parser.add_argument("--supersede_buff", type=str, default="TS_C_HRF")
 
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 parser.add_argument("--buffer_type", type=str, default="Custom")
@@ -104,6 +108,7 @@ parser.add_argument("--env_type", type=str, default="classic_control")
 parser.add_argument("--min_lim", type=float, default=1.0)
 parser.add_argument("--max_lim", type=float, default=1.8)
 parser.add_argument("--factor", type=float, default=0.0001)
+parser.add_argument("--sche_steps", type=float, default=400000)
 
 """
 parser.add_argument("--algo", type=str, default="Q_Learning")
@@ -122,7 +127,7 @@ parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=6)
+parser.add_argument("--experiment_no", type=int, default=7)
 
 
 #parser.add_argument("--fifo_frac", type=float, default=0.34)
@@ -195,93 +200,85 @@ parser.add_argument("--mtr_buff_no", type=int, default=3)
 
 parser.add_argument("--save_buff_after", type=int, default=-1)
 
-#Hopper
-#change_varaiable_at = [1, 50000, 350000] #v3
-#change_varaiable = [0.75, 4.75, 8.75]
 
-
-
-
-#pendulum
-
-#change_varaiable_at = [1, 20000, 120000]
-#change_varaiable = [1.0, 1.4, 1.8]
-#change_varaiable_at = [1, 30000, 60000, 120000, 200000]
-#change_varaiable = [1.0, 1.2, 1.4, 1.6, 1.8]
-
-#acrobat
-#change_varaiable_at = [1, 50000, 350000]
-#change_varaiable = [1.0, 2.4, 3.8]
-
-#cartpole
-#change_varaiable_at = [1, 20000]
-#change_varaiable = [0.5, 10.5]
-
-#walker2D
-
-#change_varaiable_at = [1, 250000, 350000] #main
-#change_varaiable = [1.40, 7.40, 13.40, ] #main
-
-
-
-#change_varaiable = [1.40, 6.40, 13.40, ]
-#change_varaiable = [0.40, 4.40, 13.40, ]
-#change_varaiable = [1.0, 3.0, 6.0, ]
-#change_varaiable = [6.40, 1.40, 13.40, ]
-
-
-
-
-
-
-
-#half cheetah
-
-#change_varaiable = [0.9, 3.1, 4.3]
-
-#change_varaiable = [4.4, 7.9, 11.4] #can work not sure try later
-
-
-"""
-change_varaiable_at = [1, 40000, 310000]
-#change_varaiable_at = [1, 20000, 120000]
-change_varaiable = [0.6, 2.6, 4.6]
-
-change_varaiable = [0.5, 1.0, 2.0]
-change_varaiable = [0.04, 0.11, 0.18] #leg_size works
-
-change_varaiable = [0.05, 0.1, 0.15]
-
-change_varaiable = [0.5, 4.5, 8.5]
-
-change_varaiable = [(0.05, 0.5), (0.11, 2.5), (0.18, 4.5)]
-change_varaiable = [(0.04, 0.5), (0.06, 1.0), (0.08, 1.5)]
-
-change_varaiable_at = [1, 20000, 180000]
-change_varaiable = [0.5, 5.5, 10.5]
-change_varaiable = [0.5, 10.5, 20.5]
-
-
-change_varaiable_at = [1, 75000, 425000]
-change_varaiable = [0.5, 1.5, 2.5]
-"""
-
-#change_varaiable = [1, 1.5, 2]
 c = 0
 args = parser.parse_args()
 
-#only for flux settings
-if args.env_change_type == "sine_flux":
-    schedule_generator = sine_schedule_generator(min_limit=args.min_lim, max_limit=args.max_lim, factor=args.factor, no_iteration=args.no_steps)
-elif args.env_change_type == "spur_flux":
-    schedule_generator = spurcious_fluxuation_generator(min_limit=args.min_lim, max_limit=args.max_lim, no_iteration=args.no_steps)
 
 
 if args.superseding == True:
     args, change_varaiable_at, change_varaiable = set_arguments(args)
 
+if args.env_type == "roboschool":
+    if args.env == "Walker2DPyBulletEnv-v0":
+        if args.env_change_type == "spur_flux":
+            change_varaiable_at = [0, 86067, 86067 + 25000, 150939, 150939+ 12500, 217851, 217851 + 12500, 282606, 282606 + 12500, 315080,  315080 + 12500, 376422, 376422 + 12500]
+            change_varaiable = [1.4, 7.4, 1.4, 13.4,  1.4, 7.4, 1.4, 7.4, 1.4, 13.4,  1.4, 13.4, 1.4,]
+            change_varaiable_test = [1.4, 7.4, 13.4]
 
 
+    elif args.env == "HopperPyBulletEnv-v0":
+
+        #change_varaiable_at = [0, 86067, 86067 + 25000, 150939, 150939 + 12500, 217851, 217851 + 12500, 282606,
+        #                           282606 + 12500, 315080, 315080 + 12500, 376422, 376422 + 12500]
+        #change_varaiable = [4.75, 0.75, 4.75, 8.75, 4.75, 0.75, 4.75, 0.75, 4.75, 8.75, 4.75, 8.75, 4.75,]
+        change_varaiable_test = [0.75, 4.75, 8.75]
+        #change_varaiable_at = [ 0, 86067, 86067 + 12500, 150939, 150939 + 12500, 217851, 217851 + 12500, 282606,
+        #                                              282606 + 12500, 315080, 315080 + 12500, 376422, 376422 + 12500]
+        #change_varaiable_at = [0, 86067, 86067 + 5000, 150939, 150939 + 5000, 217851, 217851 + 5000, 282606,
+        #                       282606 + 5000, 315080, 315080 + 5000, 376422, 376422 + 5000]
+        #change_varaiable = [4.75, 0.75, 4.75, 8.75, 4.75, 0.75, 4.75, 0.75, 4.75, 8.75, 4.75, 4.75, 0.75, ]
+        """
+        x = []
+        j = 0
+        for i in range(400000):
+
+            print(j, i)
+            if j == 0:
+                x.append(change_varaiable[j])
+                if i > change_varaiable_at[j]:
+                    j += 1
+
+            elif j == len(change_varaiable_at)-1:
+                x.append(change_varaiable[j])
+            else:
+                x.append(change_varaiable[j])
+                if i == change_varaiable_at[j]:
+                    j += 1
+
+        import matplotlib.pyplot as plt
+        plt.plot(x)
+        plt.show()
+        """
+
+        change_varaiable_at = [0 for i in range(20)]
+        change_varaiable = []
+        j = 0
+        for i in range(20):
+            j = (j + 1) % 2
+            change_varaiable_at[i] = i * 20000
+            if j == 0:
+                change_varaiable.append(change_varaiable_test[0])
+            elif j == 1:
+                change_varaiable.append(change_varaiable_test[2])
+        t = 0
+        for i in range(20):
+            change_varaiable_at.insert(t+1, change_varaiable_at[t] + 2000)
+            change_varaiable.insert(t+1, change_varaiable_test[1])
+            t += 2
+
+        """
+        """
+print(change_varaiable)
+#only for flux settings
+if args.env_change_type == "sine_flux" and args.env == "Pendulum-v0":
+    schedule_generator = sine_schedule_generator(min_limit=args.min_lim, max_limit=args.max_lim, factor=args.factor, no_iteration=args.sche_steps )
+elif args.env_change_type == "sine_flux" and args.env == "HopperPyBulletEnv-v0":
+    schedule_generator = sine_schedule_generator(min_limit=args.min_lim, max_limit=args.max_lim, factor=args.factor, no_iteration=args.sche_steps )
+elif args.env_change_type == "spur_flux":
+    schedule_generator = spurcious_fluxuation_generator(min_limit=args.min_lim, max_limit=args.max_lim, no_iteration=args.no_steps)
+elif args.env_change_type == "linear":
+    schedule_generator = linear_schedule_generator(min_limit=args.min_lim, max_limit=args.max_lim, no_iteration=args.no_steps)
 
 
 print(args.algo + " , " + args.buffer_type + " , " + args.priority)
@@ -314,12 +311,35 @@ if args.env_type == "classic_control":
         ini_env = env
 
 elif args.env_type == "roboschool":
-    env, env_eval = make_array_env(change_varaiable, args.env)
 
-    state_dim = env[0].observation_space.shape[0]
-    action_dim = env[0].action_space.shape[0]
+    if args.env_change_type == "sine_flux":
+        change_varaiable = [0.75]
+        change_varaiable_test = [0.75, 4.75, 8.75]
+        env, env_eval = make_array_env(change_varaiable, args.env, args.env_change_type, change_varaiable_test)
 
-    ini_env = env[0]
+        state_dim = env[0].observation_space.shape[0]
+        action_dim = env[0].action_space.shape[0]
+
+        ini_env = env[0]
+
+        for e in env:
+            print(e.power)
+        for e in env_eval:
+            print(e.power)
+    else:
+        if args.env == "Walker2DPyBulletEnv-v0" or args.env == "HopperPyBulletEnv-v0":
+            if args.env_change_type == "spur_flux":
+                env, env_eval = make_array_env(change_varaiable, args.env, args.env_change_type, change_varaiable_test)
+            else:
+                env, env_eval = make_array_env(change_varaiable, args.env, args.env_change_type)
+        else:
+            env, env_eval = make_array_env(change_varaiable, args.env, args.env_change_type)
+
+        state_dim = env[0].observation_space.shape[0]
+        action_dim = env[0].action_space.shape[0]
+
+        ini_env = env[0]
+
 
 
 if args.cuda:
@@ -437,14 +457,21 @@ eval_interval = args.eval_interval
 save_dir = args.save_directory
 
 test_sample_no = 10
+
 test_lengths = change_varaiable
 
+if args.env_type == "roboschool":
+    if args.env == "Walker2DPyBulletEnv-v0" or args.env == "HopperPyBulletEnv-v0":
+        if args.env_change_type == "spur_flux" or args.env_change_type == "sine_flux":
+            test_lengths = change_varaiable_test
+print(test_lengths)
 #results
 results = [[] for i in range(len(test_lengths))]
 
 state = A.initalize()
 
 
+print(change_varaiable_at)
 
 experiment_no = args.experiment_no
 inital_step_no = 0
@@ -523,6 +550,16 @@ for i in range(inital_step_no, args.no_steps):
                 print("saving the replay memory")
                 torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(x))
 
+        elif args.env_change_type == "linear":
+
+            new_l = schedule_generator.get_param(i)
+
+            if args.env == "Cartpole-v0_masspole":
+                A.env.set_mass_pole(mass=new_l)
+            else:
+                A.env.set_length(length=new_l)
+
+
         elif args.env_change_type == "discrete":
             if i == change_varaiable_at[c]:
                 # save_the_buffer
@@ -539,16 +576,26 @@ for i in range(inital_step_no, args.no_steps):
 
     else:
 
-        if i == change_varaiable_at[c]:
-            # save_the_buffer
-            print("saving the replay memory")
-            torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
+        if args.env_change_type == "sine_flux":
+            new_power = schedule_generator.get_param(i)
 
-            if args.env_type == "roboschool":
-                A.env = env[c]
+            if args.env == "HopperPyBulletEnv-v0":
+                A.env.change_power(new_power)
 
-            if c < len(change_varaiable_at)-1:
-                c += 1
+
+        elif args.env_change_type == "discrete" or args.env_change_type == "spur_flux":
+
+            if i == change_varaiable_at[c]:
+                # save_the_buffer
+                print("saving the replay memory")
+                torch.save(A.replay_buffer, save_dir + "/e" + str(experiment_no) + "/replay_mem" + str(c))
+
+                if args.env_type == "roboschool":
+                    A.env = env[c]
+
+                if c < len(change_varaiable_at)-1:
+                    c += 1
+
 
 
 
@@ -644,7 +691,8 @@ for i in range(inital_step_no, args.no_steps):
                         e.set_length(l)
                     elif args.env_change_type == "spur_flux":
                         e.set_length(l)
-
+                    elif args.env_change_type == "linear":
+                        e.set_length(l)
                 elif args.env_type == "roboschool":
                     e = env_eval[l_i]
 

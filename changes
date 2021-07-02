@@ -1,0 +1,6 @@
+Hopper 
+
+rew_cur_weight = 0.0 -- 1.0
+cur_networks = 0 -- 1
+cur_buff_frac = 0.34 -- 0.15  this change was made in buffer rest are made in the set paramter
+

@@ -779,3 +779,62 @@ class ICM_Reward_NN(BaseNN):
     def to(self, device):
         super().to(device)
         self.nn_params.device = device
+
+
+class Nu_NN(BaseNN):
+
+    def __init__(self, nn_params, save_path, load_path, state_action=True):
+        super(Nu_NN, self).__init__(save_path=save_path, load_path=load_path)
+        self.layers = nn.ModuleList([])
+        self.nn_params = nn_params
+        self.non_lin = self.nn_params.non_linearity
+
+        layer_input_dim = self.nn_params.state_dim + self.nn_params.action_dim
+        hidden_layer_dim = self.nn_params.hidden_layer_dim
+        for i, dim in enumerate(hidden_layer_dim):
+            l = nn.Linear(layer_input_dim, dim)
+            self.weight_init(l, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
+            self.layers.append(l)
+            layer_input_dim = dim
+
+        # Final Layer
+        self.nu = nn.Linear(layer_input_dim, 1)
+        self.weight_init(self.nu, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
+
+        self.to(self.nn_params.device)
+
+    def forward(self, state, action):
+
+        if type(state) != torch.Tensor:
+            state = torch.Tensor(state).to(self.nn_params.device)
+        if type(action) != torch.Tensor:
+            action = torch.Tensor(action).to(self.nn_params.device)
+
+
+        if len(state.size()) == 1:
+            inp = torch.cat((state, action), dim=0)
+        else:
+            inp = torch.cat((state, action), dim=1)
+
+
+        for i, layer in enumerate(self.layers):
+            if self.non_lin != None:
+                inp = self.non_lin(layer(inp))
+            else:
+                inp = layer(inp)
+        nu = self.nu(inp)
+
+        return nu
+
+    def get_nu(self, state, action, format="torch"):
+        nu =  self.forward(state, action)
+
+        if format == "torch":
+            return nu
+        else:
+            return nu.cpu().detach().numpy()
+
+    def to(self, device):
+        super().to(device)
+        self.nn_params.device = device
+

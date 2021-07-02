@@ -25,6 +25,12 @@ def set_arguments(args):
         args.l_k = 8000
         args.m_f = 1.5
 
+        args.min_lim = 1.0
+        args.max_lim = 1.8
+        args.factor = 0.0001
+        args.sche_steps = 400000
+
+
         args = set_algo(args)
 
 
@@ -66,12 +72,22 @@ def set_arguments(args):
         args.hidden_layers = [256, 256]
 
         args.no_curiosity_networks = 3
+        #args.no_curiosity_networks = 1
+
         args.fow_cur_weight = 0.0
         args.inv_cur_weight = 1.0
-        args.rew_cur_weight = 0.0
+        args.inv_cur_weight = 0.0
+        #args.rew_cur_weight = 0.0
+        #args.rew_cur_weight = 1.0
+
         args.n_k = 500
         args.l_k = 30000
         args.m_f = 2.5
+
+        args.min_lim = 0.75
+        args.max_lim = 8.75
+        args.factor = 0.00003
+        args.sche_steps = 400000
 
         args = set_algo(args)
 
@@ -125,6 +141,9 @@ def set_algo(args):
         args.buffer_type = "Half_Reservior_FIFO_with_FT"
         args.priority = "uniform"
 
+
+
+
     elif args.supersede_buff == "MTR_low":
         if args.env == "Cartpole-v0":
             args.algo = "Q_Learning"
@@ -164,6 +183,16 @@ def set_algo(args):
             args.algo = "SAC_w_cur_buffer"
 
         args.buffer_type = "Half_Reservior_FIFO_with_FT"
+        args.priority = "uniform"
+
+    elif args.supersede_buff == "HCRRF":
+
+        if args.env == "Cartpole-v0":
+            args.algo = "Q_Learning_w_cur_buffer"
+        else:
+            args.algo = "SAC_w_cur_buffer"
+
+        args.buffer_type = "Hybrid_Cur_Res_Res"
         args.priority = "uniform"
 
     elif args.supersede_buff == "TS_C_HRF":

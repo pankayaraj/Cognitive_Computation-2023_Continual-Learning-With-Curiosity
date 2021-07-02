@@ -23,6 +23,7 @@ class Transition_tuple():
 class Half_Reservoir_Flow_Through_w_Cur_Gradual():
 
     def __init__(self, capacity=10000, curisoity_buff_frac = 0.34, seperate_cur_buffer=True,  priority = "uniform",
+                 #self, capacity=10000, curisoity_buff_frac=0.15, seperate_cur_buffer=True, priority="uniform",
                  fifo_fac=0.05, avg_len_snr=600, repetition_threshold=8000, snr_factor=1.5, snr_fac_secondary=2.5):  # pendulum
                  #fifo_fac=0.05, avg_len_snr=600, repetition_threshold=8000, snr_factor=10 ,snr_fac_secondary=2.5):  # cartpole
                  #fifo_fac=0.05, avg_len_snr=2000, repetition_threshold=12000, snr_factor=2.0,snr_fac_secondary=2.5):  # hopperleg
