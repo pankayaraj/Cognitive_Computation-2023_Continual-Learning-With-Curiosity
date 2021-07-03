@@ -33,6 +33,11 @@ class Algo_Param():
         self.target_update_interval = target_update_interval
         self.automatic_alpha_tuning = automatic_alpha_tuning
 
+class Log_Ratio_Algo_Param():
+    def __init__(self, gamma=0.9, hard_update_interval=1):
+        self.gamma = gamma
+        self.hard_update_interval = hard_update_interval
+
 class Algo_Param_DDPG():
     def __init__(self, gamma=0.995, tau=0.005, target_update_interval=1,
                 noise = "gaussian", depsilon = 50000, std = 1.0

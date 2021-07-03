@@ -1,0 +1,126 @@
+/home/pankayaraj/miniconda3/bin/python /media/pankayaraj/Storage/CONTINUAL_LEARNING/Continual-Learning-With-Curiosity/value_dice/test/test_log_ratio.py
+(3, 1)
+testing
+reward at itr 0 = -1313.1294234669854 length = 1.1
+log ratio = -0.010053970851004124
+log ratio = 21.98221206665039
+testing
+reward at itr 2000 = -1306.202821652883 length = 1.1
+log ratio = -0.6299322247505188
+log ratio = 130.7097625732422
+testing
+reward at itr 4000 = -1072.4136783425388 length = 1.1
+log ratio = -0.8757109642028809
+log ratio = 162.7871856689453
+testing
+reward at itr 6000 = -856.7107015281169 length = 1.1
+log ratio = -0.6169251203536987
+log ratio = 34.89744567871094
+testing
+reward at itr 8000 = -385.1964668867864 length = 1.1
+log ratio = -0.8804195523262024
+log ratio = -49.911338806152344
+testing
+reward at itr 10000 = -258.67755556830065 length = 1.1
+log ratio = -0.41687828302383423
+log ratio = -63.30936813354492
+testing
+reward at itr 12000 = -419.19588649101786 length = 1.1
+log ratio = -0.3348001539707184
+log ratio = -34.173828125
+testing
+reward at itr 14000 = -709.0725358483212 length = 1.1
+log ratio = -0.5268338322639465
+log ratio = 96.84117126464844
+testing
+reward at itr 16000 = -558.3246644272813 length = 1.1
+log ratio = -0.7797916531562805
+log ratio = 188.68214416503906
+testing
+reward at itr 18000 = -416.27127891816997 length = 1.1
+log ratio = -0.5160167813301086
+log ratio = 221.6692657470703
+testing
+reward at itr 20000 = -440.6138686971012 length = 1.1
+log ratio = -0.6812880039215088
+log ratio = 184.18954467773438
+testing
+reward at itr 22000 = -248.83738650628158 length = 1.1
+log ratio = -1.300872564315796
+log ratio = 193.5546112060547
+testing
+reward at itr 24000 = -223.61369226938496 length = 1.1
+log ratio = 0.11801894009113312
+log ratio = 158.010986328125
+testing
+reward at itr 26000 = -386.3067086292114 length = 1.1
+log ratio = -0.594335675239563
+log ratio = 24.8038330078125
+testing
+reward at itr 28000 = -365.3589502946535 length = 1.1
+log ratio = -0.6942371129989624
+log ratio = -20.38375473022461
+testing
+reward at itr 30000 = -236.02924476433174 length = 1.1
+log ratio = -0.7747923135757446
+log ratio = -96.43892669677734
+testing
+reward at itr 32000 = -295.0164217867238 length = 1.1
+log ratio = -0.9387788772583008
+log ratio = -95.33949279785156
+testing
+reward at itr 34000 = -339.3508418718856 length = 1.1
+log ratio = -1.5426521301269531
+log ratio = -123.78020477294922
+testing
+reward at itr 36000 = -256.5143708585614 length = 1.1
+log ratio = -1.0029447078704834
+log ratio = -310.6497497558594
+testing
+reward at itr 38000 = -197.38644549024298 length = 1.1
+log ratio = -1.4681249856948853
+log ratio = -305.28497314453125
+testing
+reward at itr 40000 = -370.1097535208168 length = 1.1
+log ratio = -1.0359020233154297
+log ratio = -576.5115966796875
+testing
+reward at itr 42000 = -346.4745955244745 length = 1.1
+log ratio = -1.1415420770645142
+log ratio = -619.1631469726562
+testing
+reward at itr 44000 = -309.19974982331007 length = 1.1
+log ratio = -1.275892734527588
+log ratio = -719.1692504882812
+testing
+reward at itr 46000 = -291.0815762281245 length = 1.1
+log ratio = -1.6130512952804565
+log ratio = -671.4931640625
+testing
+reward at itr 48000 = -317.95195548909066 length = 1.1
+log ratio = -1.8940061330795288
+log ratio = -526.52880859375
+testing
+reward at itr 50000 = -368.239410642548 length = 1.1
+log ratio = -2.0125601291656494
+log ratio = -474.7555847167969
+testing
+reward at itr 52000 = -279.73327785616056 length = 1.1
+log ratio = -2.180988073348999
+log ratio = -264.0166931152344
+testing
+reward at itr 54000 = -325.8025678042808 length = 1.1
+log ratio = -2.1900863647460938
+log ratio = -168.71080017089844
+testing
+reward at itr 56000 = -148.43186764081358 length = 1.1
+log ratio = -2.457171678543091
+log ratio = -133.9081573486328
+testing
+reward at itr 58000 = -273.4240772575835 length = 1.1
+log ratio = -1.9480094909667969
+log ratio = -223.6033935546875
+
+Process finished with exit code 0
+
+

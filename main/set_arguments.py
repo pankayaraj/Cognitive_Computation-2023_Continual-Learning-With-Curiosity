@@ -13,7 +13,10 @@ def set_arguments(args):
 
         args.batch_size = 512
         args.memory_size = 20000
-        args.no_steps = 150000
+        #args.no_steps = 150000
+        args.no_steps = 300000
+
+
         args.max_episodes = 200
         args.hidden_layers = [256, 256]
 
@@ -34,8 +37,13 @@ def set_arguments(args):
         args = set_algo(args)
 
 
-        change_varaiable_at = [1, 20000, 120000]
-        change_varaiable = [1.0, 1.4, 1.8]
+        #change_varaiable_at = [1, 20000, 120000]
+        #change_varaiable = [1.0, 1.4, 1.8]
+
+        change_varaiable_at = [1, 20000, 90000, 160000, 230000]
+        change_varaiable = [1.0, 1.4, 1.5, 1.55, 1.8]
+
+
 
     elif args.supersede_env == "Cartpole":
         args.env_type = "classic_control"

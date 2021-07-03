@@ -86,9 +86,9 @@ parser = argparse.ArgumentParser(description='SAC arguments')
 
 
 parser.add_argument("--superseding", type=bool, default=True)
-parser.add_argument("--env_change_type", type=str, default="sine_flux")
-parser.add_argument("--supersede_env", type=str, default="Hopper")
-parser.add_argument("--supersede_buff", type=str, default="TS_C_HRF")
+parser.add_argument("--env_change_type", type=str, default="discrete")
+parser.add_argument("--supersede_env", type=str, default="Pendulum")
+parser.add_argument("--supersede_buff", type=str, default="TS_HRF")
 
 parser.add_argument("--algo", type=str, default="SAC_w_cur_buffer")
 parser.add_argument("--buffer_type", type=str, default="Custom")
@@ -127,7 +127,7 @@ parser.add_argument("--load_from_old", type=bool, default=False)
 parser.add_argument("--load_index", type=int, default=3) #to indicate which change of varaiable we are at
 parser.add_argument("--starting_time_step", type=int, default=0) #from which time fram to start things
 
-parser.add_argument("--experiment_no", type=int, default=7)
+parser.add_argument("--experiment_no", type=int, default=4)
 
 
 #parser.add_argument("--fifo_frac", type=float, default=0.34)

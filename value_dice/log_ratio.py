@@ -9,7 +9,7 @@ class Algo_Param():
         self.gamma = gamma
 
 
-class Log_Ratio_HC():
+class Log_Ratio():
 
     def __init__(self, nu_param, algo_param, lamda_lr=0.0003, deterministic_env=True, averege_next_nu = True,
                  discrete_policy=True, save_path = "temp", load_path="temp",
@@ -64,6 +64,8 @@ class Log_Ratio_HC():
             next_state = data.next_state
             initial_state = data.initial_state
 
+
+
             weight = torch.Tensor(self.algo_param.gamma**data.time_step).to(self.nu_param.device)
 
             #reshaping the weight tensor to facilitate the elmentwise multiplication operation
@@ -71,8 +73,8 @@ class Log_Ratio_HC():
             weight = torch.reshape(weight, [no_data, 1])
 
 
-            next_action = target_policy.sample(next_state, format="torch")
-            initial_action = target_policy.sample(initial_state, format="torch")
+            next_action, _, __ = target_policy.sample(next_state, format="torch")
+            initial_action, _ , __ = target_policy.sample(initial_state, format="torch")
 
             nu, next_nu, initial_nu = self.compute(state, action, next_state, next_action, initial_state, initial_action, target_policy)
 
@@ -114,12 +116,47 @@ class Log_Ratio_HC():
 
             self.current_KL = (neg_KL.item())
 
+
+    def get_KL(self, data, target_policy, unweighted=False):
+        state = data.state
+        action = data.action
+        next_state = data.next_state
+        initial_state = data.initial_state
+        weight = torch.Tensor(self.algo_param.gamma ** data.time_step).to(self.nu_param.device)
+
+        # reshaping the weight tensor to facilitate the elmentwise multiplication operation
+        no_data = weight.size()[0]
+        weight = torch.reshape(weight, [no_data, 1])
+
+        next_action, _, __ = target_policy.sample(next_state, format="torch")
+        initial_action, _, __ = target_policy.sample(initial_state, format="torch")
+
+        nu, next_nu, initial_nu = self.compute(state, action, next_state, next_action, initial_state, initial_action,
+                                               target_policy)
+
+        delt_nu = nu - self.algo_param.gamma * next_nu
+
+        unweighted_nu_loss_1 = self.f(delt_nu)
+        unweighted_nu_loss_2 = initial_nu
+
+        if unweighted:
+            loss_1 = torch.log(torch.sum(unweighted_nu_loss_1))
+            loss_2 = torch.sum(unweighted_nu_loss_2)
+        else:
+            loss_1 = torch.log(torch.sum(weight * unweighted_nu_loss_1) / torch.sum(weight))
+            loss_2 = torch.sum(weight * unweighted_nu_loss_2) / torch.sum(weight)
+
+        neg_KL = loss_1 - (1 - self.algo_param.gamma) * loss_2
+
+        return neg_KL
+
     def debug(self):
         return self.debug_V["exp"], self.debug_V["log_exp"], self.debug_V["linear"]
 
-    def compute(self, state, action, next_state, next_action, initial_state, initial_action, target_policy, policy=None):
+    def compute(self, state, action, next_state, next_action, initial_state, initial_action, target_policy):
 
         nu = self.nu_network(state, action)
+
         initial_nu = self.nu_network(initial_state, initial_action)
 
         #in case of the deterministic env then we can take the averge over all actions n it would suffice. Even in the absese
@@ -149,7 +186,7 @@ class Log_Ratio_HC():
             """
             """
             #here we sample the actor many times to average
-            all_next_action = [policy.sample(next_state) for i in range(self.continuous_policy_sample_size)]
+            all_next_action = [target_policy.sample(next_state)[0] for i in range(self.continuous_policy_sample_size)]
             all_next_nu = [self.nu_network(next_state, all_next_action[action_i])
                            for action_i in range(self.continuous_policy_sample_size)]
             next_nu = torch.stack(all_next_nu, dim=0).sum(dim=0)/self.continuous_policy_sample_size
@@ -161,7 +198,7 @@ class Log_Ratio_HC():
         return nu, next_nu, initial_nu
 
 
-    def compute_for_eval(self, state, action, next_state, target_policy, limiter_network=True, policy = None):
+    def compute_for_eval(self, state, action, next_state, target_policy, limiter_network=True, ):
 
         nu_network = self.nu_network_target
 
@@ -172,7 +209,7 @@ class Log_Ratio_HC():
                                                 next_state)), device=self.nu_param.device, dtype=torch.bool)
 
         non_final_next_states = torch.Tensor([s for s in next_state if s is not None]).to(self.nu_param.device)
-        next_action = target_policy.sample(non_final_next_states)
+        next_action, _, _ = target_policy.sample(non_final_next_states)
 
         #in case of the deterministic env then we can take the averge over all actions n it would suffice. Even in the absese
         #if averge netx nu flag is set we average over all the actions to reduce any bias
@@ -202,7 +239,7 @@ class Log_Ratio_HC():
             """
             """
             #here we sample the actor many times to average
-            all_next_action = [policy.sample(next_state) for i in range(self.continuous_policy_sample_size)]
+            all_next_action = [target_policy.sample(next_state)[0] for i in range(self.continuous_policy_sample_size)]
             all_next_nu = [self.nu_network(next_state, all_next_action[action_i])
                            for action_i in range(self.continuous_policy_sample_size)]
             next_nu = torch.stack(all_next_nu, dim=0).sum(dim=0)/self.continuous_policy_sample_size

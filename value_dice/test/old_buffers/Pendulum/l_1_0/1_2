@@ -1,0 +1,66 @@
+/home/pankayaraj/miniconda3/bin/python /media/pankayaraj/Storage/CONTINUAL_LEARNING/Continual-Learning-With-Curiosity/value_dice/test/test_log_ratio.py
+(3, 1)
+testing
+reward at itr 0 = -1164.6174761431864 length = 1.2
+log ratio = -0.0014241388998925686
+log ratio = 3.8135910034179688
+testing
+reward at itr 2000 = -1237.5905507696539 length = 1.2
+log ratio = -0.5928978323936462
+log ratio = 140.61485290527344
+testing
+reward at itr 4000 = -1230.3778801176948 length = 1.2
+log ratio = -0.5523985624313354
+log ratio = 164.01890563964844
+testing
+reward at itr 6000 = -1086.5529081328743 length = 1.2
+log ratio = -0.41863328218460083
+log ratio = 48.20208740234375
+testing
+reward at itr 8000 = -464.51625010336846 length = 1.2
+log ratio = -0.3203137516975403
+log ratio = -271.74725341796875
+testing
+reward at itr 10000 = -392.847428390721 length = 1.2
+log ratio = -0.3451302647590637
+log ratio = -312.2774963378906
+testing
+reward at itr 12000 = -517.4497834468732 length = 1.2
+log ratio = -0.48795387148857117
+log ratio = -341.8210144042969
+testing
+reward at itr 14000 = -302.0466536345896 length = 1.2
+log ratio = -0.5421823859214783
+log ratio = -320.9819030761719
+testing
+reward at itr 16000 = -352.51331721620153 length = 1.2
+log ratio = -0.49972057342529297
+log ratio = -309.0655517578125
+testing
+reward at itr 18000 = -361.1429901827155 length = 1.2
+log ratio = -0.9451444149017334
+log ratio = -280.3065185546875
+testing
+reward at itr 20000 = -286.71370834617466 length = 1.2
+log ratio = -0.9316650629043579
+log ratio = -187.1652374267578
+testing
+reward at itr 22000 = -364.7295198358014 length = 1.2
+log ratio = -1.0311503410339355
+log ratio = -190.4286346435547
+testing
+reward at itr 24000 = -293.42486740309886 length = 1.2
+log ratio = -0.6855958700180054
+log ratio = -171.99244689941406
+testing
+reward at itr 26000 = -277.3576762585776 length = 1.2
+log ratio = -0.998508632183075
+log ratio = -158.1914520263672
+testing
+reward at itr 28000 = -247.44092447486938 length = 1.2
+log ratio = -0.9667748212814331
+log ratio = -147.9281005859375
+
+Process finished with exit code 0
+
+

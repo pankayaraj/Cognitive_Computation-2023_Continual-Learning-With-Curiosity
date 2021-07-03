@@ -18,9 +18,10 @@ from value_dice.log_ratio import Log_Ratio
 
 from util.new_replay_buffers.task_relevance.reservoir_with_fifo_replay_buffer_flow_through import Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer_TR #HRF
 
-class SAC_TR():
+class SAC_TR_test():
 
-    def __init__(self, env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes =100, memory_capacity =10000,
+    def __init__(self, env, nu_param, log_algo_param,  q_nn_param, policy_nn_param, algo_nn_param, max_episodes =100, memory_capacity =10000,
+                 log_ratio_memory_capacity = 10000,
                  batch_size=400, save_path = Save_Paths(), load_path= Load_Paths(), action_space = None, alpha_lr=0.0003,
                  buffer_type= "FIFO", fifo_frac=0.34, change_at = [100000, 350000], env_type="robochool", mtr_buff_no = 3):
 
@@ -51,29 +52,21 @@ class SAC_TR():
 
         self.steps_per_eps = 0  # this is to manually enforce max eps length and also to use in log ration calculation
 
+        self.log_ratio = [Log_Ratio(nu_param=nu_param, algo_param=log_algo_param, deterministic_env=False, averege_next_nu=True,
+                                    discrete_policy=False, save_path=save_path.nu_path, load_path=load_path.nu_path)]
+        self.log_ratio_memory_capacity = log_ratio_memory_capacity
+        self.inital_state = None
 
 
-        if self.env_type != "sumo":
-            self.critic_1 = Q_Function_NN(nn_params=q_nn_param, save_path=save_path.q_path, load_path=load_path.q_path)
-            self.critic_2 = Q_Function_NN(nn_params=q_nn_param, save_path=save_path.q_path, load_path=load_path.q_path)
-
-            self.critic_target_1 = Q_Function_NN(nn_params=q_nn_param, save_path=save_path.q_path, load_path=load_path.q_path)
-            self.critic_target_2 = Q_Function_NN(nn_params=q_nn_param, save_path=save_path.q_path, load_path=load_path.q_path)
-
-            self.policy = Continuous_Gaussian_Policy(policy_nn_param, save_path=save_path.policy_path,
-                                                     load_path=load_path.policy_path, action_space=action_space)
 
 
-        else:
-            self.critic_1 = Q_Function_sumo_NN(nn_params=q_nn_param, save_path=save_path.q_path, load_path=load_path.q_path)
-            self.critic_2 = Q_Function_sumo_NN(nn_params=q_nn_param, save_path=save_path.q_path, load_path=load_path.q_path)
+        self.critic_1 = Q_Function_NN(nn_params=q_nn_param, save_path=save_path.q_path, load_path=load_path.q_path)
+        self.critic_2 = Q_Function_NN(nn_params=q_nn_param, save_path=save_path.q_path, load_path=load_path.q_path)
 
-            self.critic_target_1 = Q_Function_sumo_NN(nn_params=q_nn_param, save_path=save_path.q_path,
-                                                 load_path=load_path.q_path)
-            self.critic_target_2 = Q_Function_sumo_NN(nn_params=q_nn_param, save_path=save_path.q_path,
-                                                 load_path=load_path.q_path)
+        self.critic_target_1 = Q_Function_NN(nn_params=q_nn_param, save_path=save_path.q_path, load_path=load_path.q_path)
+        self.critic_target_2 = Q_Function_NN(nn_params=q_nn_param, save_path=save_path.q_path, load_path=load_path.q_path)
 
-            self.policy = Continuous_Gaussian_Policy_Sumo(policy_nn_param, save_path=save_path.policy_path,
+        self.policy = Continuous_Gaussian_Policy(policy_nn_param, save_path=save_path.policy_path,
                                                      load_path=load_path.policy_path, action_space=action_space)
 
 
@@ -94,10 +87,14 @@ class SAC_TR():
 
         if buffer_type == "FIFO":
             self.replay_buffer = Replay_Memory_TR(capacity=memory_capacity)
+            self.log_ratio_memory = [Replay_Memory_TR(capacity=log_ratio_memory_capacity)]
+
+
         #elif buffer_type == "MTR":
         #    self.replay_buffer = Multi_time_Scale_Buffer(capacity=memory_capacity, no_buffers=mtr_buff_no)
         elif buffer_type == "Half_Reservior_FIFO_with_FT":
             self.replay_buffer = Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer_TR(capacity=memory_capacity, fifo_fac=fifo_frac)
+            self.log_ratio_memory = [Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer_TR(capacity=log_ratio_memory_capacity, fifo_fac=fifo_frac)]
         #elif buffer_type == "Custom":
         #    self.replay_buffer = Custom_HRF(capacity=memory_capacity, fifo_fac=fifo_frac, change_at = change_at)
 
@@ -116,9 +113,42 @@ class SAC_TR():
         self.steps_done = 0
         self.steps_per_eps = 0
         state = self.env.reset()
+        self.inital_state = state
         for i in range(self.batch_size):
             state = self.step(state)
         return state
+
+    def get_target_policy(self):
+        #this is the current policy the agent should evaluate against given the data
+        target_policy = self.policy
+        return target_policy
+
+    def train_log_ratio(self):
+        for i in range(len(self.log_ratio)):
+            data = self.log_ratio_memory[i].sample(self.batch_size)
+            target_policy = self.get_target_policy()
+            self.log_ratio[i].train_ratio(data, target_policy)
+
+    def get_log_ratio(self, data):
+        #here data can be off current policy's memory
+        log_ratio_values = []
+        for i in range(len(self.log_ratio)):
+            target_policy = self.get_target_policy()
+            log_ratio_values.append(self.log_ratio[i].get_log_state_action_density_ratio(data, target_policy))
+        return log_ratio_values
+
+    def get_KL(self, data, unweighted=False):
+        # here data can be off current policy's memory
+        KL_values = []
+        for i in range(len(self.log_ratio)):
+            target_policy = self.get_target_policy()
+            KL_values.append(self.log_ratio[i].get_KL(data, target_policy, unweighted))
+        return KL_values
+
+    def push_ratio_memory(self,state, action, action_mean, reward, next_state, mask, initial_state, time_step, index):
+        self.log_ratio_memory[index].push(state, action, action_mean, reward, next_state, mask, initial_state, time_step)
+
+
 
     def update(self, batch_size=None):
 
@@ -210,20 +240,22 @@ class SAC_TR():
 
         if done:
             mask = 0.0
-            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask, self.steps_per_eps)
+            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask, self.inital_state, self.steps_per_eps)
             next_state = self.env.reset()
+            self.inital_state = next_state
             self.steps_per_eps = 0
             return next_state
 
         if self.steps_per_eps == self.max_episodes:
             mask = 1.0
-            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask, self.steps_per_eps)
+            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask, self.inital_state, self.steps_per_eps)
             next_state = self.env.reset()
+            self.inital_state = next_state
             self.steps_per_eps = 0
             return next_state
         mask = 1.0
 
-        self.replay_buffer.push(state, action, action_mean, reward, next_state, mask, self.steps_per_eps)
+        self.replay_buffer.push(state, action, action_mean, reward, next_state, mask, self.inital_state, self.steps_per_eps)
         return next_state
 
     def hard_update(self):

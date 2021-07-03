@@ -808,6 +808,7 @@ class Nu_NN(BaseNN):
         if type(state) != torch.Tensor:
             state = torch.Tensor(state).to(self.nn_params.device)
         if type(action) != torch.Tensor:
+
             action = torch.Tensor(action).to(self.nn_params.device)
 
 

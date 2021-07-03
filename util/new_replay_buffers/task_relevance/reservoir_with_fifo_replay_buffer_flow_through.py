@@ -6,7 +6,7 @@ from itertools import count
 
 class Transition_tuple():
 
-    def __init__(self, state, action, action_mean, reward, next_state, done_mask, t, time_step):
+    def __init__(self, state, action, action_mean, reward, next_state, done_mask, t, initial_state, time_step):
         #expects as list of items for each initalization variable
         self.state = np.array(state)
         self.action = np.array(action)
@@ -15,10 +15,11 @@ class Transition_tuple():
         self.next_state = np.array(next_state)
         self.done_mask = np.array(done_mask)
         self.t = np.array(t)
-        self.time_step = time_step
+        self.initial_state = np.array(initial_state)
+        self.time_step = np.array(time_step)
 
     def get_all_attributes(self):
-        return [self.state, self.action,  self.action_mean, self.reward, self.next_state, self.done_mask, self.t, self.time_step ]
+        return [self.state, self.action,  self.action_mean, self.reward, self.next_state, self.done_mask, self.t, self.initial_state, self.time_step ]
 
 class Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer_TR():
 
@@ -34,25 +35,25 @@ class Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer_TR():
         self.t = 0
 
 
-    def push(self, state, action, action_mean, reward, next_state, done_mask, time_step):
+    def push(self, state, action, action_mean, reward, next_state, done_mask, initial_state, time_step):
         self.t += 1
 
-        old_data = self.fifo_buffer.push(state, action, action_mean, reward, next_state, done_mask, time_step)
+        old_data = self.fifo_buffer.push(state, action, action_mean, reward, next_state, done_mask, initial_state, time_step)
         if old_data != None:
-            state, action, action_mean, reward, next_state, done_mask, time_step = old_data
-            self.reservior_buffer.push(state, action, action_mean, reward, next_state, done_mask, None, time_step)
+            state, action, action_mean, reward, next_state, done_mask, initial_state, time_step = old_data
+            self.reservior_buffer.push(state, action, action_mean, reward, next_state, done_mask, None, initial_state, time_step)
 
     def sample(self, batch_size):
         fifo_indices, reservoir_indices = self.get_sample_indices(batch_size)
-        state, action, action_mean, reward, next_state, done_mask, time_step = self.encode_sample(fifo_indices, reservoir_indices)
-        return Transition_tuple(state, action, action_mean, reward, next_state, done_mask, None, time_step)
+        state, action, action_mean, reward, next_state, done_mask, initial_state, time_step = self.encode_sample(fifo_indices, reservoir_indices)
+        return Transition_tuple(state, action, action_mean, reward, next_state, done_mask, None, initial_state, time_step)
 
 
     def encode_sample(self, fifo_indices, reservior_indices):
 
-        state, action, action_mean, reward, next_state, done_mask, time_step = [], [], [], [], [], [], []
-        s1, a1, a_m1, r1, n_s1, d1, ts1 = self.fifo_buffer.encode_sample(fifo_indices)
-        s2, a2, a_m2, r2, n_s2, d2, ts2 = self.reservior_buffer.encode_sample(reservior_indices)
+        state, action, action_mean, reward, next_state, done_mask, initial_state, time_step = [], [], [], [], [], [], [], []
+        s1, a1, a_m1, r1, n_s1, d1, i_s1, ts1 = self.fifo_buffer.encode_sample(fifo_indices)
+        s2, a2, a_m2, r2, n_s2, d2, i_s2, ts2 = self.reservior_buffer.encode_sample(reservior_indices)
 
         state = state + s1 + s2
         action = action + a1 + a2
@@ -60,8 +61,9 @@ class Half_Reservoir_with_FIFO_Flow_Through_Replay_Buffer_TR():
         reward = reward + r1 + r2
         next_state = next_state + n_s1 + n_s2
         done_mask = done_mask + d1 + d2
+        initial_state = i_s1 + i_s2
         time_step = ts1 + ts2
-        return state, action, action_mean, reward, next_state, done_mask, time_step
+        return state, action, action_mean, reward, next_state, done_mask, initial_state, time_step
 
     def get_sample_indices(self, batch_size):
 

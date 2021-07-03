@@ -49,6 +49,7 @@ class SAC_TR():
         #log ratio
 
         self.steps_per_eps = 0  # this is to manually enforce max eps length and also to use in log ration calculation
+        self.initial_state = None
 
 
 
@@ -115,6 +116,7 @@ class SAC_TR():
         self.steps_done = 0
         self.steps_per_eps = 0
         state = self.env.reset()
+        self.initial_state = state
         for i in range(self.batch_size):
             state = self.step(state)
         return state
@@ -209,20 +211,22 @@ class SAC_TR():
 
         if done:
             mask = 0.0
-            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask, self.steps_per_eps)
+            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask,self.initial_state, self.steps_per_eps)
             next_state = self.env.reset()
+            self.initial_state = next_state
             self.steps_per_eps = 0
             return next_state
 
         if self.steps_per_eps == self.max_episodes:
             mask = 1.0
-            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask, self.steps_per_eps)
+            self.replay_buffer.push(state, action, action_mean, reward, next_state, mask, self.initial_state, self.steps_per_eps)
             next_state = self.env.reset()
+            self.initial_state = next_state
             self.steps_per_eps = 0
             return next_state
         mask = 1.0
 
-        self.replay_buffer.push(state, action, action_mean, reward, next_state, mask, self.steps_per_eps)
+        self.replay_buffer.push(state, action, action_mean, reward, next_state, mask, self.initial_state, self.steps_per_eps)
         return next_state
 
     def hard_update(self):
