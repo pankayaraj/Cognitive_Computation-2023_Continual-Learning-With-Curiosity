@@ -5,7 +5,7 @@ import gym
 
 from algorithms.test_algo.SAC_task_relevance_test_log_ratio import SAC_TR_test
 from parameters import Algo_Param, NN_Paramters, Load_Paths, Save_Paths, Log_Ratio_Algo_Param
-
+from util.new_replay_buffers.task_relevance.replay_buffer import Replay_Memory_TR
 from custom_envs.custom_pendulum import PendulumEnv
 from custom_envs.custom_lunar_lander import LunarLanderContinuous
 import gym  # open ai gym
@@ -26,8 +26,8 @@ env_eval2 = PendulumEnv()
 env.__init__()
 env_eval.__init__()
 
-env.l = 1.1
-env_eval.l  = 1.1
+env.l = 1.4
+env_eval.l  = 1.4
 #state_dim = env.observation_space.shape[0]*env.observation_space.shape[1]*env.observation_space.shape[2]
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.shape[0]
@@ -57,6 +57,9 @@ save_interval = 2000
 eval_interval = 2000
 
 state = A.initalize()
+
+
+last_ten_eps = Replay_Memory_TR(200*10)
 
 #A.load("q1", "q2", "q1", "q2", "policy_target")
 
@@ -90,23 +93,28 @@ for i in range(60000):
 
             #e.render()
             s = e.reset()
-
+            i_s = s
             for j in range(A.max_episodes):
                 a = A.get_action(s, evaluate=True)
-                s, r, d, _ = e.step(a)
+                n_s, r, d, _ = e.step(a)
                 #e.render("gui")
                 #if i%(save_interval*1) == 0:
                 #    e.render(mode='rgb_array')
                 rew += r
-
+                last_ten_eps.push(s, a, None, r, n_s, d, i_s, j)
+                s = n_s
                 if d == True:
                     break
 
+
             rew_total += rew
         rew_total = rew_total/10
+
+
         print("reward at itr " + str(i) + " = " + str(rew_total) + " length = " + str(e.l) )#+ " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) )
         print("log ratio = " + str(A.get_KL(data=A.log_ratio_memory[0].sample(A.log_ratio_memory_capacity), unweighted=False  )[0].item() )  )
         print("log ratio = " + str(A.get_KL(data=A.log_ratio_memory[0].sample(A.log_ratio_memory_capacity), unweighted=True  )[0].item() ))
+        print("log ratio2 = " + str(A.get_KL(data=last_ten_eps.sample(len(last_ten_eps)), unweighted=False)[0].item()))
 
 
 #torch.save(A.replay_buffer, "old_buffers/Pendulum/l_1_0/mem")
