@@ -13,7 +13,7 @@ class Log_Ratio():
 
     def __init__(self, nu_param, algo_param, lamda_lr=0.0003, deterministic_env=True, averege_next_nu = True,
                  discrete_policy=True, save_path = "temp", load_path="temp",
-                 continuous_policy_sample_size = 10):
+                 continuous_policy_sample_size = 30):
 
         self.nu_param = nu_param
         self.algo_param = algo_param

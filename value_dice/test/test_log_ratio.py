@@ -26,8 +26,11 @@ env_eval2 = PendulumEnv()
 env.__init__()
 env_eval.__init__()
 
-env.l = 1.4
-env_eval.l  = 1.4
+env.l = 1.8
+env_eval.l  = 1.8
+val = str("1_8")
+exp = 2
+
 #state_dim = env.observation_space.shape[0]*env.observation_space.shape[1]*env.observation_space.shape[2]
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.shape[0]
@@ -53,8 +56,8 @@ A = SAC_TR_test(env,nu_param=nu_nn_param, log_algo_param=log_algo_param,
 A.log_ratio_memory[0] = torch.load("old_buffers/Pendulum/l_1_0/mem")
 
 
-save_interval = 2000
-eval_interval = 2000
+save_interval = 500
+eval_interval = 500
 
 state = A.initalize()
 
@@ -62,7 +65,7 @@ state = A.initalize()
 last_ten_eps = Replay_Memory_TR(200*10)
 
 #A.load("q1", "q2", "q1", "q2", "policy_target")
-
+L1, L2, L3, L4 = [], [], [], []
 eval = False
 #eval = True
 for i in range(60000):
@@ -112,9 +115,27 @@ for i in range(60000):
 
 
         print("reward at itr " + str(i) + " = " + str(rew_total) + " length = " + str(e.l) )#+ " at alpha: " + str(A.alpha.cpu().detach().numpy()[0]) )
-        print("log ratio = " + str(A.get_KL(data=A.log_ratio_memory[0].sample(A.log_ratio_memory_capacity), unweighted=False  )[0].item() )  )
-        print("log ratio = " + str(A.get_KL(data=A.log_ratio_memory[0].sample(A.log_ratio_memory_capacity), unweighted=True  )[0].item() ))
-        print("log ratio2 = " + str(A.get_KL(data=last_ten_eps.sample(len(last_ten_eps)), unweighted=False)[0].item()))
+
+        l1 = A.get_KL(data=A.log_ratio_memory[0].sample(A.log_ratio_memory_capacity), unweighted=False  )[0].item()
+        l2 = A.get_KL(data=A.log_ratio_memory[0].sample(A.log_ratio_memory_capacity), unweighted=True  )[0].item()
+        l3 = A.get_KL(data=last_ten_eps.sample(len(last_ten_eps)), unweighted=False)[0].item()
+        l4 = A.get_KL(data=last_ten_eps.sample(len(last_ten_eps)), unweighted=True)[0].item()
+
+        L1.append(l1)
+        L2.append(l2)
+        L3.append(l3)
+        L4.append(l4)
+
+        print("log ratio = " + str(l1))
+        print("log ratio = " + str(l2))
+        print("log ratio2 = " + str(l3))
+        print("log ratio2 = " + str(l4))
+
 
 
 #torch.save(A.replay_buffer, "old_buffers/Pendulum/l_1_0/mem")
+
+torch.save(L1, "KL_values/l_0_0/"+ val + "/L1_" + str(exp) )
+torch.save(L2, "KL_values/l_0_0/"+ val + "/L2_" + str(exp))
+torch.save(L3, "KL_values/l_0_0/"+ val + "/L3_" + str(exp))
+torch.save(L4, "KL_values/l_0_0/"+ val + "/L4_" + str(exp))

@@ -131,6 +131,32 @@ class Continuous_Gaussian_Policy(BaseNN):
 
         return mean, log_std
 
+    def sample_with_std(self, state, format="torch"):
+        mean, log_std = self.forward(state=state)
+        std = log_std.exp()
+
+        gaussian = torch.distributions.Normal(loc=mean, scale=std)
+
+        # sample for reparametrization trick
+        x_t = gaussian.rsample()
+        y_t = torch.tanh(x_t)
+        action = y_t * self.action_scale + self.action_bias
+        log_prob = gaussian.log_prob(x_t)
+        # Enforcing Action Bound
+        log_prob -= torch.log(self.action_scale * (1 - y_t.pow(2)) + epsilon)
+
+        if len(log_prob.shape) != 1:
+            log_prob = log_prob.sum(1, keepdim=True)
+
+        mean = torch.tanh(mean) * self.action_scale + self.action_bias
+
+        if format == "torch":
+            return action, log_prob, mean, std
+        else:
+            return action.cpu().detach().numpy(), log_prob.cpu().detach().numpy(), mean.cpu().detach().numpy(), std.cpu().detach().numpy()
+
+
+
     def sample(self, state, format="torch"):
 
         mean , log_std = self.forward(state=state)

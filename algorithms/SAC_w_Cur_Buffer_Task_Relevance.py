@@ -656,7 +656,7 @@ class SAC_with_Curiosity_Buffer():
         if self.temporary_update_no % self.target_update_interval == 0:
             self.soft_update(self.temporary_target_critic1, self.temporary_critic1, self.tau)
             self.soft_update(self.temporary_target_critic2, self.temporary_critic2, self.tau)
-            
+
 
     def start_log_ratio_evaluation(self):
         self.initialize_log_ratio()
@@ -675,7 +675,7 @@ class SAC_with_Curiosity_Buffer():
 
 
 
-
+            #NEED TO SET THE MINIMUM KL
 
 
 
