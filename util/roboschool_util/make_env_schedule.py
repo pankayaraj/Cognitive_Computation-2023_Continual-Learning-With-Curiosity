@@ -118,10 +118,12 @@ plt.xlabel("Time", size = 20)
 plt.savefig("Pendulum_linear")
 
 """
+
 """
 
 x = []
-g = sine_schedule_generator(1,1.8,0.00003,400000)
+#g = sine_schedule_generator(1,1.8,0.00003,400000)
+g = sine_schedule_generator(1,1.8,0.00004,150000)
 j = 0
 for i in g.param_generator():
     j += 1
@@ -136,7 +138,6 @@ plt.xlabel("Time", size=20)
 plt.show()
 plt.savefig("Pendulum_sine_flux")
 """
-
 
 """
 a = [ randrange(0, 150000) for i in range(6) ]

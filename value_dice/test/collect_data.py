@@ -87,7 +87,9 @@ env_eval.__init__()
 
 env.l = 1.8
 env_eval.l  = 1.8
-mem_save_name = "old_buffers/Pendulum/l_1_8/mem"
+#mem_save_name = "old_buffers/Pendulum/l_1_8/mem"
+mem_save_name = "old_buffers/Pendulum/FIFO/l_1_8/mem"
+
 
 #state_dim = env.observation_space.shape[0]*env.observation_space.shape[1]*env.observation_space.shape[2]
 state_dim = env.observation_space.shape[0]
@@ -102,9 +104,9 @@ policy_nn_param = NN_Paramters(state_dim, action_dim, hidden_layer_dim=[256,256]
 algo_nn_param = Algo_Param(gamma=0.99, alpha=0.2, tau=0.005, target_update_interval=1, automatic_alpha_tuning=True)
 
 #Pendulum
-A = SAC_TR(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=200, memory_capacity=10000
-        ,batch_size=512, fifo_frac=0.05, alpha_lr=0.0003, env_type="roboschool", buffer_type="Half_Reservior_FIFO_with_FT")
-
+A = SAC_TR(env, q_nn_param, policy_nn_param, algo_nn_param, max_episodes=200, memory_capacity=5000
+        ,batch_size=512, fifo_frac=0.05, alpha_lr=0.0003, env_type="roboschool", buffer_type="FIFO")
+# buffer_type="Half_Reservior_FIFO_with_FT"
 save_interval = 2000
 eval_interval = 2000
 

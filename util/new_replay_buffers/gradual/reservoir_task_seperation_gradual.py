@@ -204,7 +204,7 @@ class Reservoir_Task_Seperation_Replay_Memory_Gradual():
         #maintain the order of function call
         #FOR BUFFER WITH TASK SEPERATION
         self.check_for_task_change(curiosity=curiosity)
-        #self.check_for_task_change_secondary(curiosity=curiosity)
+
 
         #FOR CURIOSITY RESERVOIR ALONE
         #self.time = next(self.tiebreaker)

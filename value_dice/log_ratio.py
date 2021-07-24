@@ -140,7 +140,7 @@ class Log_Ratio():
         unweighted_nu_loss_2 = initial_nu
 
         if unweighted:
-            loss_1 = torch.log(torch.sum(unweighted_nu_loss_1))/len(data.state)
+            loss_1 = torch.log(torch.sum(unweighted_nu_loss_1)/len(data.state))
             loss_2 = torch.sum(unweighted_nu_loss_2)/len(data.state)
         else:
             loss_1 = torch.log(torch.sum(weight * unweighted_nu_loss_1) / torch.sum(weight))

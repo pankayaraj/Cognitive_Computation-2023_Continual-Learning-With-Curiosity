@@ -13,8 +13,8 @@ def set_arguments(args):
 
         args.batch_size = 512
         args.memory_size = 20000
-        #args.no_steps = 150000
-        args.no_steps = 300000
+        args.no_steps = 150000
+        #args.no_steps = 300000
 
 
         args.max_episodes = 200
@@ -30,18 +30,20 @@ def set_arguments(args):
 
         args.min_lim = 1.0
         args.max_lim = 1.8
-        args.factor = 0.0001
-        args.sche_steps = 400000
+        #args.factor = 0.0001
+        args.factor = 0.00004
+        #args.sche_steps = 400000
+        args.sche_steps = 150000
 
 
         args = set_algo(args)
 
 
-        #change_varaiable_at = [1, 20000, 120000]
-        #change_varaiable = [1.0, 1.4, 1.8]
+        change_varaiable_at = [1, 20000, 120000]
+        change_varaiable = [1.0, 1.4, 1.8]
 
-        change_varaiable_at = [1, 20000, 90000, 160000, 230000]
-        change_varaiable = [1.0, 1.4, 1.5, 1.55, 1.8]
+        #change_varaiable_at = [1, 20000, 90000, 160000, 230000]
+        #change_varaiable = [1.0, 1.4, 1.5, 1.55, 1.8]
 
 
 
@@ -83,10 +85,10 @@ def set_arguments(args):
         #args.no_curiosity_networks = 1
 
         args.fow_cur_weight = 0.0
-        args.inv_cur_weight = 1.0
+        #args.inv_cur_weight = 1.0
         args.inv_cur_weight = 0.0
         #args.rew_cur_weight = 0.0
-        #args.rew_cur_weight = 1.0
+        args.rew_cur_weight = 1.0
 
         args.n_k = 500
         args.l_k = 30000
@@ -94,7 +96,8 @@ def set_arguments(args):
 
         args.min_lim = 0.75
         args.max_lim = 8.75
-        args.factor = 0.00003
+        #args.factor = 0.00003
+        args.factor = 0.00002
         args.sche_steps = 400000
 
         args = set_algo(args)
