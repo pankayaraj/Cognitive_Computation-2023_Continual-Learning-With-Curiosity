@@ -16,6 +16,7 @@ else:
 from custom_envs.sumo_rl import SumoEnvironment
 
 
+
 env = SumoEnvironment(net_file='nets/4x4-Lucas/4x4.net.xml',
                           route_file='nets/4x4-Lucas/4x4c1c2c1c2.rou.xml',
                           use_gui=True,

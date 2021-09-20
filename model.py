@@ -403,6 +403,7 @@ class Q_Function_NN(BaseNN):
             layer_input_dim = dim
 
         #Final Layer
+
         self.Q_value = nn.Linear(layer_input_dim, 1)
         self.weight_init(self.Q_value, self.nn_params.weight_initializer, self.nn_params.bias_initializer)
 
@@ -854,8 +855,8 @@ class Nu_NN(BaseNN):
         return nu
 
     def get_nu(self, state, action, format="torch"):
-        nu =  self.forward(state, action)
 
+        nu =  self.forward(state, action)
         if format == "torch":
             return nu
         else:

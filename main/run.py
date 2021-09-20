@@ -104,7 +104,6 @@ parser.add_argument("--env_type", type=str, default="classic_control")
 """
 
 #for sine flux
-
 parser.add_argument("--min_lim", type=float, default=1.0)
 parser.add_argument("--max_lim", type=float, default=1.8)
 parser.add_argument("--factor", type=float, default=0.0001)
@@ -136,7 +135,6 @@ parser.add_argument("--fifo_frac", type=float, default=0.05)
 parser.add_argument("--no_curiosity_networks", type=int, default=0)
 #parser.add_argument("--no_curiosity_networks", type=int, default=1)
 #parser.add_argument("--no_curiosity_networks", type=int, default=3)
-
 
 parser.add_argument("--init_cur_at_task_change", type=bool, default=False)
 parser.add_argument("--init_alpha_at_task_change", type=bool, default=False)
